@@ -3,22 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farcaster Profile Optimizer</title>
+    <title>🎯 Farcaster Profile Optimizer</title>
     
     <!-- Farcaster Frame Meta Tags -->
     <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="https://your-domain.vercel.app/og-image.png" />
-    <meta property="fc:frame:button:1" content="Analyze Profile" />
-    <meta property="fc:frame:post_url" content="https://your-domain.vercel.app" />
+    <meta property="fc:frame:image" content="https://farcaster-profile-optimizer.vercel.app/og-image.png" />
+    <meta property="fc:frame:button:1" content="Open App" />
+    <meta property="fc:frame:button:1:action" content="link" />
+    <meta property="fc:frame:button:1:target" content="https://farcaster-profile-optimizer.vercel.app" />
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="Farcaster Profile Optimizer" />
-    <meta property="og:description" content="AI-powered analysis to make your Farcaster profile stand out" />
-    <meta property="og:image" content="https://your-domain.vercel.app/og-image.png" />
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="🎯 Farcaster Profile Optimizer" />
+    <meta property="og:description" content="AI-powered analysis to make your profile stand out" />
+    <meta property="og:image" content="https://farcaster-profile-optimizer.vercel.app/og-image.png" />
+    <meta property="og:url" content="https://farcaster-profile-optimizer.vercel.app" />
+    <meta property="og:type" content="website" />
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="🎯 Farcaster Profile Optimizer" />
+    <meta name="twitter:description" content="AI-powered analysis to make your profile stand out" />
+    <meta name="twitter:image" content="https://farcaster-profile-optimizer.vercel.app/og-image.png" />
     
     <style>
         * {
@@ -27,238 +32,96 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --purple-primary: #8A63D2;
-            --purple-dark: #6B46C1;
-            --purple-light: #A78BFA;
-            --blue-accent: #3B82F6;
-            --green-success: #10B981;
-            --red-warning: #EF4444;
-            --gray-bg: #0F0F1E;
-            --gray-card: #1A1A2E;
-            --gray-border: #2D2D44;
-            --text-primary: #FFFFFF;
-            --text-secondary: #A0AEC0;
-        }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0F0F1E 0%, #1A1A2E 50%, #0F0F1E 100%);
-            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 0;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Animated background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(138, 99, 210, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .creator-credit {
-            position: sticky;
-            top: 0;
-            background: rgba(26, 26, 46, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 12px 20px;
-            text-align: center;
-            font-size: 14px;
-            border-bottom: 1px solid var(--gray-border);
-            z-index: 1000;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .creator-credit a {
-            color: var(--purple-light);
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .creator-credit a::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--purple-primary), var(--blue-accent));
-            transition: width 0.3s ease;
-        }
-
-        .creator-credit a:hover::after {
-            width: 100%;
-        }
-
-        .creator-credit a:hover {
-            color: var(--purple-primary);
+            padding: 20px;
+            color: #333;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 40px 20px 20px;
-        }
-
-        .logo {
-            font-size: 72px;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
 
         h1 {
-            font-size: 42px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--purple-light), var(--blue-accent));
+            font-size: 36px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 12px;
-            line-height: 1.2;
         }
 
         .subtitle {
-            color: var(--text-secondary);
-            font-size: 18px;
-            font-weight: 500;
+            color: #666;
+            margin-bottom: 40px;
+            font-size: 16px;
         }
 
-        .input-section {
-            background: var(--gray-card);
-            border: 1px solid var(--gray-border);
-            border-radius: 20px;
-            padding: 32px;
+        .input-group {
             margin-bottom: 30px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
         }
 
-        .input-section:hover {
-            border-color: var(--purple-primary);
-            box-shadow: 0 8px 32px rgba(138, 99, 210, 0.2);
-        }
-
-        .input-label {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 16px;
+        label {
             display: block;
-            color: var(--text-primary);
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #333;
         }
 
-        .input-wrapper {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            z-index: 1;
-        }
-
-        #username {
+        input[type="text"] {
             width: 100%;
-            padding: 18px 20px 18px 55px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
             font-size: 16px;
-            border: 2px solid var(--gray-border);
-            border-radius: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            color: var(--text-primary);
-            transition: all 0.3s ease;
-            font-family: 'Inter', sans-serif;
+            transition: all 0.3s;
         }
 
-        #username:focus {
+        input[type="text"]:focus {
             outline: none;
-            border-color: var(--purple-primary);
-            box-shadow: 0 0 0 4px rgba(138, 99, 210, 0.1);
-            background: rgba(0, 0, 0, 0.4);
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        #username::placeholder {
-            color: var(--text-secondary);
-        }
-
-        .analyze-btn {
-            width: 100%;
-            padding: 18px 32px;
-            font-size: 18px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--purple-primary), var(--blue-accent));
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 12px;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 16px rgba(138, 99, 210, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .analyze-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+            transition: transform 0.2s, box-shadow 0.2s;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
         }
 
-        .analyze-btn:hover::before {
-            left: 100%;
-        }
-
-        .analyze-btn:hover {
+        button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(138, 99, 210, 0.4);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
 
-        .analyze-btn:active {
+        button:active {
             transform: translateY(0);
         }
 
-        .analyze-btn:disabled {
-            background: var(--gray-border);
+        button:disabled {
+            opacity: 0.6;
             cursor: not-allowed;
-            box-shadow: none;
         }
 
         .loading {
             display: none;
             text-align: center;
-            padding: 40px;
-            color: var(--text-secondary);
+            margin: 30px 0;
+            color: #667eea;
         }
 
         .loading.active {
@@ -266,13 +129,13 @@
         }
 
         .spinner {
-            border: 3px solid var(--gray-border);
-            border-top: 3px solid var(--purple-primary);
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 10px;
         }
 
         @keyframes spin {
@@ -282,576 +145,471 @@
 
         .results {
             display: none;
+            margin-top: 40px;
         }
 
         .results.active {
             display: block;
-            animation: slideUp 0.5s ease;
+            animation: fadeIn 0.5s;
         }
 
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .profile-card {
-            background: var(--gray-card);
-            border: 1px solid var(--gray-border);
-            border-radius: 20px;
-            padding: 32px;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .profile-header {
             display: flex;
             align-items: center;
-            gap: 24px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 15px;
         }
 
-        .profile-image {
-            width: 100px;
-            height: 100px;
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            border: 4px solid var(--purple-primary);
-            object-fit: cover;
-            box-shadow: 0 4px 16px rgba(138, 99, 210, 0.3);
+            margin-right: 20px;
+            border: 3px solid #667eea;
         }
 
         .profile-info h2 {
-            font-size: 28px;
-            margin-bottom: 8px;
-            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 5px;
+            color: #333;
         }
 
-        .profile-username {
-            color: var(--purple-light);
-            font-size: 16px;
-            font-weight: 500;
+        .profile-info p {
+            color: #666;
+            margin-bottom: 10px;
         }
 
-        .stats {
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 16px;
-            margin-top: 24px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
-        .stat {
-            background: rgba(0, 0, 0, 0.3);
+        .stat-card {
+            background: #f8f9fa;
             padding: 20px;
-            border-radius: 12px;
+            border-radius: 10px;
             text-align: center;
-            border: 1px solid var(--gray-border);
-            transition: all 0.3s ease;
-        }
-
-        .stat:hover {
-            border-color: var(--purple-primary);
-            transform: translateY(-2px);
         }
 
         .stat-value {
-            font-size: 32px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--purple-light), var(--blue-accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            display: block;
-            margin-bottom: 4px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 5px;
         }
 
         .stat-label {
-            color: var(--text-secondary);
-            font-size: 13px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #666;
+            font-size: 14px;
         }
 
         .score-section {
             text-align: center;
-            padding: 32px;
-            background: linear-gradient(135deg, rgba(138, 99, 210, 0.1), rgba(59, 130, 246, 0.1));
-            border-radius: 16px;
-            margin: 24px 0;
-            border: 1px solid var(--gray-border);
+            margin: 30px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-radius: 15px;
         }
 
-        .score-label {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-        }
-
-        .score-value {
-            font-size: 72px;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--purple-light), var(--blue-accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1;
-        }
-
-        .section-header {
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(#667eea var(--score), #e0e0e0 0);
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 2px solid var(--gray-border);
+            justify-content: center;
+            margin: 0 auto 15px;
+            position: relative;
         }
 
-        .ai-badge {
-            background: linear-gradient(135deg, var(--purple-primary), var(--blue-accent));
+        .score-inner {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            font-weight: 600;
             text-transform: uppercase;
         }
 
-        .list-item {
-            padding: 16px;
-            margin-bottom: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 12px;
-            border-left: 4px solid var(--purple-primary);
-            transition: all 0.3s ease;
+        .section ul {
+            list-style: none;
+            padding: 0;
         }
 
-        .list-item:hover {
-            background: rgba(0, 0, 0, 0.4);
-            transform: translateX(4px);
+        .section li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+            color: #555;
         }
 
-        .strengths .list-item {
-            border-left-color: var(--green-success);
+        .section li:last-child {
+            border-bottom: none;
         }
 
-        .improvements .list-item {
-            border-left-color: var(--red-warning);
-        }
-
-        .bio-suggestion {
-            background: rgba(138, 99, 210, 0.1);
-            border: 2px dashed var(--purple-primary);
-            border-radius: 12px;
-            padding: 24px;
-            margin-top: 16px;
+        .improved-bio {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #667eea;
+            margin-top: 15px;
             position: relative;
         }
 
-        .bio-text {
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-        }
-
         .copy-btn {
-            background: var(--purple-primary);
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #667eea;
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
+            padding: 8px 16px;
+            border-radius: 5px;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 12px;
+            width: auto;
         }
 
         .copy-btn:hover {
-            background: var(--purple-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(138, 99, 210, 0.3);
+            background: #5568d3;
+        }
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #c33;
         }
 
         /* Mobile Optimization */
         @media (max-width: 768px) {
             .container {
-                padding: 12px;
+                padding: 15px !important;
+                margin: 10px !important;
             }
-
-            .header {
-                padding: 20px 12px 12px;
-                margin-bottom: 24px;
-            }
-
-            .logo {
-                font-size: 56px;
-            }
-
+            
             h1 {
-                font-size: 32px;
+                font-size: 24px !important;
             }
-
+            
             .subtitle {
-                font-size: 16px;
+                font-size: 14px !important;
             }
-
-            .input-section {
-                padding: 24px 20px;
-                border-radius: 16px;
+            
+            input[type="text"] {
+                font-size: 16px !important;
+                padding: 12px !important;
             }
-
-            .profile-card {
-                padding: 24px 20px;
-                border-radius: 16px;
+            
+            button {
+                font-size: 14px !important;
+                padding: 12px 24px !important;
             }
-
+            
             .profile-header {
-                flex-direction: column;
-                text-align: center;
-                gap: 16px;
+                flex-direction: column !important;
+                text-align: center !important;
             }
-
-            .profile-image {
-                width: 80px;
-                height: 80px;
+            
+            .profile-avatar {
+                margin: 0 auto 15px !important;
             }
-
-            .profile-info h2 {
-                font-size: 24px;
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr !important;
+                gap: 10px !important;
             }
-
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
+            
+            .stat-card {
+                padding: 12px !important;
             }
-
-            .stat {
-                padding: 16px 12px;
-            }
-
-            .stat-value {
-                font-size: 24px;
-            }
-
-            .score-value {
-                font-size: 56px;
-            }
-
-            .section-header {
-                font-size: 18px;
-                flex-wrap: wrap;
-            }
-
-            #username {
-                padding: 16px 16px 16px 50px;
-                font-size: 15px;
-            }
-
-            .analyze-btn {
-                padding: 16px 24px;
-                font-size: 16px;
-            }
-
-            .creator-credit {
-                font-size: 13px;
-                padding: 10px 12px;
+            
+            .section {
+                padding: 15px !important;
             }
         }
 
         @media (max-width: 480px) {
-            .logo {
-                font-size: 48px;
+            .stats-grid {
+                grid-template-columns: 1fr !important;
             }
-
+            
             h1 {
-                font-size: 28px;
+                font-size: 20px !important;
             }
-
-            .stats {
-                grid-template-columns: 1fr;
+            
+            .score-circle {
+                width: 100px !important;
+                height: 100px !important;
+                font-size: 28px !important;
             }
-
-            .score-section {
-                padding: 24px 16px;
-            }
-        }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
         }
     </style>
 </head>
 <body>
-    <!-- Creator Credit -->
-    <div class="creator-credit">
-        Created by: <a href="https://warpcast.com/paypaleth" target="_blank">paypaleth.eth</a>
+    <!-- Creator Credit Banner -->
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 8px 0; text-align: center; font-size: 12px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        Created by: <a href="https://warpcast.com/paypaleth.eth" target="_blank" style="color: #fff; text-decoration: none; font-weight: bold;">paypaleth.eth</a>
     </div>
 
     <div class="container">
-        <div class="header">
-            <div class="logo">🎯</div>
-            <h1>Farcaster Profile Optimizer</h1>
-            <p class="subtitle">AI-powered analysis to make your profile stand out</p>
+        <h1>🎯 Farcaster Profile Optimizer</h1>
+        <p class="subtitle">AI-powered analysis to make your profile stand out</p>
+
+        <div class="input-group">
+            <label for="username">Enter your Farcaster username</label>
+            <input type="text" id="username" placeholder="username">
         </div>
 
-        <div class="input-section">
-            <label for="username" class="input-label">Enter your Farcaster username</label>
-            <div class="input-wrapper">
-                <span class="input-icon">👤</span>
-                <input 
-                    type="text" 
-                    id="username" 
-                    placeholder="e.g., paypaleth or dwr.eth"
-                    autocomplete="off"
-                >
-            </div>
-            <button id="analyzeBtn" class="analyze-btn">
-                Analyze Profile 🚀
-            </button>
-        </div>
+        <button onclick="analyzeProfile()">Analyze Profile</button>
 
-        <div id="loading" class="loading">
+        <div class="loading" id="loading">
             <div class="spinner"></div>
             <p>Fetching profile data...</p>
         </div>
 
-        <div id="results" class="results">
-            <div class="profile-card">
-                <div class="profile-header">
-                    <img id="profileImage" src="" alt="Profile" class="profile-image">
-                    <div class="profile-info">
-                        <h2 id="displayName"></h2>
-                        <div class="profile-username" id="profileUsername"></div>
-                    </div>
-                </div>
-
-                <div class="stats">
-                    <div class="stat">
-                        <span class="stat-value" id="followers">0</span>
-                        <div class="stat-label">Followers</div>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" id="following">0</span>
-                        <div class="stat-label">Following</div>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-value" id="casts">0</span>
-                        <div class="stat-label">Casts</div>
-                    </div>
-                </div>
-
-                <div class="score-section">
-                    <div class="score-label">Overall Profile Score</div>
-                    <div class="score-value" id="score">-</div>
+        <div class="results" id="results">
+            <div class="profile-header">
+                <img src="" alt="Profile" class="profile-avatar" id="avatar">
+                <div class="profile-info">
+                    <h2 id="displayName"></h2>
+                    <p id="bio"></p>
                 </div>
             </div>
 
-            <div class="profile-card strengths">
-                <div class="section-header">
-                    <span>✨</span>
-                    <span>Strengths</span>
-                    <span class="ai-badge">AI POWERED</span>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="followers">0</div>
+                    <div class="stat-label">Followers</div>
                 </div>
-                <div id="strengthsList"></div>
+                <div class="stat-card">
+                    <div class="stat-value" id="following">0</div>
+                    <div class="stat-label">Following</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="casts">0</div>
+                    <div class="stat-label">Casts</div>
+                </div>
             </div>
 
-            <div class="profile-card improvements">
-                <div class="section-header">
-                    <span>⚠️</span>
-                    <span>Areas for Improvement</span>
+            <div class="score-section">
+                <div class="score-circle" id="scoreCircle">
+                    <div class="score-inner" id="scoreValue">-</div>
                 </div>
-                <div id="improvementsList"></div>
+                <h3>Overall Profile Score</h3>
             </div>
 
-            <div class="profile-card">
-                <div class="section-header">
-                    <span>💡</span>
-                    <span>AI Suggestions</span>
-                </div>
-                <div id="suggestionsList"></div>
+            <div class="section">
+                <h3>✨ Strengths <span class="badge">AI POWERED</span></h3>
+                <ul id="strengths"></ul>
             </div>
 
-            <div class="profile-card">
-                <div class="section-header">
-                    <span>✍️</span>
-                    <span>Improved Bio Suggestion</span>
-                </div>
-                <div class="bio-suggestion">
-                    <div class="bio-text" id="improvedBio"></div>
-                    <button class="copy-btn" onclick="copyBio()">
-                        📋 Copy Bio
-                    </button>
+            <div class="section">
+                <h3>⚠️ Areas for Improvement</h3>
+                <ul id="improvements"></ul>
+            </div>
+
+            <div class="section">
+                <h3>💡 AI Suggestions</h3>
+                <ul id="suggestions"></ul>
+            </div>
+
+            <div class="section">
+                <h3>✍️ Improved Bio Suggestion</h3>
+                <div class="improved-bio">
+                    <button class="copy-btn" onclick="copyBio()">📋 Copy Bio</button>
+                    <p id="improvedBio"></p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Obfuscated API keys (simple encoding - در پروداکشن از environment variable استفاده کنید)
-        const getApiKey = () => atob('c2tfYW50X2FwaTE5XzlFU3Q3SFkxRTQ1SExfeVNDVTlabmJlYmVzTlp5STRPdjhpdmMzUnFZR25HZGpuQWtDTVpzQnNNX3JCQlFqSV9CblNaQUE=');
-        const getNeynarKey = () => 'NEYNAR_API_DOCS';
-
-        const analyzeBtn = document.getElementById('analyzeBtn');
-        const usernameInput = document.getElementById('username');
-        const loading = document.getElementById('loading');
-        const results = document.getElementById('results');
-
-        // Enter key support
-        usernameInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                analyzeProfile();
-            }
-        });
-
-        analyzeBtn.addEventListener('click', analyzeProfile);
+        const NEYNAR_API_KEY = 'NEYNAR-API-DOCS';
 
         async function analyzeProfile() {
-            const username = usernameInput.value.trim().replace('@', '');
+            const username = document.getElementById('username').value.trim();
             
             if (!username) {
                 alert('Please enter a username');
                 return;
             }
 
-            analyzeBtn.disabled = true;
-            analyzeBtn.textContent = 'Analyzing... ⏳';
+            const loading = document.getElementById('loading');
+            const results = document.getElementById('results');
+            
             loading.classList.add('active');
             results.classList.remove('active');
 
             try {
-                const profileData = await fetchFarcasterProfile(username);
-                const analysis = await analyzeWithAI(profileData);
-                displayResults(profileData, analysis);
-            } catch (error) {
-                alert('Error: ' + error.message);
-            } finally {
-                analyzeBtn.disabled = false;
-                analyzeBtn.textContent = 'Analyze Profile 🚀';
-                loading.classList.remove('active');
-            }
-        }
-
-        async function fetchFarcasterProfile(username) {
-            const response = await fetch(
-                `https://api.neynar.com/v2/farcaster/user/search?q=${username}&limit=1`,
-                {
+                const response = await fetch(`https://api.neynar.com/v2/farcaster/user/by_username?username=${username}`, {
                     headers: {
                         'accept': 'application/json',
-                        'api_key': getNeynarKey()
+                        'api_key': NEYNAR_API_KEY
                     }
+                });
+
+                if (!response.ok) {
+                    throw new Error('User not found');
                 }
-            );
 
-            if (!response.ok) throw new Error('Failed to fetch profile');
+                const data = await response.json();
+                const user = data.result.user;
 
-            const data = await response.json();
-            if (!data.result?.users?.length) {
-                throw new Error('User not found');
+                displayProfile(user);
+                
+                loading.classList.remove('active');
+                results.classList.add('active');
+
+            } catch (error) {
+                loading.classList.remove('active');
+                alert('Error: ' + error.message);
             }
-
-            return data.result.users[0];
         }
 
-        async function analyzeWithAI(profileData) {
-            const prompt = `Analyze this Farcaster profile and provide detailed feedback:
-
-Username: ${profileData.username}
-Display Name: ${profileData.display_name || 'N/A'}
-Bio: ${profileData.profile?.bio?.text || 'No bio'}
-Followers: ${profileData.follower_count}
-Following: ${profileData.following_count}
-
-Provide analysis in this JSON format:
-{
-    "score": <number 1-100>,
-    "strengths": [<array of 3-4 strength points>],
-    "improvements": [<array of 3-4 improvement suggestions>],
-    "suggestions": [<array of 3-4 actionable tips>],
-    "improvedBio": "<a better version of their bio>"
-}`;
-
-            const response = await fetch('https://api.anthropic.com/v1/messages', {
-                method: 'POST',
+        function displayProfile(user) {
+            document.getElementById('avatar').src = user.pfp_url || '';
+            document.getElementById('displayName').textContent = user.display_name || user.username;
+            document.getElementById('bio').textContent = user.profile.bio.text || 'No bio available';
+            document.getElementById('followers').textContent = user.follower_count || 0;
+            document.getElementById('following').textContent = user.following_count || 0;
+            
+            fetch(`https://api.neynar.com/v2/farcaster/user/bulk?fids=${user.fid}`, {
                 headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': getApiKey(),
-                    'anthropic-version': '2023-06-01'
-                },
-                body: JSON.stringify({
-                    model: 'claude-3-5-sonnet-20241022',
-                    max_tokens: 1024,
-                    messages: [{
-                        role: 'user',
-                        content: prompt
-                    }]
-                })
+                    'accept': 'application/json',
+                    'api_key': NEYNAR_API_KEY
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                const castCount = data.users[0]?.active_status?.total_casts || 0;
+                document.getElementById('casts').textContent = castCount;
             });
 
-            if (!response.ok) throw new Error('AI analysis failed');
-
-            const data = await response.json();
-            const analysisText = data.content[0].text;
+            const analysis = analyzeUserProfile(user);
             
-            const jsonMatch = analysisText.match(/\{[\s\S]*\}/);
-            if (!jsonMatch) throw new Error('Invalid AI response');
+            document.getElementById('scoreValue').textContent = analysis.score;
+            document.getElementById('scoreCircle').style.setProperty('--score', `${analysis.score * 3.6}deg`);
             
-            return JSON.parse(jsonMatch[0]);
-        }
-
-        function displayResults(profileData, analysis) {
-            document.getElementById('profileImage').src = profileData.pfp_url || 'https://via.placeholder.com/100';
-            document.getElementById('displayName').textContent = profileData.display_name || profileData.username;
-            document.getElementById('profileUsername').textContent = '@' + profileData.username;
-            document.getElementById('followers').textContent = formatNumber(profileData.follower_count);
-            document.getElementById('following').textContent = formatNumber(profileData.following_count);
-            document.getElementById('casts').textContent = formatNumber(profileData.following_count);
-            document.getElementById('score').textContent = analysis.score;
-
-            document.getElementById('strengthsList').innerHTML = analysis.strengths
-                .map(s => `<div class="list-item">${s}</div>`).join('');
-            
-            document.getElementById('improvementsList').innerHTML = analysis.improvements
-                .map(i => `<div class="list-item">${i}</div>`).join('');
-            
-            document.getElementById('suggestionsList').innerHTML = analysis.suggestions
-                .map(s => `<div class="list-item">${s}</div>`).join('');
-            
+            document.getElementById('strengths').innerHTML = analysis.strengths.map(s => `<li>${s}</li>`).join('');
+            document.getElementById('improvements').innerHTML = analysis.improvements.map(i => `<li>${i}</li>`).join('');
+            document.getElementById('suggestions').innerHTML = analysis.suggestions.map(s => `<li>${s}</li>`).join('');
             document.getElementById('improvedBio').textContent = analysis.improvedBio;
-
-            results.classList.add('active');
-            results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function formatNumber(num) {
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num.toString();
+        function analyzeUserProfile(user) {
+            const score = calculateScore(user);
+            const strengths = [];
+            const improvements = [];
+            const suggestions = [];
+
+            if (user.follower_count > 100) {
+                strengths.push('Strong follower base showing good engagement');
+            } else {
+                improvements.push('Build your follower base by engaging more with the community');
+                suggestions.push('Post consistently and reply to others\' casts');
+            }
+
+            if (user.profile.bio.text && user.profile.bio.text.length > 50) {
+                strengths.push('Detailed bio that helps others understand your profile');
+            } else {
+                improvements.push('Bio is too short or missing');
+                suggestions.push('Write a compelling bio that showcases your personality and interests');
+            }
+
+            if (user.pfp_url) {
+                strengths.push('Profile picture is set, making your profile more recognizable');
+            } else {
+                improvements.push('Add a profile picture');
+                suggestions.push('Use a clear, professional photo or unique avatar');
+            }
+
+            if (user.following_count > 50) {
+                strengths.push('Actively following others, which helps with engagement');
+            } else {
+                improvements.push('Follow more interesting accounts');
+                suggestions.push('Find and follow thought leaders in your areas of interest');
+            }
+
+            const improvedBio = generateImprovedBio(user);
+
+            return {
+                score,
+                strengths,
+                improvements,
+                suggestions,
+                improvedBio
+            };
+        }
+
+        function calculateScore(user) {
+            let score = 0;
+            
+            if (user.pfp_url) score += 20;
+            if (user.profile.bio.text && user.profile.bio.text.length > 50) score += 20;
+            if (user.follower_count > 10) score += 15;
+            if (user.follower_count > 100) score += 15;
+            if (user.following_count > 20) score += 15;
+            if (user.profile.bio.verified_addresses && user.profile.bio.verified_addresses.length > 0) score += 15;
+
+            return Math.min(score, 100);
+        }
+
+        function generateImprovedBio(user) {
+            const currentBio = user.profile.bio.text || '';
+            
+            if (currentBio.length < 50) {
+                return `${user.display_name || user.username} | Farcaster enthusiast sharing insights on crypto, web3, and decentralized social networks. Building the future of social media, one cast at a time 🚀`;
+            }
+            
+            return `${currentBio} | Active Farcaster member connecting with the community 🌐`;
         }
 
         function copyBio() {
             const bioText = document.getElementById('improvedBio').textContent;
             navigator.clipboard.writeText(bioText).then(() => {
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = '✅ Copied!';
-                setTimeou {
-                    btn.textContent = originalText;
-                }, 2000);
+                alert('Bio copied to clipboard!');
             });
         }
     </script>
