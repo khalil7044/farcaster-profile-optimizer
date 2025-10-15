@@ -1,6 +1,6 @@
 {
   "frame": {
-    "name": "farcaster-profile",
+    "name": "Profile Optimizer",
     "version": "1",
     "iconUrl": "https://farcaster-profile-optimizer.vercel.app/icon.png",
     "homeUrl": "https://farcaster-profile-optimizer.vercel.app",
@@ -8,17 +8,16 @@
     "splashImageUrl": "https://farcaster-profile-optimizer.vercel.app/splash.png",
     "splashBackgroundColor": "#667eea",
     "webhookUrl": "https://farcaster-profile-optimizer.vercel.app/api/webhook",
-    "subtitle": "Optimize Your Farcaster Profile with AI",
-    "description": "AI-powered Farcaster profile analyzer that provides personalized suggestions to improve your bio, engagement, and overall presence. Get instant feedback on your profile strength, receive actionable recommendations, and optimize your Farcaster experience. Created by paypaleth.eth",
+    "subtitle": "AI Profile Analysis",
+    "description": "AI-powered Farcaster profile analyzer ",
     "primaryCategory": "social",
     "tags": [
-      "ai",
-      "profile",
-      "farcaster",
       "social",
-      "tools"
-    ],
-    "tagline": "Make Farcaster profile better"
+      "farcaster",
+      "profile",
+      "tools",
+      "ai"
+    ]
   },
   "accountAssociation": {
     "header": "eyJmaWQiOjE1NDc4LCJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4ODgxRmFGNzEzOTY4QUM5RTU2NWRmODQ2Mjc5ZkM3RTdmNzcwYzFGMCJ9",
