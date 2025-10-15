@@ -1,0 +1,18 @@
+{
+  "miniapp": {
+    "name": "profile-optimizer",
+    "version": "1",
+    "iconUrl": "https://farcaster-profile-optimizer.vercel.app/icon.png",
+    "homeUrl": "https://farcaster-profile-optimizer.vercel.app/",
+    "splashBackgroundColor": "#667eea",
+    "splashImageUrl": "https://farcaster-profile-optimizer.vercel.app/splash.png",
+    "primaryCategory": "social",
+    "description": "AI-powered Farcaster profile analyzer. Get personalized suggestions to improve your bio, engagement, and overall presence on Farcaster.",
+    "subtitle": "Optimize Your Farcaster Profile with AI"
+  },
+  "accountAssociation": {
+    "header": "eyJmaWQiOjE1NDc4LCJ0eXBlIjoiYXV0aCIsImtleSI6IjB4OTI5RjM3YzBDYjZCN0VmYjYyMTdmYzQ2MTk0NGE0OWZjY0NlOEU2OSJ9",
+    "payload": "eyJkb21haW4iOiIifQ",
+    "signature": "Joebryb3m2dKpd7HbGYUJdPk+agTOtEB39UFrtrsD04xrQbg7sCKcZTTtlSnA323550tg/iWzkVECnvonpPF4Bw="
+  }
+}
