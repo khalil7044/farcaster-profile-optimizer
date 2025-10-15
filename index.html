@@ -713,6 +713,12 @@
         </div>
     </div>
 
+    <script type="module">
+        // Import and initialize Farcaster SDK
+        const { sdk } = await import('https://esm.sh/@farcaster/miniapp-sdk');
+        await sdk.actions.ready();
+    </script>
+
     <script>
         const GEMINI_API_KEY = 'AIzaSyAgULSkTkQiu-HGkYehn0-aRTOEeMkpV1s';
         const OPENROUTER_API_KEY = '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';
