@@ -1,18 +1,28 @@
 {
-  "miniapp": {
-    "name": "profile-optimizer",
+  "frame": {
+    "name": "farcaster-profile",
     "version": "1",
     "iconUrl": "https://farcaster-profile-optimizer.vercel.app/icon.png",
-    "homeUrl": "https://farcaster-profile-optimizer.vercel.app/",
-    "splashBackgroundColor": "#667eea",
+    "homeUrl": "https://farcaster-profile-optimizer.vercel.app",
+    "imageUrl": "https://farcaster-profile-optimizer.vercel.app/image.png",
     "splashImageUrl": "https://farcaster-profile-optimizer.vercel.app/splash.png",
+    "splashBackgroundColor": "#667eea",
+    "webhookUrl": "https://farcaster-profile-optimizer.vercel.app/api/webhook",
+    "subtitle": "Optimize Your Farcaster Profile with AI",
+    "description": "AI-powered Farcaster profile analyzer that provides personalized suggestions to improve your bio, engagement, and overall presence. Get instant feedback on your profile strength, receive actionable recommendations, and optimize your Farcaster experience. Created by paypaleth.eth",
     "primaryCategory": "social",
-    "description": "AI-powered Farcaster profile analyzer. Get personalized suggestions to improve your bio, engagement, and overall presence on Farcaster.",
-    "subtitle": "Optimize Your Farcaster Profile with AI"
+    "tags": [
+      "ai",
+      "profile",
+      "farcaster",
+      "social",
+      "tools"
+    ],
+    "tagline": "Make Farcaster profile better"
   },
   "accountAssociation": {
-    "header": "eyJmaWQiOjE1NDc4LCJ0eXBlIjoiYXV0aCIsImtleSI6IjB4OTI5RjM3YzBDYjZCN0VmYjYyMTdmYzQ2MTk0NGE0OWZjY0NlOEU2OSJ9",
-    "payload": "eyJkb21haW4iOiIifQ",
-    "signature": "Joebryb3m2dKpd7HbGYUJdPk+agTOtEB39UFrtrsD04xrQbg7sCKcZTTtlSnA323550tg/iWzkVECnvonpPF4Bw="
+    "header": "eyJmaWQiOjE1NDc4LCJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4ODgxRmFGNzEzOTY4QUM5RTU2NWRmODQ2Mjc5ZkM3RTdmNzcwYzFGMCJ9",
+    "payload": "eyJkb21haW4iOiJmYXJjYXN0ZXItcHJvZmlsZS1vcHRpbWl6ZXIudmVyY2VsLmFwcCJ9",
+    "signature": "9cm/QQnMDSvPktQvFf9SnYYGe6VgwdRto1DI08OFXClXgWX0mYa/jmHNTHciuMLBPb74F+s0I1sPCTqmVGllvBw="
   }
 }
