@@ -138,13 +138,13 @@
         .card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
-            border-radius: 30px;
-            padding: 50px;
+            border-radius: 24px;
+            padding: 35px;
             box-shadow: 
                 0 20px 60px rgba(0, 0, 0, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             transition: all 0.3s;
         }
         
@@ -395,10 +395,10 @@
         
         .score-card {
             text-align: center;
-            padding: 40px;
+            padding: 30px;
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
             border-radius: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             border: 2px solid rgba(102, 126, 234, 0.3);
             position: relative;
             overflow: hidden;
@@ -438,14 +438,14 @@
         }
         
         .analysis-section {
-            margin-bottom: 35px;
+            margin-bottom: 28px;
         }
         
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.8em;
+            font-size: 1.5em;
             font-weight: 800;
-            margin-bottom: 25px;
+            margin-bottom: 18px;
             color: #fff;
             display: flex;
             align-items: center;
@@ -471,9 +471,9 @@
         
         .analysis-item {
             background: rgba(255, 255, 255, 0.05);
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 18px;
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 12px;
             border-left: 4px solid #667eea;
             transition: all 0.3s;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -823,7 +823,7 @@
         }
         
         async function analyzeWithAI(user, casts) {
-            const prompt = `You are a Farcaster profile optimization expert. Analyze this profile and provide detailed feedback.
+            const prompt = `You are a Farcaster profile optimization expert with deep knowledge of social media best practices. Analyze this profile critically and provide honest, specific feedback.
 
 Profile Information:
 - Display Name: ${user.displayName}
@@ -834,22 +834,43 @@ Profile Information:
 - Follower/Following Ratio: ${(user.followerCount / user.followingCount).toFixed(2)}
 
 Recent Casts (${casts.length}):
-${casts.slice(0, 5).map((c, i) => `${i+1}. "${c.text}" (${c.reactions.count} reactions, ${c.replies.count} replies)`).join('\n')}
+${casts.slice(0, 5).map((c, i) => `${i+1}. "${c.text}" (${c.reactions.count} reactions, ${c.replies.count} replies, ${c.recasts.count} recasts)`).join('\n')}
+
+Scoring Guidelines:
+- 90-100: Exceptional profile, influencer level
+- 80-89: Very strong profile with minor improvements needed
+- 70-79: Good profile with room for optimization
+- 60-69: Average profile, needs work
+- 50-59: Below average, significant improvements needed
+- Below 50: Poor profile, major overhaul required
+
+Consider these factors:
+1. Bio Quality (25 points): Clear value prop, keywords, personality, call-to-action
+2. Engagement Rate (25 points): Calculate from reactions/replies vs followers
+3. Content Quality (25 points): Variety, depth, value provided
+4. Network Health (25 points): Follower ratio, growth indicators
 
 Please provide:
-1. An overall score (0-100)
-2. 3 key strengths
-3. 3 areas for improvement
-4. 5 specific actionable suggestions
-5. A rewritten, optimized bio (max 160 characters)
+1. A realistic overall score (0-100) - BE CRITICAL, don't give everyone 75!
+2. 3 specific strengths (what they're doing RIGHT)
+3. 3 specific weaknesses (what NEEDS improvement)
+4. 5 actionable suggestions (be SPECIFIC, not generic)
+5. A creative, engaging bio (max 160 chars) that captures their essence and stands out
 
-Format your response as JSON:
+IMPORTANT: 
+- Make the bio UNIQUE and creative, not generic
+- Use emojis strategically but don't overdo it
+- Include their niche/expertise if apparent
+- Make it memorable and shareable
+- Vary your scores based on actual profile quality
+
+Format as JSON:
 {
-  "score": 75,
-  "strengths": ["strength 1", "strength 2", "strength 3"],
-  "weaknesses": ["weakness 1", "weakness 2", "weakness 3"],
-  "suggestions": ["suggestion 1", "suggestion 2", "suggestion 3", "suggestion 4", "suggestion 5"],
-  "newBio": "Your optimized bio here"
+  "score": 65,
+  "strengths": ["Specific strength with evidence", "Another specific strength", "Third specific strength"],
+  "weaknesses": ["Specific weakness with example", "Another specific weakness", "Third specific weakness"],
+  "suggestions": ["Actionable suggestion 1", "Actionable suggestion 2", "Actionable suggestion 3", "Actionable suggestion 4", "Actionable suggestion 5"],
+  "newBio": "Creative and unique bio here"
 }`;
 
             try {
@@ -919,30 +940,142 @@ Format your response as JSON:
         }
         
         function displayFallbackAnalysis(user, casts) {
-            const ratio = user.followerCount / user.followingCount;
-            const score = Math.min(100, Math.round(50 + ratio * 10 + (casts.length * 2)));
+            // Calculate real engagement rate
+            const totalEngagement = casts.reduce((sum, c) => 
+                sum + c.reactions.count + c.replies.count + c.recasts.count, 0
+            );
+            const avgEngagementPerCast = casts.length > 0 ? totalEngagement / casts.length : 0;
+            const engagementRate = user.followerCount > 0 
+                ? (avgEngagementPerCast / user.followerCount) * 100 
+                : 0;
             
-            document.getElementById('overallScore').textContent = score;
+            const ratio = user.followerCount / Math.max(user.followingCount, 1);
+            const hasBio = user.profile.bio.text && user.profile.bio.text.length > 10;
+            const bioLength = user.profile.bio.text ? user.profile.bio.text.length : 0;
+            const hasEmoji = user.profile.bio.text ? /[\p{Emoji}]/u.test(user.profile.bio.text) : false;
+            
+            // Calculate score based on multiple factors
+            let score = 40; // Base score
+            
+            // Bio quality (max 25 points)
+            if (hasBio) {
+                score += 10;
+                if (bioLength > 50) score += 5;
+                if (bioLength > 100) score += 5;
+                if (hasEmoji) score += 5;
+            }
+            
+            // Follower ratio (max 25 points)
+            if (ratio > 2) score += 15;
+            else if (ratio > 1) score += 10;
+            else if (ratio > 0.5) score += 5;
+            
+            if (user.followerCount > 100) score += 5;
+            if (user.followerCount > 500) score += 5;
+            
+            // Engagement (max 25 points)
+            if (engagementRate > 5) score += 15;
+            else if (engagementRate > 2) score += 10;
+            else if (engagementRate > 1) score += 5;
+            
+            if (totalEngagement > 50) score += 5;
+            if (totalEngagement > 100) score += 5;
+            
+            // Content activity (max 25 points)
+            if (casts.length >= 5) score += 10;
+            if (casts.length >= 8) score += 5;
+            
+            const hasVariety = casts.some(c => c.text.length > 200);
+            if (hasVariety) score += 5;
+            
+            const recentActivity = casts.length > 0;
+            if (recentActivity) score += 5;
+            
+            score = Math.min(95, Math.max(35, Math.round(score)));
+            
+            // Generate contextual feedback
+            const strengths = [];
+            const weaknesses = [];
+            const suggestions = [];
+            
+            if (ratio > 1.5) {
+                strengths.push(`Strong follower ratio (${ratio.toFixed(1)}x) shows you provide value`);
+            }
+            if (engagementRate > 2) {
+                strengths.push(`Good engagement rate (${engagementRate.toFixed(1)}%) - your content resonates`);
+            }
+            if (hasBio && bioLength > 80) {
+                strengths.push("Detailed bio helps visitors understand who you are");
+            }
+            if (strengths.length < 3 && casts.length > 5) {
+                strengths.push("Active presence with consistent content creation");
+            }
+            if (strengths.length < 3 && user.followerCount > 100) {
+                strengths.push(`Growing audience with ${user.followerCount} followers`);
+            }
+            if (strengths.length < 3) {
+                strengths.push("You're building your presence on Farcaster");
+            }
+            
+            if (!hasBio || bioLength < 30) {
+                weaknesses.push("Bio is too short - add more personality and context");
+            }
+            if (ratio < 0.8) {
+                weaknesses.push("Following more people than follow you - focus on value creation");
+            }
+            if (engagementRate < 1) {
+                weaknesses.push("Low engagement rate - your content needs more interaction");
+            }
+            if (casts.length < 5) {
+                weaknesses.push("Limited recent activity - post more consistently");
+            }
+            if (!hasEmoji && hasBio) {
+                weaknesses.push("Bio lacks visual elements - add strategic emojis");
+            }
+            if (weaknesses.length < 3 && totalEngagement < 20) {
+                weaknesses.push("Limited community interaction - engage more with others");
+            }
+            
+            // Generate specific suggestions
+            if (!hasBio || bioLength < 50) {
+                suggestions.push("Write a compelling bio that explains what you do and why people should follow you");
+            }
+            suggestions.push("Post during peak hours (2-4 PM UTC and 8-10 PM UTC) for better visibility");
+            
+            if (engagementRate < 2) {
+                suggestions.push("Reply to comments on your casts within the first hour to boost engagement");
+            }
+            
+            suggestions.push("Use 1-2 relevant hashtags per cast to increase discoverability");
+            
+            if (ratio < 1) {
+                suggestions.push("Follow fewer accounts and focus on creating valuable content that attracts followers");
+            } else {
+                suggestions.push("Engage authentically with other creators' content to grow your network");
+            }
+            
+            // Generate creative bio
+            let newBio = "";
+            const username = user.displayName || user.username;
+            
+            if (hasBio && bioLength > 20) {
+                const currentBio = user.profile.bio.text;
+                newBio = `${username} | ${currentBio.substring(0, 100).trim()}... | Building on Farcaster 🚀`;
+            } else {
+                newBio = `${username} | Creator & Builder | Sharing insights on crypto, tech & life | Let's connect 🌟`;
+            }
+            
+            // Trim to 160 chars
+            if (newBio.length > 160) {
+                newBio = newBio.substring(0, 157) + "...";
+            }
             
             const analysis = {
-                strengths: [
-                    "Active presence: You have a good number of followers",
-                    "Engagement: Your follower ratio shows good network quality",
-                    "Consistency: You're posting regular content"
-                ],
-                weaknesses: [
-                    "Bio optimization: Your bio could be more descriptive and engaging",
-                    "Profile picture: Consider using a high-quality, professional image",
-                    "Content variety: Try diversifying your content topics"
-                ],
-                suggestions: [
-                    "Add relevant keywords to your bio to improve discoverability",
-                    "Include a call-to-action in your bio",
-                    "Post during peak hours (2-4 PM UTC) for better engagement",
-                    "Engage more with other users' content to grow your network",
-                    "Use hashtags strategically in your casts"
-                ],
-                newBio: `${user.displayName} | ${user.profile.bio.text ? user.profile.bio.text.substring(0, 100) : 'Builder, creator, and thought leader'} | Follow for insights 🚀`
+                score: score,
+                strengths: strengths.slice(0, 3),
+                weaknesses: weaknesses.slice(0, 3),
+                suggestions: suggestions.slice(0, 5),
+                newBio: newBio
             };
             
             displayAnalysis(analysis);
