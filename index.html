@@ -823,9 +823,13 @@
         }
         
         async function analyzeWithAI(user, casts) {
-            const prompt = `You are a Farcaster profile optimization expert with deep knowledge of the Farcaster ecosystem. Analyze this profile critically and provide honest, specific feedback.
+            const prompt = `You are a Farcaster PROFILE optimization expert. Your job is to analyze the PROFILE ONLY, not content strategy.
 
-IMPORTANT: Farcaster does NOT use hashtags. Focus on channels, mentions, and direct engagement instead.
+FOCUS ONLY ON PROFILE ELEMENTS:
+1. Profile Picture
+2. Display Name
+3. Bio/Description
+4. Username
 
 Profile Information:
 - Display Name: ${user.displayName}
@@ -834,85 +838,76 @@ Profile Information:
 - Profile Picture URL: ${user.pfp.url}
 - Followers: ${user.followerCount}
 - Following: ${user.followingCount}
-- Follower/Following Ratio: ${(user.followerCount / user.followingCount).toFixed(2)}
 
-Recent Casts Analysis (${casts.length} casts):
-${casts.slice(0, 5).map((c, i) => {
-    const engagement = c.reactions.count + c.replies.count + c.recasts.count;
-    return `${i+1}. "${c.text.substring(0, 100)}..." 
-   - Reactions: ${c.reactions.count} | Replies: ${c.replies.count} | Recasts: ${c.recasts.count}
-   - Total Engagement: ${engagement}`;
-}).join('\n')}
+Recent Activity (for context only):
+${casts.slice(0, 3).map((c, i) => `${i+1}. "${c.text.substring(0, 80)}..."`).join('\n')}
 
-Scoring Guidelines (BE CRITICAL):
-- 90-100: Elite influencer, exceptional content, huge engagement
-- 80-89: Strong profile, consistent quality, good engagement
-- 70-79: Above average, good presence, decent engagement  
-- 60-69: Average profile, needs optimization
-- 50-59: Below average, significant improvements needed
-- 40-49: Weak profile, major issues
-- 30-39: Poor profile, minimal effort
-- 10-29: Almost no profile value
+SCORING (10-100) - PROFILE ONLY:
 
-Scoring Factors:
-1. Bio Quality (30 points):
-   - Clear value proposition
-   - Personality and authenticity
-   - Keywords that show expertise
-   - Appropriate length (not too short/long)
-   - Profile picture quality and professionalism
+Bio Quality (40 points):
+- No bio: 0-10 points
+- Very short (<20 chars): 10-15 points
+- Basic bio (20-50 chars): 15-25 points
+- Good bio (50-100 chars): 25-35 points
+- Excellent bio (100-160 chars) with clear value: 35-40 points
 
-2. Content Quality (30 points):
-   - Post depth and value
-   - Variety of topics
-   - Writing quality
-   - Originality vs. repetitive content
+Bonus factors for bio:
++5 if has emojis (strategic, not spam)
++5 if shows expertise/niche clearly
++5 if has personality/authenticity
++5 if includes call-to-action or what to expect
+-5 if too generic ("crypto enthusiast", "builder", etc without context)
 
-3. Engagement (30 points):
-   - Reactions per cast relative to follower count
-   - Reply rate (shows conversation)
-   - Recast rate (shows shareability)
-   - Consistency of engagement
+Profile Picture (30 points):
+- Default/missing avatar: 0-5 points
+- Low quality/unclear: 5-15 points
+- Decent quality: 15-20 points
+- Professional/clear: 20-25 points
+- Excellent, memorable, on-brand: 25-30 points
 
-4. Network Health (10 points):
-   - Follower/following ratio
-   - Absolute follower count
-   - Growth indicators
+Display Name (15 points):
+- Missing or just username: 0-5 points
+- Generic/unclear: 5-10 points
+- Clear and professional: 10-12 points
+- Memorable and well-branded: 12-15 points
 
-Profile Picture Analysis:
-- Is it clear and professional? (check the URL: ${user.pfp.url})
-- Default avatar = minus points
-- Meme/low-quality = minus points
-- Professional/clear face = plus points
+Network Presence (15 points):
+- Follower/following ratio and absolute numbers
+- 0-50 followers: 0-5 points
+- 51-200 followers: 5-8 points
+- 201-500 followers: 8-11 points
+- 500-1000 followers: 11-13 points
+- 1000+ followers: 13-15 points
+- Adjust based on following ratio
 
-CRITICAL ANALYSIS:
-- If bio is empty or generic: score below 40
-- If no recent casts: score below 50
-- If very low engagement: score below 60
-- If everything is mediocre: score around 55-65
-- Only give 80+ if profile is genuinely impressive
+EXAMPLES:
+- Empty bio + default avatar + 10 followers = 15-25 points
+- Short bio + ok avatar + 100 followers = 40-55 points
+- Great bio + professional pic + 500 followers = 70-85 points
+- Perfect bio + amazing pic + 2000 followers = 85-95 points
 
-Please provide:
-1. A realistic score (10-100) - BE HARSH but FAIR
-2. 3 specific strengths with evidence from their profile
-3. 3 specific weaknesses with concrete examples
-4. 5 actionable suggestions (NO hashtags - use channels, mentions, engagement tactics instead)
-5. A creative, personalized bio that reflects their actual content/personality
+Your analysis:
+1. Score (10-100) based ONLY on profile quality
+2. 3 strengths about their PROFILE (not content)
+3. 3 weaknesses about their PROFILE (not content)
+4. 5 suggestions to improve PROFILE (you can mention content strategy as bonus tips)
+5. A unique, creative bio suggestion
 
 IMPORTANT FOR BIO:
-- Make it UNIQUE to this person based on their casts
-- Use their actual topics/interests
-- Include emojis strategically (1-3 max)
-- Show personality, not generic template
+- Look at their recent casts to understand their topics
+- Make it specific to THEIR interests/expertise
+- Use 1-3 emojis strategically
+- Show personality
 - Max 160 characters
+- Make it memorable and clear
 
 Format as JSON:
 {
-  "score": 58,
-  "strengths": ["Specific strength from their actual profile", "Another real strength", "Third real strength"],
-  "weaknesses": ["Specific weakness with example", "Another concrete issue", "Third real problem"],
-  "suggestions": ["Post consistently in relevant Farcaster channels", "Engage with replies within first hour of posting", "Cast during peak hours (9-11 AM & 6-8 PM UTC)", "Build relationships through thoughtful comments", "Share insights from your expertise area"],
-  "newBio": "Personalized bio based on their content"
+  "score": 68,
+  "strengths": ["Strength about their profile", "Another profile strength", "Third profile strength"],
+  "weaknesses": ["Profile weakness", "Another profile issue", "Third profile problem"],
+  "suggestions": ["Profile improvement 1", "Profile improvement 2", "Profile improvement 3", "Bonus: content tip", "Bonus: engagement tip"],
+  "newBio": "Creative personalized bio based on their topics"
 }`;
 
             try {
@@ -982,27 +977,422 @@ Format as JSON:
         }
         
         function displayFallbackAnalysis(user, casts) {
-            // Calculate real engagement metrics
-            const totalEngagement = casts.reduce((sum, c) => 
-                sum + c.reactions.count + c.replies.count + c.recasts.count, 0
-            );
-            const avgEngagementPerCast = casts.length > 0 ? totalEngagement / casts.length : 0;
-            const engagementRate = user.followerCount > 0 
-                ? (avgEngagementPerCast / user.followerCount) * 100 
-                : 0;
-            
             const ratio = user.followerCount / Math.max(user.followingCount, 1);
             const hasBio = user.profile.bio.text && user.profile.bio.text.length > 10;
             const bioLength = user.profile.bio.text ? user.profile.bio.text.length : 0;
             const hasEmoji = user.profile.bio.text ? /[\p{Emoji}]/u.test(user.profile.bio.text) : false;
             
-            // Check if default avatar (Farcaster default patterns)
+            // Check if default avatar
             const isDefaultAvatar = user.pfp.url.includes('avatar') || 
                                    user.pfp.url.includes('default') ||
                                    !user.pfp.url;
             
-            // Calculate score from 10-100
-            let score = 10; // Minimum base score
+            // PROFILE SCORING ONLY (10-100) - More generous
+            let score = 30; // Better base score
+            
+            // Bio Quality (max 35 points) - More generous
+            if (!hasBio) {
+                score += 8; // Just for trying
+            } else {
+                if (bioLength < 20) {
+                    score += 15; // Short but exists
+                } else if (bioLength < 50) {
+                    score += 22; // Decent
+                } else if (bioLength < 100) {
+                    score += 28; // Good
+                } else {
+                    score += 32; // Great
+                }
+                
+                // Generous bonuses
+                if (hasEmoji) score += 5;
+                
+                const lowerBio = user.profile.bio.text.toLowerCase();
+                const hasContent = lowerBio.length > 20;
+                if (hasContent) score += 3;
+            }
+            
+            // Profile Picture (max 25 points) - More generous
+            if (isDefaultAvatar) {
+                score += 8; // At least they're there
+            } else {
+                score += 23; // Has custom picture - almost full points
+            }
+            
+            // Display Name (max 10 points) - Easy points
+            if (!user.displayName || user.displayName === user.username) {
+                score += 6; // Has username at least
+            } else {
+                score += 10; // Full points for display name
+            }
+            
+            // Network Presence (max 10 points) - Very generous
+            if (user.followerCount < 10) {
+                score += 3; // Just starting
+            } else if (user.followerCount < 50) {
+                score += 5; // Growing
+            } else if (user.followerCount < 200) {
+                score += 7; // Active
+            } else if (user.followerCount < 500) {
+                score += 8; // Good presence
+            } else {
+                score += 10; // Full points
+            }
+            
+            // Bonus for good ratio
+            if (ratio > 1) score += 2;
+            if (ratio > 2) score += 3;
+            
+            // Ensure 30-95 range (more realistic)
+            score = Math.min(95, Math.max(30, Math.round(score)));
+            
+            // Generate PROFILE-focused feedback
+            const strengths = [];
+            const weaknesses = [];
+            const suggestions = [];
+            
+            // Strengths (PROFILE ONLY) - Be more positive
+            if (!isDefaultAvatar) {
+                strengths.push("Professional profile picture creates strong first impression and builds trust");
+            }
+            if (hasBio && bioLength > 50) {
+                strengths.push("Well-crafted bio clearly communicates your identity and interests");
+            } else if (hasBio) {
+                strengths.push("You have a bio that gives visitors context about who you are");
+            }
+            if (user.displayName && user.displayName !== user.username) {
+                strengths.push("Memorable display name makes your profile stand out");
+            }
+            if (ratio > 1.5) {
+                strengths.push(`Excellent follower ratio (${ratio.toFixed(1)}:1) indicates quality profile`);
+            } else if (ratio > 0.8) {
+                strengths.push("Healthy follower/following ratio shows balanced network");
+            }
+            if (user.followerCount > 100) {
+                strengths.push(`Growing community of ${user.followerCount} followers shows appeal`);
+            }
+            if (hasEmoji && hasBio) {
+                strengths.push("Emojis in bio add personality and visual interest");
+            }
+            if (isDefaultAvatar && hasBio) {
+                strengths.push("You've personalized your profile with a bio");
+            }
+            
+            // Fill if needed with positive notes
+            while (strengths.length < 3) {
+                if (user.followerCount > 20) {
+                    strengths.push("Active presence on Farcaster with engaged followers");
+                } else {
+                    strengths.push("You're building your presence on Farcaster");
+                }
+            }
+            
+            // Weaknesses (PROFILE ONLY) - Be constructive, not harsh
+            if (isDefaultAvatar) {
+                weaknesses.push("Profile picture: Upload a photo or logo to make profile more memorable");
+            }
+            if (!hasBio) {
+                weaknesses.push("Bio: Add a description so visitors know who you are");
+            } else if (bioLength < 30) {
+                weaknesses.push("Bio: Could be expanded to better showcase your personality");
+            } else if (!hasEmoji && bioLength > 30) {
+                weaknesses.push("Bio: Consider adding an emoji or two for visual appeal");
+            }
+            if (!user.displayName || user.displayName === user.username) {
+                weaknesses.push("Display name: Use a more distinctive name for better branding");
+            }
+            if (ratio < 0.5 && user.followerCount < 50) {
+                weaknesses.push("Network: Focus on profile quality to attract more followers");
+            }
+            
+            // Fill if needed with gentle suggestions
+            while (weaknesses.length < 3) {
+                if (hasBio && bioLength > 30 && !isDefaultAvatar) {
+                    weaknesses.push("Profile is solid! Just minor tweaks could make it even better");
+                } else if (hasBio) {
+                    weaknesses.push("Consider refreshing your bio to reflect current interests");
+                } else {
+                    weaknesses.push("Profile could use a bit more personality to stand out");
+                }
+            }
+            
+            // Suggestions (PROFILE focused first)
+            if (isDefaultAvatar) {
+                suggestions.push("Upload a clear profile picture - even a simple headshot works great");
+            }
+            if (!hasBio) {
+                suggestions.push("Add a 1-2 line bio: who you are + what you're interested in");
+            } else if (bioLength < 50) {
+                suggestions.push("Expand your bio to 60-100 characters for better context");
+            }
+            if (hasBio && !hasEmoji) {
+                suggestions.push("Add 1-2 emojis to your bio to make it more engaging");
+            }
+            if (!user.displayName || user.displayName === user.username) {
+                suggestions.push("Set a display name that's more memorable than your handle");
+            }
+            
+            // Bonus content tips (helpful but not scored)
+            if (suggestions.length < 5) {
+                suggestions.push("Bonus: Join Farcaster channels related to your interests");
+            }
+            if (suggestions.length < 5) {
+                suggestions.push("Bonus: Engage with posts you find interesting to grow network");
+            }
+            
+            // Generate personalized bio
+            let newBio = "";
+            const username = user.displayName || user.username;
+            
+            // Detect topic from casts
+            let topic = "ideas & insights";
+            let emoji = "💭";
+            
+            if (casts.length > 0) {
+                const allText = casts.map(c => c.text.toLowerCase()).join(' ');
+                if (allText.includes('crypto') || allText.includes('web3') || allText.includes('eth')) {
+                    topic = "crypto & web3"; emoji = "🚀";
+                } else if (allText.includes('build') || allText.includes('dev') || allText.includes('code')) {
+                    topic = "building & tech"; emoji = "⚡";
+                } else if (allText.includes('art') || allText.includes('design') || allText.includes('creative')) {
+                    topic = "art & creativity"; emoji = "🎨";
+                } else if (allText.includes('nft')) {
+                    topic = "NFTs & digital culture"; emoji = "🖼️";
+                } else if (allText.includes('music')) {
+                    topic = "music & culture"; emoji = "🎵";
+                }
+            }
+            
+            if (hasBio && bioLength > 40) {
+                // Keep their style but enhance
+                const currentBio = user.profile.bio.text.substring(0, 130).trim();
+                if (currentBio.endsWith('.') || currentBio.endsWith('!')) {
+                    newBio = currentBio;
+                } else {
+                    newBio = `${currentBio} ${emoji}`;
+                }
+            } else {
+                // Create friendly new one
+                newBio = `${username} | Exploring ${topic} on Farcaster | Always learning ${emoji}`;
+            }
+            
+            // Ensure under 160
+            if (newBio.length > 160) {
+                newBio = newBio.substring(0, 157) + "...";
+            }
+            
+            const analysis = {
+                score: score,
+                strengths: strengths.slice(0, 3),
+                weaknesses: weaknesses.slice(0, 3),
+                suggestions: suggestions.slice(0, 5),
+                newBio: newBio
+            };
+            
+            displayAnalysis(analysis);
+        }
+            
+            // Bio Quality (max 40 points)
+            if (!hasBio) {
+                score += 5; // At least something
+            } else {
+                if (bioLength < 20) {
+                    score += 10; // Very short
+                } else if (bioLength < 50) {
+                    score += 20; // Short but ok
+                } else if (bioLength < 100) {
+                    score += 30; // Good length
+                } else {
+                    score += 35; // Excellent length
+                }
+                
+                // Quality bonuses
+                if (hasEmoji) score += 3;
+                
+                const lowerBio = user.profile.bio.text.toLowerCase();
+                const hasExpertise = lowerBio.includes('builder') || lowerBio.includes('creator') || 
+                                    lowerBio.includes('developer') || lowerBio.includes('founder') ||
+                                    lowerBio.includes('designer') || lowerBio.includes('artist');
+                if (hasExpertise) score += 3;
+                
+                // Check for personality
+                const hasPersonality = lowerBio.includes('love') || lowerBio.includes('passionate') ||
+                                      lowerBio.includes('obsessed') || lowerBio.length > 80;
+                if (hasPersonality) score += 2;
+                
+                // Penalty for generic
+                const isGeneric = (lowerBio === 'builder' || lowerBio === 'crypto enthusiast' || 
+                                  lowerBio.length < 15);
+                if (isGeneric) score -= 5;
+            }
+            
+            // Profile Picture (max 30 points)
+            if (isDefaultAvatar) {
+                score += 5; // Default avatar
+            } else {
+                score += 25; // Has custom picture
+                // Assume if they uploaded, it's decent quality
+            }
+            
+            // Display Name (max 15 points)
+            if (!user.displayName || user.displayName === user.username) {
+                score += 5; // Just username
+            } else if (user.displayName.length < 3) {
+                score += 8; // Very short
+            } else {
+                score += 13; // Has proper display name
+            }
+            
+            // Network Presence (max 15 points)
+            if (user.followerCount < 50) {
+                score += 3;
+            } else if (user.followerCount < 200) {
+                score += 6;
+            } else if (user.followerCount < 500) {
+                score += 9;
+            } else if (user.followerCount < 1000) {
+                score += 12;
+            } else {
+                score += 14;
+            }
+            
+            // Ratio bonus/penalty
+            if (ratio > 2) score += 2;
+            else if (ratio < 0.5) score -= 2;
+            
+            // Ensure 10-100
+            score = Math.min(100, Math.max(10, Math.round(score)));
+            
+            // Generate PROFILE-focused feedback
+            const strengths = [];
+            const weaknesses = [];
+            const suggestions = [];
+            
+            // Strengths (PROFILE ONLY)
+            if (!isDefaultAvatar) {
+                strengths.push("Custom profile picture helps with recognition and builds trust with visitors");
+            }
+            if (hasBio && bioLength > 80) {
+                strengths.push("Comprehensive bio effectively communicates your identity and value to visitors");
+            } else if (hasBio && bioLength > 40) {
+                strengths.push("Bio provides good context about who you are and what you do");
+            }
+            if (user.displayName && user.displayName !== user.username) {
+                strengths.push("Clear display name makes your profile more memorable and professional");
+            }
+            if (ratio > 2) {
+                strengths.push(`Strong follower ratio (${ratio.toFixed(1)}:1) shows you attract more than you follow`);
+            }
+            if (user.followerCount > 500) {
+                strengths.push(`Solid community of ${user.followerCount} followers demonstrates established presence`);
+            }
+            if (hasEmoji && hasBio) {
+                strengths.push("Strategic use of emojis in bio adds visual appeal and personality");
+            }
+            
+            // Fill if needed
+            while (strengths.length < 3) {
+                strengths.push("You have an active Farcaster account");
+            }
+            
+            // Weaknesses (PROFILE ONLY)
+            if (isDefaultAvatar) {
+                weaknesses.push("Using default avatar - upload a real photo or logo to increase credibility by 10x");
+            }
+            if (!hasBio) {
+                weaknesses.push("Empty bio - visitors have zero context for who you are or why to follow");
+            } else if (bioLength < 30) {
+                weaknesses.push("Bio is too minimal - expand it to show your personality and expertise");
+            } else if (bioLength > 30 && !hasEmoji) {
+                weaknesses.push("Bio lacks visual elements - add 1-2 strategic emojis to break up text");
+            }
+            if (!user.displayName || user.displayName === user.username) {
+                weaknesses.push("Display name same as username - use a more memorable name or real name");
+            }
+            if (ratio < 0.7 && user.followerCount < 100) {
+                weaknesses.push(`Low followers (${user.followerCount}) relative to following (${user.followingCount}) - profile may not be compelling enough`);
+            }
+            if (hasBio && bioLength > 20) {
+                const lowerBio = user.profile.bio.text.toLowerCase();
+                const isVague = !lowerBio.includes('build') && !lowerBio.includes('create') && 
+                               !lowerBio.includes('work') && !lowerBio.includes('focus') &&
+                               bioLength < 50;
+                if (isVague) {
+                    weaknesses.push("Bio is vague - be more specific about what you do or care about");
+                }
+            }
+            
+            // Fill if needed
+            while (weaknesses.length < 3) {
+                weaknesses.push("Profile could use more optimization for better first impressions");
+            }
+            
+            // Suggestions (PROFILE focused, bonus content tips ok)
+            if (isDefaultAvatar) {
+                suggestions.push("Upload a clear profile picture - use a professional headshot or memorable logo");
+            }
+            if (!hasBio || bioLength < 40) {
+                suggestions.push("Write a 80-120 character bio explaining: who you are, what you do, and why follow");
+            }
+            if (hasBio && !hasEmoji) {
+                suggestions.push("Add 1-2 relevant emojis to your bio to make it more scannable and engaging");
+            }
+            if (!user.displayName || user.displayName === user.username) {
+                suggestions.push("Set a display name that's more memorable than your username");
+            }
+            
+            // Add content tips as bonus
+            suggestions.push("Bonus tip: Engage in Farcaster channels relevant to your interests");
+            suggestions.push("Bonus tip: Reply to comments within first hour to boost visibility");
+            
+            // Ensure 5 suggestions
+            while (suggestions.length < 5) {
+                suggestions.push("Consider asking friends for profile feedback");
+            }
+            
+            // Generate personalized bio
+            let newBio = "";
+            const username = user.displayName || user.username;
+            
+            // Try to detect topic from casts
+            let topic = "thoughts & ideas";
+            if (casts.length > 0) {
+                const allText = casts.map(c => c.text.toLowerCase()).join(' ');
+                if (allText.includes('crypto') || allText.includes('web3') || allText.includes('defi')) {
+                    topic = "crypto & web3";
+                } else if (allText.includes('build') || allText.includes('dev') || allText.includes('code')) {
+                    topic = "building & coding";
+                } else if (allText.includes('art') || allText.includes('design') || allText.includes('creative')) {
+                    topic = "art & design";
+                } else if (allText.includes('nft') || allText.includes('collect')) {
+                    topic = "NFTs & digital culture";
+                }
+            }
+            
+            if (hasBio && bioLength > 40) {
+                // Improve their existing bio
+                const currentBio = user.profile.bio.text.substring(0, 120);
+                newBio = `${username} | ${currentBio} | Active on Farcaster 🟣`;
+            } else {
+                // Create new one based on detected topic
+                newBio = `${username} | Passionate about ${topic} | Sharing my journey | Let's connect 🤝`;
+            }
+            
+            // Ensure under 160
+            if (newBio.length > 160) {
+                newBio = newBio.substring(0, 157) + "...";
+            }
+            
+            const analysis = {
+                score: score,
+                strengths: strengths.slice(0, 3),
+                weaknesses: weaknesses.slice(0, 3),
+                suggestions: suggestions.slice(0, 5),
+                newBio: newBio
+            };
+            
+            displayAnalysis(analysis);
+        }
             
             // Bio Quality (max 30 points)
             if (!hasBio) {
