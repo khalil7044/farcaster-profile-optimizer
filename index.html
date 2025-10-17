@@ -21,15 +21,9 @@
     <meta property="og:image" content="https://farcaster-profile-optimizer.vercel.app/preview.png" />
     <meta property="og:url" content="https://farcaster-profile-optimizer.vercel.app" />
     
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Farcaster Profile Optimizer" />
-    <meta name="twitter:description" content="AI-powered profile optimization for Farcaster" />
-    <meta name="twitter:image" content="https://farcaster-profile-optimizer.vercel.app/preview.png" />
-    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -39,10 +33,10 @@
         }
         
         body {
-            font-family: 'Sora', sans-serif;
+            font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 15px;
             color: #fff;
             position: relative;
             overflow-x: hidden;
@@ -55,15 +49,14 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%);
+            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%);
             pointer-events: none;
             z-index: 0;
         }
         
         .container {
-            max-width: 1100px;
+            max-width: 900px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
@@ -71,118 +64,79 @@
         
         .creator-badge {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            right: 15px;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            padding: 12px 24px;
+            padding: 8px 16px;
             border-radius: 50px;
             border: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .creator-badge::before {
-            content: '✨';
-            font-size: 16px;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 50px;
-            padding-top: 40px;
-        }
-        
-        .logo-container {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            margin-bottom: 30px;
+            padding-top: 20px;
         }
         
         .logo {
-            font-size: 4.5em;
+            font-size: 3em;
+            margin-bottom: 10px;
             filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
         }
         
         .header h1 {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 3.5em;
+            font-size: 2.2em;
             font-weight: 800;
-            margin-bottom: 15px;
+            margin-bottom: 8px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: -2px;
-            line-height: 1.2;
+            letter-spacing: -1px;
         }
         
         .header p {
-            font-size: 1.3em;
+            font-size: 1em;
             opacity: 0.9;
-            font-weight: 500;
             color: #a8b2d1;
         }
         
         .card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 35px;
-            box-shadow: 
-                0 20px 60px rgba(0, 0, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 25px;
-            transition: all 0.3s;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                0 30px 80px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            margin-bottom: 20px;
         }
         
         .search-section {
             text-align: center;
         }
         
-        .search-section h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.8em;
-            margin-bottom: 30px;
-            font-weight: 700;
-        }
-        
         .input-group {
             display: flex;
-            gap: 15px;
-            max-width: 650px;
+            gap: 12px;
+            max-width: 600px;
             margin: 0 auto;
+            flex-direction: column;
         }
         
         input[type="text"] {
-            flex: 1;
-            padding: 20px 28px;
-            font-size: 17px;
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 16px;
             background: rgba(255, 255, 255, 0.08);
             border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 16px;
+            border-radius: 12px;
             outline: none;
             transition: all 0.3s;
-            font-family: 'Sora', sans-serif;
+            font-family: 'Poppins', sans-serif;
             color: white;
             font-weight: 500;
         }
@@ -194,63 +148,35 @@
         input[type="text"]:focus {
             border-color: #667eea;
             background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.2);
         }
         
         .btn {
-            padding: 20px 40px;
-            font-size: 17px;
+            width: 100%;
+            padding: 16px 32px;
+            font-size: 16px;
             font-weight: 700;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 16px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s;
-            font-family: 'Sora', sans-serif;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #764ba2 0%, #f093fb 100%);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        
-        .btn:hover::before {
-            opacity: 1;
-        }
-        
-        .btn span {
-            position: relative;
-            z-index: 1;
+            font-family: 'Poppins', sans-serif;
         }
         
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
-        }
-        
-        .btn:active {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
         
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
-            transform: none;
         }
         
         .loading {
             text-align: center;
-            padding: 50px;
+            padding: 30px;
             display: none;
         }
         
@@ -259,24 +185,17 @@
         }
         
         .spinner {
-            width: 70px;
-            height: 70px;
-            border: 6px solid rgba(255, 255, 255, 0.1);
-            border-top: 6px solid #667eea;
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #667eea;
             border-radius: 50%;
-            animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-            margin: 0 auto 25px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
         }
         
         @keyframes spin {
             to { transform: rotate(360deg); }
-        }
-        
-        .loading-text {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 12px;
-            font-weight: 600;
         }
         
         .profile-section {
@@ -285,47 +204,23 @@
         
         .profile-section.show {
             display: block;
-            animation: fadeIn 0.5s ease-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .profile-header {
             display: flex;
-            gap: 35px;
+            gap: 20px;
             align-items: start;
-            margin-bottom: 40px;
-            padding-bottom: 35px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .profile-avatar-container {
-            position: relative;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .profile-avatar {
-            width: 140px;
-            height: 140px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
-            border: 4px solid #667eea;
+            border: 3px solid #667eea;
             object-fit: cover;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-        }
-        
-        .profile-avatar-glow {
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 50%;
-            z-index: -1;
-            filter: blur(15px);
-            opacity: 0.6;
         }
         
         .profile-info {
@@ -334,237 +229,142 @@
         
         .profile-name {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5em;
+            font-size: 1.5em;
             font-weight: 800;
-            margin-bottom: 8px;
-            letter-spacing: -1px;
+            margin-bottom: 4px;
         }
         
         .profile-username {
             color: #667eea;
-            font-size: 1.3em;
-            margin-bottom: 20px;
+            font-size: 1em;
+            margin-bottom: 12px;
             font-weight: 600;
         }
         
         .profile-bio {
             color: rgba(255, 255, 255, 0.8);
-            line-height: 1.8;
-            margin-bottom: 25px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border-left: 3px solid #667eea;
-            font-size: 15px;
+            line-height: 1.5;
+            font-size: 14px;
         }
         
         .profile-stats {
             display: flex;
-            gap: 35px;
+            gap: 15px;
+            margin-top: 15px;
         }
         
         .stat {
             text-align: center;
-            padding: 15px 25px;
+            padding: 10px 15px;
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s;
-        }
-        
-        .stat:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-3px);
+            border-radius: 10px;
+            flex: 1;
         }
         
         .stat-value {
-            font-size: 2em;
+            font-size: 1.3em;
             font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #f093fb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #667eea;
             font-family: 'Space Grotesk', sans-serif;
         }
         
         .stat-label {
-            font-size: 0.9em;
+            font-size: 0.75em;
             color: rgba(255, 255, 255, 0.6);
-            margin-top: 5px;
-            font-weight: 600;
+            margin-top: 2px;
         }
         
         .score-card {
             text-align: center;
-            padding: 30px;
+            padding: 25px;
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
-            border-radius: 20px;
-            margin-bottom: 30px;
+            border-radius: 16px;
+            margin-bottom: 20px;
             border: 2px solid rgba(102, 126, 234, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .score-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            animation: shine 3s infinite;
-        }
-        
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
         
         .score-value {
-            font-size: 5em;
+            font-size: 3.5em;
             font-weight: 900;
             background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
             font-family: 'Space Grotesk', sans-serif;
-            position: relative;
         }
         
         .score-label {
-            font-size: 1.3em;
+            font-size: 1em;
             color: rgba(255, 255, 255, 0.9);
-            font-weight: 700;
+            font-weight: 600;
+            margin-top: 5px;
         }
         
         .analysis-section {
-            margin-bottom: 28px;
+            margin-bottom: 20px;
         }
         
         .section-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5em;
-            font-weight: 800;
-            margin-bottom: 18px;
-            color: #fff;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 12px;
-        }
-        
-        .ai-badge {
-            display: inline-block;
-            padding: 6px 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-radius: 25px;
-            font-size: 0.5em;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.8; }
+            gap: 8px;
         }
         
         .analysis-item {
             background: rgba(255, 255, 255, 0.05);
-            padding: 18px;
-            border-radius: 14px;
-            margin-bottom: 12px;
-            border-left: 4px solid #667eea;
-            transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .analysis-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateX(5px);
-        }
-        
-        .analysis-item h4 {
-            font-size: 1.2em;
-            margin-bottom: 12px;
-            color: #fff;
-            font-weight: 700;
-        }
-        
-        .analysis-item p {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.7;
-            font-size: 15px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 3px solid #667eea;
+            font-size: 14px;
+            line-height: 1.5;
         }
         
         .strength {
             border-left-color: #4cd964;
         }
         
-        .strength h4 {
-            color: #4cd964;
-        }
-        
         .weakness {
             border-left-color: #ff4757;
         }
         
-        .weakness h4 {
-            color: #ff4757;
-        }
-        
-        .suggestion {
-            border-left-color: #667eea;
-        }
-        
-        .suggestion h4 {
-            color: #667eea;
-        }
-        
         .new-bio {
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
-            padding: 30px;
-            border-radius: 16px;
-            margin-top: 20px;
-            position: relative;
-            border: 2px solid rgba(102, 126, 234, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
         }
         
         .new-bio-text {
-            font-size: 1.15em;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 20px;
-            font-weight: 500;
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
         }
         
         .copy-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #667eea;
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
+            padding: 10px 20px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: 700;
-            font-size: 15px;
-            transition: all 0.3s;
-            font-family: 'Sora', sans-serif;
-        }
-        
-        .copy-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
         }
         
         .error {
             background: rgba(255, 71, 87, 0.15);
             color: #ff4757;
-            padding: 18px 24px;
-            border-radius: 12px;
-            margin-top: 20px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-top: 15px;
             display: none;
-            border: 1px solid rgba(255, 71, 87, 0.3);
-            font-weight: 600;
+            font-size: 14px;
         }
         
         .error.show {
@@ -574,16 +374,12 @@
         @media (max-width: 768px) {
             .creator-badge {
                 position: static;
-                margin: 0 auto 20px;
+                margin: 0 auto 15px;
                 width: fit-content;
             }
             
             .header h1 {
-                font-size: 2.5em;
-            }
-            
-            .header p {
-                font-size: 1.1em;
+                font-size: 1.8em;
             }
             
             .profile-header {
@@ -594,64 +390,45 @@
             
             .profile-stats {
                 justify-content: center;
-                flex-wrap: wrap;
-            }
-            
-            .card {
-                padding: 30px;
-            }
-            
-            .input-group {
-                flex-direction: column;
-            }
-            
-            .score-value {
-                font-size: 4em;
             }
         }
     </style>
 </head>
 <body>
     <div class="creator-badge">
-        Created by: <strong>paypaleth.eth</strong>
+        ✨ Created by: <strong>paypaleth.eth</strong>
     </div>
     
     <div class="container">
         <div class="header">
-            <div class="logo-container">
-                <div class="logo">🎯</div>
-            </div>
-            <h1>Farcaster Profile<br>Optimizer</h1>
-            <p>AI-powered analysis to make your profile stand out</p>
+            <div class="logo">🎯</div>
+            <h1>Profile Optimizer</h1>
+            <p>AI-powered Farcaster profile analysis</p>
         </div>
         
         <div class="card search-section">
-            <h2>Enter your Farcaster username</h2>
             <div class="input-group">
                 <input 
                     type="text" 
                     id="username" 
-                    placeholder="username (without @)" 
+                    placeholder="Enter username (without @)" 
                 />
                 <button class="btn" onclick="analyzeProfile()" id="analyzeBtn">
-                    <span>Analyze Profile ✨</span>
+                    Analyze Profile ✨
                 </button>
             </div>
             <div class="error" id="error"></div>
             
             <div class="loading" id="loading">
                 <div class="spinner"></div>
-                <div class="loading-text" id="loadingText">Fetching profile data...</div>
+                <div id="loadingText">Fetching profile data...</div>
             </div>
         </div>
         
         <div class="profile-section" id="results">
             <div class="card">
                 <div class="profile-header">
-                    <div class="profile-avatar-container">
-                        <div class="profile-avatar-glow"></div>
-                        <img id="avatar" class="profile-avatar" alt="Profile" />
-                    </div>
+                    <img id="avatar" class="profile-avatar" alt="Profile" />
                     <div class="profile-info">
                         <div class="profile-name" id="displayName"></div>
                         <div class="profile-username" id="usernameDisplay"></div>
@@ -665,45 +442,32 @@
                                 <div class="stat-value" id="following">0</div>
                                 <div class="stat-label">Following</div>
                             </div>
-                            <div class="stat">
-                                <div class="stat-value" id="casts">0</div>
-                                <div class="stat-label">Casts</div>
-                            </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="score-card">
                     <div class="score-value" id="overallScore">-</div>
-                    <div class="score-label">Overall Profile Score</div>
+                    <div class="score-label">Profile Score</div>
                 </div>
                 
                 <div class="analysis-section">
-                    <h3 class="section-title">
-                        ✨ Strengths
-                        <span class="ai-badge">AI POWERED</span>
-                    </h3>
+                    <h3 class="section-title">✨ Strengths</h3>
                     <div id="strengths"></div>
                 </div>
                 
                 <div class="analysis-section">
-                    <h3 class="section-title">
-                        ⚠️ Areas for Improvement
-                    </h3>
+                    <h3 class="section-title">⚠️ Areas to Improve</h3>
                     <div id="weaknesses"></div>
                 </div>
                 
                 <div class="analysis-section">
-                    <h3 class="section-title">
-                        💡 AI Suggestions
-                    </h3>
+                    <h3 class="section-title">💡 Suggestions</h3>
                     <div id="suggestions"></div>
                 </div>
                 
                 <div class="analysis-section">
-                    <h3 class="section-title">
-                        ✍️ Improved Bio Suggestion
-                    </h3>
+                    <h3 class="section-title">✍️ Improved Bio</h3>
                     <div class="new-bio">
                         <div class="new-bio-text" id="newBio"></div>
                         <button class="copy-btn" onclick="copyBio()">📋 Copy Bio</button>
@@ -714,14 +478,12 @@
     </div>
 
     <script type="module">
-        // Import and initialize Farcaster SDK
         const { sdk } = await import('https://esm.sh/@farcaster/miniapp-sdk');
         await sdk.actions.ready();
     </script>
 
     <script>
         const GEMINI_API_KEY = 'AIzaSyAgULSkTkQiu-HGkYehn0-aRTOEeMkpV1s';
-        const OPENROUTER_API_KEY = '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';
         
         let currentUser = null;
         let currentCasts = null;
@@ -761,7 +523,7 @@
             } catch (error) {
                 console.error('Error:', error);
                 document.getElementById('loading').classList.remove('show');
-                showError(error.message || 'Failed to analyze profile. Please try again or deploy to Vercel.');
+                showError(error.message || 'Failed to analyze profile');
             } finally {
                 document.getElementById('analyzeBtn').disabled = false;
             }
@@ -769,43 +531,31 @@
         
         async function fetchUserProfile(username) {
             try {
-                console.log('Fetching user profile via Vercel API...');
-                
-                // Use our serverless function
                 const response = await fetch(`/api/user?username=${encodeURIComponent(username)}`);
                 
-                if (!response.ok) {
-                    throw new Error('User not found');
-                }
+                if (!response.ok) throw new Error('User not found');
                 
                 const data = await response.json();
                 
                 if (data.result && data.result.user) {
-                    console.log('Success!');
                     return data.result.user;
                 }
                 
                 throw new Error('User not found');
             } catch (error) {
-                console.error('Failed to fetch user:', error);
-                throw new Error('Failed to fetch user profile. Please check the username.');
+                throw new Error('Failed to fetch user profile');
             }
         }
         
         async function fetchUserCasts(fid) {
             try {
-                console.log('Fetching casts via Vercel API...');
-                
                 const response = await fetch(`/api/casts?fid=${fid}`);
                 
-                if (!response.ok) {
-                    return [];
-                }
+                if (!response.ok) return [];
                 
                 const data = await response.json();
                 return data.result?.casts || [];
             } catch (error) {
-                console.error('Failed to fetch casts:', error);
                 return [];
             }
         }
@@ -817,163 +567,15 @@
             document.getElementById('currentBio').textContent = user.profile.bio.text || 'No bio';
             document.getElementById('followers').textContent = formatNumber(user.followerCount);
             document.getElementById('following').textContent = formatNumber(user.followingCount);
-            
-            const castCount = user.profile?.bio?.mentions?.length || 0;
-            document.getElementById('casts').textContent = formatNumber(castCount);
         }
         
         async function analyzeWithAI(user, casts) {
-            const prompt = `You are a Farcaster PROFILE optimization expert. Your job is to analyze the PROFILE ONLY, not content strategy.
-
-FOCUS ONLY ON PROFILE ELEMENTS:
-1. Profile Picture
-2. Display Name
-3. Bio/Description
-4. Username
-
-Profile Information:
-- Display Name: ${user.displayName}
-- Username: @${user.username}
-- Bio: "${user.profile.bio.text || 'No bio'}"
-- Profile Picture URL: ${user.pfp.url}
-- Followers: ${user.followerCount}
-- Following: ${user.followingCount}
-
-Recent Activity (for context only):
-${casts.slice(0, 3).map((c, i) => `${i+1}. "${c.text.substring(0, 80)}..."`).join('\n')}
-
-SCORING (10-100) - PROFILE ONLY:
-
-Bio Quality (40 points):
-- No bio: 0-10 points
-- Very short (<20 chars): 10-15 points
-- Basic bio (20-50 chars): 15-25 points
-- Good bio (50-100 chars): 25-35 points
-- Excellent bio (100-160 chars) with clear value: 35-40 points
-
-Bonus factors for bio:
-+5 if has emojis (strategic, not spam)
-+5 if shows expertise/niche clearly
-+5 if has personality/authenticity
-+5 if includes call-to-action or what to expect
--5 if too generic ("crypto enthusiast", "builder", etc without context)
-
-Profile Picture (30 points):
-- Default/missing avatar: 0-5 points
-- Low quality/unclear: 5-15 points
-- Decent quality: 15-20 points
-- Professional/clear: 20-25 points
-- Excellent, memorable, on-brand: 25-30 points
-
-Display Name (15 points):
-- Missing or just username: 0-5 points
-- Generic/unclear: 5-10 points
-- Clear and professional: 10-12 points
-- Memorable and well-branded: 12-15 points
-
-Network Presence (15 points):
-- Follower/following ratio and absolute numbers
-- 0-50 followers: 0-5 points
-- 51-200 followers: 5-8 points
-- 201-500 followers: 8-11 points
-- 500-1000 followers: 11-13 points
-- 1000+ followers: 13-15 points
-- Adjust based on following ratio
-
-EXAMPLES:
-- Empty bio + default avatar + 10 followers = 15-25 points
-- Short bio + ok avatar + 100 followers = 40-55 points
-- Great bio + professional pic + 500 followers = 70-85 points
-- Perfect bio + amazing pic + 2000 followers = 85-95 points
-
-Your analysis:
-1. Score (10-100) based ONLY on profile quality
-2. 3 strengths about their PROFILE (not content)
-3. 3 weaknesses about their PROFILE (not content)
-4. 5 suggestions to improve PROFILE (you can mention content strategy as bonus tips)
-5. A unique, creative bio suggestion
-
-IMPORTANT FOR BIO:
-- Look at their recent casts to understand their topics
-- Make it specific to THEIR interests/expertise
-- Use 1-3 emojis strategically
-- Show personality
-- Max 160 characters
-- Make it memorable and clear
-
-Format as JSON:
-{
-  "score": 68,
-  "strengths": ["Strength about their profile", "Another profile strength", "Third profile strength"],
-  "weaknesses": ["Profile weakness", "Another profile issue", "Third profile problem"],
-  "suggestions": ["Profile improvement 1", "Profile improvement 2", "Profile improvement 3", "Bonus: content tip", "Bonus: engagement tip"],
-  "newBio": "Creative personalized bio based on their topics"
-}`;
-
             try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        contents: [{
-                            parts: [{
-                                text: prompt
-                            }]
-                        }]
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (data.candidates && data.candidates[0].content) {
-                    const text = data.candidates[0].content.parts[0].text;
-                    const jsonMatch = text.match(/\{[\s\S]*\}/);
-                    
-                    if (jsonMatch) {
-                        const analysis = JSON.parse(jsonMatch[0]);
-                        displayAnalysis(analysis);
-                    } else {
-                        throw new Error('Invalid response format');
-                    }
-                } else {
-                    throw new Error('No response from AI');
-                }
+                displayFallbackAnalysis(user, casts);
             } catch (error) {
-                console.error('AI Analysis Error:', error);
+                console.error('Analysis error:', error);
                 displayFallbackAnalysis(user, casts);
             }
-        }
-        
-        function displayAnalysis(analysis) {
-            document.getElementById('overallScore').textContent = analysis.score || 75;
-            
-            const strengthsHTML = analysis.strengths.map(s => `
-                <div class="analysis-item strength">
-                    <h4>✅ ${s.split(':')[0] || 'Strength'}</h4>
-                    <p>${s.split(':')[1] || s}</p>
-                </div>
-            `).join('');
-            document.getElementById('strengths').innerHTML = strengthsHTML;
-            
-            const weaknessesHTML = analysis.weaknesses.map(w => `
-                <div class="analysis-item weakness">
-                    <h4>⚠️ ${w.split(':')[0] || 'Improvement Area'}</h4>
-                    <p>${w.split(':')[1] || w}</p>
-                </div>
-            `).join('');
-            document.getElementById('weaknesses').innerHTML = weaknessesHTML;
-            
-            const suggestionsHTML = analysis.suggestions.map(s => `
-                <div class="analysis-item suggestion">
-                    <h4>💡 Action Item</h4>
-                    <p>${s}</p>
-                </div>
-            `).join('');
-            document.getElementById('suggestions').innerHTML = suggestionsHTML;
-            
-            document.getElementById('newBio').textContent = analysis.newBio;
         }
         
         function displayFallbackAnalysis(user, casts) {
@@ -982,654 +584,132 @@ Format as JSON:
             const bioLength = user.profile.bio.text ? user.profile.bio.text.length : 0;
             const hasEmoji = user.profile.bio.text ? /[\p{Emoji}]/u.test(user.profile.bio.text) : false;
             
-            // Check if default avatar
-            const isDefaultAvatar = user.pfp.url.includes('avatar') || 
-                                   user.pfp.url.includes('default') ||
-                                   !user.pfp.url;
+            const isDefaultAvatar = user.pfp.url.includes('avatar') || user.pfp.url.includes('default');
             
-            // PROFILE SCORING ONLY (10-100) - More generous
-            let score = 30; // Better base score
+            // Calculate score (30-95)
+            let score = 30;
             
-            // Bio Quality (max 35 points) - More generous
+            // Bio (35 points)
             if (!hasBio) {
-                score += 8; // Just for trying
+                score += 8;
             } else {
-                if (bioLength < 20) {
-                    score += 15; // Short but exists
-                } else if (bioLength < 50) {
-                    score += 22; // Decent
-                } else if (bioLength < 100) {
-                    score += 28; // Good
-                } else {
-                    score += 32; // Great
-                }
+                if (bioLength < 20) score += 15;
+                else if (bioLength < 50) score += 22;
+                else if (bioLength < 100) score += 28;
+                else score += 32;
                 
-                // Generous bonuses
                 if (hasEmoji) score += 5;
-                
-                const lowerBio = user.profile.bio.text.toLowerCase();
-                const hasContent = lowerBio.length > 20;
-                if (hasContent) score += 3;
             }
             
-            // Profile Picture (max 25 points) - More generous
-            if (isDefaultAvatar) {
-                score += 8; // At least they're there
-            } else {
-                score += 23; // Has custom picture - almost full points
-            }
+            // Avatar (25 points)
+            score += isDefaultAvatar ? 8 : 23;
             
-            // Display Name (max 10 points) - Easy points
-            if (!user.displayName || user.displayName === user.username) {
-                score += 6; // Has username at least
-            } else {
-                score += 10; // Full points for display name
-            }
+            // Display name (10 points)
+            score += (user.displayName && user.displayName !== user.username) ? 10 : 6;
             
-            // Network Presence (max 10 points) - Very generous
-            if (user.followerCount < 10) {
-                score += 3; // Just starting
-            } else if (user.followerCount < 50) {
-                score += 5; // Growing
-            } else if (user.followerCount < 200) {
-                score += 7; // Active
-            } else if (user.followerCount < 500) {
-                score += 8; // Good presence
-            } else {
-                score += 10; // Full points
-            }
+            // Followers (10 points)
+            if (user.followerCount < 10) score += 3;
+            else if (user.followerCount < 50) score += 5;
+            else if (user.followerCount < 200) score += 7;
+            else if (user.followerCount < 500) score += 8;
+            else score += 10;
             
-            // Bonus for good ratio
+            // Ratio bonus
             if (ratio > 1) score += 2;
             if (ratio > 2) score += 3;
             
-            // Ensure 30-95 range (more realistic)
             score = Math.min(95, Math.max(30, Math.round(score)));
             
-            // Generate PROFILE-focused feedback
+            // Generate feedback
             const strengths = [];
             const weaknesses = [];
             const suggestions = [];
             
-            // Strengths (PROFILE ONLY) - Be more positive
             if (!isDefaultAvatar) {
-                strengths.push("Professional profile picture creates strong first impression and builds trust");
+                strengths.push("Profile picture creates strong first impression");
             }
             if (hasBio && bioLength > 50) {
-                strengths.push("Well-crafted bio clearly communicates your identity and interests");
-            } else if (hasBio) {
-                strengths.push("You have a bio that gives visitors context about who you are");
+                strengths.push("Bio clearly communicates your identity");
             }
-            if (user.displayName && user.displayName !== user.username) {
-                strengths.push("Memorable display name makes your profile stand out");
+            if (user.displayName !== user.username) {
+                strengths.push("Memorable display name stands out");
             }
-            if (ratio > 1.5) {
-                strengths.push(`Excellent follower ratio (${ratio.toFixed(1)}:1) indicates quality profile`);
-            } else if (ratio > 0.8) {
-                strengths.push("Healthy follower/following ratio shows balanced network");
-            }
-            if (user.followerCount > 100) {
-                strengths.push(`Growing community of ${user.followerCount} followers shows appeal`);
-            }
-            if (hasEmoji && hasBio) {
-                strengths.push("Emojis in bio add personality and visual interest");
-            }
-            if (isDefaultAvatar && hasBio) {
-                strengths.push("You've personalized your profile with a bio");
-            }
-            
-            // Fill if needed with positive notes
             while (strengths.length < 3) {
-                if (user.followerCount > 20) {
-                    strengths.push("Active presence on Farcaster with engaged followers");
-                } else {
-                    strengths.push("You're building your presence on Farcaster");
-                }
+                strengths.push("Active Farcaster presence");
             }
             
-            // Weaknesses (PROFILE ONLY) - Be constructive, not harsh
             if (isDefaultAvatar) {
-                weaknesses.push("Profile picture: Upload a photo or logo to make profile more memorable");
+                weaknesses.push("Upload a profile picture");
             }
-            if (!hasBio) {
-                weaknesses.push("Bio: Add a description so visitors know who you are");
-            } else if (bioLength < 30) {
-                weaknesses.push("Bio: Could be expanded to better showcase your personality");
-            } else if (!hasEmoji && bioLength > 30) {
-                weaknesses.push("Bio: Consider adding an emoji or two for visual appeal");
+            if (!hasBio || bioLength < 30) {
+                weaknesses.push("Bio needs more detail");
             }
-            if (!user.displayName || user.displayName === user.username) {
-                weaknesses.push("Display name: Use a more distinctive name for better branding");
+            if (!hasEmoji && hasBio) {
+                weaknesses.push("Add emojis for personality");
             }
-            if (ratio < 0.5 && user.followerCount < 50) {
-                weaknesses.push("Network: Focus on profile quality to attract more followers");
-            }
-            
-            // Fill if needed with gentle suggestions
             while (weaknesses.length < 3) {
-                if (hasBio && bioLength > 30 && !isDefaultAvatar) {
-                    weaknesses.push("Profile is solid! Just minor tweaks could make it even better");
-                } else if (hasBio) {
-                    weaknesses.push("Consider refreshing your bio to reflect current interests");
-                } else {
-                    weaknesses.push("Profile could use a bit more personality to stand out");
-                }
-            }
-            
-            // Suggestions (PROFILE focused first)
-            if (isDefaultAvatar) {
-                suggestions.push("Upload a clear profile picture - even a simple headshot works great");
-            }
-            if (!hasBio) {
-                suggestions.push("Add a 1-2 line bio: who you are + what you're interested in");
-            } else if (bioLength < 50) {
-                suggestions.push("Expand your bio to 60-100 characters for better context");
-            }
-            if (hasBio && !hasEmoji) {
-                suggestions.push("Add 1-2 emojis to your bio to make it more engaging");
-            }
-            if (!user.displayName || user.displayName === user.username) {
-                suggestions.push("Set a display name that's more memorable than your handle");
-            }
-            
-            // Bonus content tips (helpful but not scored)
-            if (suggestions.length < 5) {
-                suggestions.push("Bonus: Join Farcaster channels related to your interests");
-            }
-            if (suggestions.length < 5) {
-                suggestions.push("Bonus: Engage with posts you find interesting to grow network");
-            }
-            
-            // Generate personalized bio
-            let newBio = "";
-            const username = user.displayName || user.username;
-            
-            // Detect topic from casts
-            let topic = "ideas & insights";
-            let emoji = "💭";
-            
-            if (casts.length > 0) {
-                const allText = casts.map(c => c.text.toLowerCase()).join(' ');
-                if (allText.includes('crypto') || allText.includes('web3') || allText.includes('eth')) {
-                    topic = "crypto & web3"; emoji = "🚀";
-                } else if (allText.includes('build') || allText.includes('dev') || allText.includes('code')) {
-                    topic = "building & tech"; emoji = "⚡";
-                } else if (allText.includes('art') || allText.includes('design') || allText.includes('creative')) {
-                    topic = "art & creativity"; emoji = "🎨";
-                } else if (allText.includes('nft')) {
-                    topic = "NFTs & digital culture"; emoji = "🖼️";
-                } else if (allText.includes('music')) {
-                    topic = "music & culture"; emoji = "🎵";
-                }
-            }
-            
-            if (hasBio && bioLength > 40) {
-                // Keep their style but enhance
-                const currentBio = user.profile.bio.text.substring(0, 130).trim();
-                if (currentBio.endsWith('.') || currentBio.endsWith('!')) {
-                    newBio = currentBio;
-                } else {
-                    newBio = `${currentBio} ${emoji}`;
-                }
-            } else {
-                // Create friendly new one
-                newBio = `${username} | Exploring ${topic} on Farcaster | Always learning ${emoji}`;
-            }
-            
-            // Ensure under 160
-            if (newBio.length > 160) {
-                newBio = newBio.substring(0, 157) + "...";
-            }
-            
-            const analysis = {
-                score: score,
-                strengths: strengths.slice(0, 3),
-                weaknesses: weaknesses.slice(0, 3),
-                suggestions: suggestions.slice(0, 5),
-                newBio: newBio
-            };
-            
-            displayAnalysis(analysis);
-        }
-            
-            // Bio Quality (max 40 points)
-            if (!hasBio) {
-                score += 5; // At least something
-            } else {
-                if (bioLength < 20) {
-                    score += 10; // Very short
-                } else if (bioLength < 50) {
-                    score += 20; // Short but ok
-                } else if (bioLength < 100) {
-                    score += 30; // Good length
-                } else {
-                    score += 35; // Excellent length
-                }
-                
-                // Quality bonuses
-                if (hasEmoji) score += 3;
-                
-                const lowerBio = user.profile.bio.text.toLowerCase();
-                const hasExpertise = lowerBio.includes('builder') || lowerBio.includes('creator') || 
-                                    lowerBio.includes('developer') || lowerBio.includes('founder') ||
-                                    lowerBio.includes('designer') || lowerBio.includes('artist');
-                if (hasExpertise) score += 3;
-                
-                // Check for personality
-                const hasPersonality = lowerBio.includes('love') || lowerBio.includes('passionate') ||
-                                      lowerBio.includes('obsessed') || lowerBio.length > 80;
-                if (hasPersonality) score += 2;
-                
-                // Penalty for generic
-                const isGeneric = (lowerBio === 'builder' || lowerBio === 'crypto enthusiast' || 
-                                  lowerBio.length < 15);
-                if (isGeneric) score -= 5;
-            }
-            
-            // Profile Picture (max 30 points)
-            if (isDefaultAvatar) {
-                score += 5; // Default avatar
-            } else {
-                score += 25; // Has custom picture
-                // Assume if they uploaded, it's decent quality
-            }
-            
-            // Display Name (max 15 points)
-            if (!user.displayName || user.displayName === user.username) {
-                score += 5; // Just username
-            } else if (user.displayName.length < 3) {
-                score += 8; // Very short
-            } else {
-                score += 13; // Has proper display name
-            }
-            
-            // Network Presence (max 15 points)
-            if (user.followerCount < 50) {
-                score += 3;
-            } else if (user.followerCount < 200) {
-                score += 6;
-            } else if (user.followerCount < 500) {
-                score += 9;
-            } else if (user.followerCount < 1000) {
-                score += 12;
-            } else {
-                score += 14;
-            }
-            
-            // Ratio bonus/penalty
-            if (ratio > 2) score += 2;
-            else if (ratio < 0.5) score -= 2;
-            
-            // Ensure 10-100
-            score = Math.min(100, Math.max(10, Math.round(score)));
-            
-            // Generate PROFILE-focused feedback
-            const strengths = [];
-            const weaknesses = [];
-            const suggestions = [];
-            
-            // Strengths (PROFILE ONLY)
-            if (!isDefaultAvatar) {
-                strengths.push("Custom profile picture helps with recognition and builds trust with visitors");
-            }
-            if (hasBio && bioLength > 80) {
-                strengths.push("Comprehensive bio effectively communicates your identity and value to visitors");
-            } else if (hasBio && bioLength > 40) {
-                strengths.push("Bio provides good context about who you are and what you do");
-            }
-            if (user.displayName && user.displayName !== user.username) {
-                strengths.push("Clear display name makes your profile more memorable and professional");
-            }
-            if (ratio > 2) {
-                strengths.push(`Strong follower ratio (${ratio.toFixed(1)}:1) shows you attract more than you follow`);
-            }
-            if (user.followerCount > 500) {
-                strengths.push(`Solid community of ${user.followerCount} followers demonstrates established presence`);
-            }
-            if (hasEmoji && hasBio) {
-                strengths.push("Strategic use of emojis in bio adds visual appeal and personality");
-            }
-            
-            // Fill if needed
-            while (strengths.length < 3) {
-                strengths.push("You have an active Farcaster account");
-            }
-            
-            // Weaknesses (PROFILE ONLY)
-            if (isDefaultAvatar) {
-                weaknesses.push("Using default avatar - upload a real photo or logo to increase credibility by 10x");
-            }
-            if (!hasBio) {
-                weaknesses.push("Empty bio - visitors have zero context for who you are or why to follow");
-            } else if (bioLength < 30) {
-                weaknesses.push("Bio is too minimal - expand it to show your personality and expertise");
-            } else if (bioLength > 30 && !hasEmoji) {
-                weaknesses.push("Bio lacks visual elements - add 1-2 strategic emojis to break up text");
-            }
-            if (!user.displayName || user.displayName === user.username) {
-                weaknesses.push("Display name same as username - use a more memorable name or real name");
-            }
-            if (ratio < 0.7 && user.followerCount < 100) {
-                weaknesses.push(`Low followers (${user.followerCount}) relative to following (${user.followingCount}) - profile may not be compelling enough`);
-            }
-            if (hasBio && bioLength > 20) {
-                const lowerBio = user.profile.bio.text.toLowerCase();
-                const isVague = !lowerBio.includes('build') && !lowerBio.includes('create') && 
-                               !lowerBio.includes('work') && !lowerBio.includes('focus') &&
-                               bioLength < 50;
-                if (isVague) {
-                    weaknesses.push("Bio is vague - be more specific about what you do or care about");
-                }
-            }
-            
-            // Fill if needed
-            while (weaknesses.length < 3) {
-                weaknesses.push("Profile could use more optimization for better first impressions");
-            }
-            
-            // Suggestions (PROFILE focused, bonus content tips ok)
-            if (isDefaultAvatar) {
-                suggestions.push("Upload a clear profile picture - use a professional headshot or memorable logo");
-            }
-            if (!hasBio || bioLength < 40) {
-                suggestions.push("Write a 80-120 character bio explaining: who you are, what you do, and why follow");
-            }
-            if (hasBio && !hasEmoji) {
-                suggestions.push("Add 1-2 relevant emojis to your bio to make it more scannable and engaging");
-            }
-            if (!user.displayName || user.displayName === user.username) {
-                suggestions.push("Set a display name that's more memorable than your username");
-            }
-            
-            // Add content tips as bonus
-            suggestions.push("Bonus tip: Engage in Farcaster channels relevant to your interests");
-            suggestions.push("Bonus tip: Reply to comments within first hour to boost visibility");
-            
-            // Ensure 5 suggestions
-            while (suggestions.length < 5) {
-                suggestions.push("Consider asking friends for profile feedback");
-            }
-            
-            // Generate personalized bio
-            let newBio = "";
-            const username = user.displayName || user.username;
-            
-            // Try to detect topic from casts
-            let topic = "thoughts & ideas";
-            if (casts.length > 0) {
-                const allText = casts.map(c => c.text.toLowerCase()).join(' ');
-                if (allText.includes('crypto') || allText.includes('web3') || allText.includes('defi')) {
-                    topic = "crypto & web3";
-                } else if (allText.includes('build') || allText.includes('dev') || allText.includes('code')) {
-                    topic = "building & coding";
-                } else if (allText.includes('art') || allText.includes('design') || allText.includes('creative')) {
-                    topic = "art & design";
-                } else if (allText.includes('nft') || allText.includes('collect')) {
-                    topic = "NFTs & digital culture";
-                }
-            }
-            
-            if (hasBio && bioLength > 40) {
-                // Improve their existing bio
-                const currentBio = user.profile.bio.text.substring(0, 120);
-                newBio = `${username} | ${currentBio} | Active on Farcaster 🟣`;
-            } else {
-                // Create new one based on detected topic
-                newBio = `${username} | Passionate about ${topic} | Sharing my journey | Let's connect 🤝`;
-            }
-            
-            // Ensure under 160
-            if (newBio.length > 160) {
-                newBio = newBio.substring(0, 157) + "...";
-            }
-            
-            const analysis = {
-                score: score,
-                strengths: strengths.slice(0, 3),
-                weaknesses: weaknesses.slice(0, 3),
-                suggestions: suggestions.slice(0, 5),
-                newBio: newBio
-            };
-            
-            displayAnalysis(analysis);
-        }
-            
-            // Bio Quality (max 30 points)
-            if (!hasBio) {
-                score += 5; // Just having something
-            } else {
-                score += 10; // Has bio
-                if (bioLength > 30) score += 5;
-                if (bioLength > 60) score += 5;
-                if (bioLength > 100) score += 5;
-                if (hasEmoji) score += 3;
-                
-                // Check for value indicators
-                const lowerBio = user.profile.bio.text.toLowerCase();
-                if (lowerBio.includes('builder') || lowerBio.includes('creator') || 
-                    lowerBio.includes('developer') || lowerBio.includes('founder')) {
-                    score += 2;
-                }
-            }
-            
-            // Profile picture (affects bio score)
-            if (!isDefaultAvatar) {
-                score += 5;
-            }
-            
-            // Content Quality (max 30 points)
-            if (casts.length === 0) {
-                score += 0; // No content
-            } else if (casts.length < 3) {
-                score += 5; // Minimal content
-            } else if (casts.length < 5) {
-                score += 10; // Some content
-            } else {
-                score += 15; // Regular content
-                
-                // Check content depth
-                const hasLongCasts = casts.some(c => c.text.length > 200);
-                if (hasLongCasts) score += 5;
-                
-                // Check for variety
-                const avgLength = casts.reduce((sum, c) => sum + c.text.length, 0) / casts.length;
-                if (avgLength > 100) score += 5;
-                
-                // Check for consistent quality
-                if (casts.every(c => c.text.length > 50)) score += 5;
-            }
-            
-            // Engagement (max 30 points)
-            if (engagementRate > 10) {
-                score += 20;
-            } else if (engagementRate > 5) {
-                score += 15;
-            } else if (engagementRate > 2) {
-                score += 10;
-            } else if (engagementRate > 1) {
-                score += 5;
-            } else if (engagementRate > 0.5) {
-                score += 3;
-            }
-            
-            // Absolute engagement matters
-            if (totalEngagement > 100) score += 5;
-            else if (totalEngagement > 50) score += 3;
-            else if (totalEngagement > 20) score += 2;
-            
-            // Reply rate (shows conversation)
-            const replyRate = casts.length > 0 
-                ? casts.reduce((sum, c) => sum + c.replies.count, 0) / casts.length 
-                : 0;
-            if (replyRate > 2) score += 3;
-            
-            // Network Health (max 10 points)
-            if (ratio > 3) {
-                score += 6;
-            } else if (ratio > 2) {
-                score += 5;
-            } else if (ratio > 1) {
-                score += 3;
-            } else if (ratio > 0.5) {
-                score += 2;
-            }
-            
-            // Follower count bonus
-            if (user.followerCount > 1000) score += 4;
-            else if (user.followerCount > 500) score += 3;
-            else if (user.followerCount > 100) score += 2;
-            else if (user.followerCount > 50) score += 1;
-            
-            // Ensure score is between 10-100
-            score = Math.min(100, Math.max(10, Math.round(score)));
-            
-            // Generate contextual feedback
-            const strengths = [];
-            const weaknesses = [];
-            const suggestions = [];
-            
-            // Strengths
-            if (ratio > 2) {
-                strengths.push(`Strong follower ratio (${ratio.toFixed(1)}:1) indicates you provide real value to your audience`);
-            }
-            if (engagementRate > 3) {
-                strengths.push(`Excellent engagement rate (${engagementRate.toFixed(1)}%) - your content truly resonates`);
-            } else if (engagementRate > 1) {
-                strengths.push(`Solid engagement rate (${engagementRate.toFixed(1)}%) shows your content connects with followers`);
-            }
-            if (hasBio && bioLength > 80) {
-                strengths.push("Well-crafted bio clearly communicates your identity and value proposition");
-            }
-            if (casts.length > 5 && casts.some(c => c.text.length > 200)) {
-                strengths.push("You create thoughtful, in-depth content that provides real value");
-            }
-            if (strengths.length < 3 && casts.length > 7) {
-                strengths.push(`Consistent content creator with ${casts.length} recent casts showing regular activity`);
-            }
-            if (strengths.length < 3 && user.followerCount > 200) {
-                strengths.push(`Growing community of ${user.followerCount} followers demonstrates increasing influence`);
-            }
-            if (strengths.length < 3 && !isDefaultAvatar) {
-                strengths.push("Professional profile picture helps build credibility and recognition");
-            }
-            if (strengths.length < 3) {
-                strengths.push("You're actively building your presence in the Farcaster ecosystem");
-            }
-            
-            // Weaknesses
-            if (!hasBio) {
-                weaknesses.push("Missing bio - visitors have no context for who you are or why to follow");
-            } else if (bioLength < 30) {
-                weaknesses.push("Bio is too minimal - add more personality and explain what value you provide");
+                weaknesses.push("Profile can be optimized");
             }
             
             if (isDefaultAvatar) {
-                weaknesses.push("Using default avatar - add a real profile picture to build trust and recognition");
+                suggestions.push("Upload a clear profile picture");
             }
-            
-            if (ratio < 0.7) {
-                weaknesses.push(`Following ${user.followingCount} but only ${user.followerCount} follow you - focus more on creating valuable content`);
-            }
-            
-            if (engagementRate < 1) {
-                weaknesses.push(`Low engagement rate (${engagementRate.toFixed(2)}%) - your content needs to spark more conversation`);
-            }
-            
-            if (casts.length < 3) {
-                weaknesses.push("Very limited recent activity - consistent posting is key to growth");
-            } else if (casts.length < 5) {
-                weaknesses.push("Inconsistent posting - aim for more regular content to maintain visibility");
-            }
-            
-            if (casts.length > 0) {
-                const avgCastLength = casts.reduce((sum, c) => sum + c.text.length, 0) / casts.length;
-                if (avgCastLength < 80) {
-                    weaknesses.push("Casts are too short - add more depth and context to provide real value");
-                }
-            }
-            
-            if (weaknesses.length < 3 && totalEngagement < 30) {
-                weaknesses.push("Limited community interaction - engage authentically to build relationships");
-            }
-            
-            if (weaknesses.length < 3 && replyRate < 1) {
-                weaknesses.push("Low reply rate on your casts - ask questions to encourage discussion");
-            }
-            
-            // Suggestions (NO HASHTAGS - Farcaster specific)
             if (!hasBio || bioLength < 50) {
-                suggestions.push("Write a compelling bio that explains your expertise, interests, and what followers can expect from you");
+                suggestions.push("Write a 60-100 character bio");
             }
-            
-            suggestions.push("Post consistently in relevant Farcaster channels where your target audience hangs out");
-            
-            if (engagementRate < 2) {
-                suggestions.push("Reply to every comment on your casts within the first hour to boost engagement and build relationships");
+            if (!hasEmoji) {
+                suggestions.push("Add 1-2 emojis to bio");
             }
+            suggestions.push("Join relevant Farcaster channels");
+            suggestions.push("Engage with community posts");
             
-            suggestions.push("Cast during peak hours: 9-11 AM UTC and 6-8 PM UTC for maximum visibility");
-            
-            if (ratio < 1) {
-                suggestions.push("Unfollow accounts that don't add value and focus on creating content that attracts organic followers");
-            } else {
-                suggestions.push("Engage authentically with 10-15 quality casts daily through thoughtful comments, not just reactions");
-            }
-            
-            if (suggestions.length < 5) {
-                suggestions.push("Share unique insights from your expertise - avoid generic takes that everyone else posts");
-            }
-            
-            if (suggestions.push.length < 5 && isDefaultAvatar) {
-                suggestions.push("Upload a clear, professional profile picture - faces build 10x more trust than logos or avatars");
-            }
-            
-            // Generate creative, personalized bio
+            // Generate bio
             let newBio = "";
             const username = user.displayName || user.username;
+            let topic = "ideas & insights";
             
-            // Try to extract topic from casts
-            let topic = "thoughts & insights";
             if (casts.length > 0) {
-                const allText = casts.map(c => c.text.toLowerCase()).join(' ');
-                if (allText.includes('crypto') || allText.includes('web3')) topic = "crypto & web3";
-                else if (allText.includes('build') || allText.includes('dev')) topic = "building & development";
-                else if (allText.includes('art') || allText.includes('design')) topic = "art & design";
-                else if (allText.includes('meme')) topic = "memes & culture";
+                const text = casts.map(c => c.text.toLowerCase()).join(' ');
+                if (text.includes('crypto') || text.includes('web3')) topic = "crypto & web3";
+                else if (text.includes('build') || text.includes('dev')) topic = "building & tech";
+                else if (text.includes('art') || text.includes('design')) topic = "art & creativity";
             }
             
-            if (hasBio && bioLength > 30) {
-                const bio = user.profile.bio.text;
-                // Use parts of their bio but make it better
-                newBio = `${username} | ${bio.substring(0, 90).trim()} | Active on Farcaster 🟣`;
+            if (hasBio && bioLength > 40) {
+                newBio = user.profile.bio.text.substring(0, 150);
             } else {
-                newBio = `${username} | Sharing ${topic} | Building in public | Let's connect 🤝`;
+                newBio = `${username} | Exploring ${topic} on Farcaster 🚀`;
             }
             
-            // Ensure under 160 chars
             if (newBio.length > 160) {
                 newBio = newBio.substring(0, 157) + "...";
             }
             
-            const analysis = {
-                score: score,
-                strengths: strengths.slice(0, 3),
-                weaknesses: weaknesses.slice(0, 3),
-                suggestions: suggestions.slice(0, 5),
-                newBio: newBio
-            };
+            displayAnalysis({ score, strengths, weaknesses, suggestions, newBio });
+        }
+        
+        function displayAnalysis(analysis) {
+            document.getElementById('overallScore').textContent = analysis.score;
             
-            displayAnalysis(analysis);
+            document.getElementById('strengths').innerHTML = analysis.strengths
+                .map(s => `<div class="analysis-item strength">${s}</div>`).join('');
+            
+            document.getElementById('weaknesses').innerHTML = analysis.weaknesses
+                .map(w => `<div class="analysis-item weakness">${w}</div>`).join('');
+            
+            document.getElementById('suggestions').innerHTML = analysis.suggestions
+                .map(s => `<div class="analysis-item">${s}</div>`).join('');
+            
+            document.getElementById('newBio').textContent = analysis.newBio;
         }
         
         function copyBio() {
             const bioText = document.getElementById('newBio').textContent;
             navigator.clipboard.writeText(bioText).then(() => {
                 const btn = event.target;
-                const originalText = btn.textContent;
+                const orig = btn.textContent;
                 btn.textContent = '✅ Copied!';
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                }, 2000);
+                setTimeout(() => btn.textContent = orig, 2000);
             });
         }
         
