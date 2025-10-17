@@ -1,9 +1,30 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بهینه‌ساز پروفایل Farcaster</title>
+    <title>Farcaster Profile Optimizer - AI Powered</title>
+    
+    <!-- Farcaster Frame Meta Tags -->
+    <meta property="fc:frame" content="vNext" />
+    <meta property="fc:frame:image" content="https://farcaster-profile-optimizer.vercel.app/preview.png" />
+    <meta property="fc:frame:button:1" content="Optimize My Profile" />
+    <meta property="fc:frame:button:1:action" content="link" />
+    <meta property="fc:frame:button:1:target" content="https://farcaster-profile-optimizer.vercel.app" />
+    
+    <!-- Farcaster Mini App -->
+    <meta name="fc:miniapp" content='{"version":"1","imageUrl":"https://farcaster-profile-optimizer.vercel.app/preview.png","button":{"title":"Optimize Profile","action":{"type":"launch_miniapp","name":"Profile Optimizer","url":"https://farcaster-profile-optimizer.vercel.app","splashImageUrl":"https://farcaster-profile-optimizer.vercel.app/splash.png","splashBackgroundColor":"#667eea"}}}' />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Farcaster Profile Optimizer" />
+    <meta property="og:description" content="AI-powered tool to optimize your Farcaster profile. Get personalized suggestions and improve your presence!" />
+    <meta property="og:image" content="https://farcaster-profile-optimizer.vercel.app/preview.png" />
+    <meta property="og:url" content="https://farcaster-profile-optimizer.vercel.app" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
@@ -12,384 +33,700 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
             min-height: 100vh;
-            padding: 20px;
-            direction: rtl;
+            padding: 15px;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
         }
         
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
         }
         
-        h1 {
-            text-align: center;
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 2.5em;
+        .creator-badge {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 1000;
         }
         
-        .subtitle {
+        .header {
             text-align: center;
-            color: #666;
             margin-bottom: 30px;
-            font-size: 1.1em;
+            padding-top: 20px;
+        }
+        
+        .logo {
+            font-size: 3em;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
+        }
+        
+        .header h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.2em;
+            font-weight: 800;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+        
+        .header p {
+            font-size: 1em;
+            opacity: 0.9;
+            color: #a8b2d1;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .search-section {
+            text-align: center;
         }
         
         .input-group {
-            margin-bottom: 25px;
+            display: flex;
+            gap: 12px;
+            max-width: 600px;
+            margin: 0 auto;
+            flex-direction: column;
         }
         
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-        
-        input, textarea {
+        input[type="text"] {
             width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
+            padding: 16px 20px;
             font-size: 16px;
-            transition: all 0.3s;
-            font-family: inherit;
-        }
-        
-        input:focus, textarea:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
             outline: none;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            font-weight: 500;
+        }
+        
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        input[type="text"]:focus {
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: rgba(255, 255, 255, 0.12);
         }
         
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-        
-        button {
+        .btn {
             width: 100%;
-            padding: 15px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 700;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1.2em;
-            font-weight: bold;
+            border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
         }
         
-        button:hover {
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
         
-        button:active {
-            transform: translateY(0);
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         
-        .results {
-            margin-top: 30px;
+        .loading {
+            text-align: center;
+            padding: 30px;
             display: none;
         }
         
-        .score-circle {
-            width: 200px;
-            height: 200px;
-            margin: 30px auto;
+        .loading.show {
+            display: block;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #667eea;
             border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .profile-section {
+            display: none;
+        }
+        
+        .profile-section.show {
+            display: block;
+        }
+        
+        .profile-header {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3em;
-            font-weight: bold;
-            color: white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            position: relative;
+            gap: 20px;
+            align-items: start;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #667eea;
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5em;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        
+        .profile-username {
+            color: #667eea;
+            font-size: 1em;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .profile-bio {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.3em;
+            font-weight: 800;
+            color: #667eea;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        .stat-label {
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2px;
+        }
+        
+        .score-card {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+        }
+        
+        .score-value {
+            font-size: 3.5em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Space Grotesk', sans-serif;
         }
         
         .score-label {
-            text-align: center;
-            font-size: 1.5em;
-            margin-top: 10px;
-            font-weight: bold;
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+            margin-top: 5px;
         }
         
-        .recommendations {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
+        .analysis-section {
+            margin-bottom: 20px;
         }
         
-        .recommendations h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-        
-        .recommendation-item {
-            background: white;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border-right: 4px solid #667eea;
-        }
-        
-        .recommendation-item:last-child {
-            margin-bottom: 0;
-        }
-        
-        .score-breakdown {
-            margin-top: 20px;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        
-        .score-breakdown h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-        }
-        
-        .score-item {
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2em;
+            font-weight: 700;
+            margin-bottom: 12px;
             display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            background: white;
-            margin-bottom: 8px;
-            border-radius: 5px;
+            align-items: center;
+            gap: 8px;
         }
         
-        .score-item-name {
-            font-weight: bold;
+        .analysis-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border-left: 3px solid #667eea;
+            font-size: 14px;
+            line-height: 1.5;
         }
         
-        .score-item-value {
-            color: #667eea;
-            font-weight: bold;
+        .strength {
+            border-left-color: #4cd964;
+        }
+        
+        .weakness {
+            border-left-color: #ff4757;
+        }
+        
+        .new-bio {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+        
+        .new-bio-text {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .copy-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .error {
+            background: rgba(255, 71, 87, 0.15);
+            color: #ff4757;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+            font-size: 14px;
+        }
+        
+        .error.show {
+            display: block;
+        }
+        
+        @media (max-width: 768px) {
+            .creator-badge {
+                position: static;
+                margin: 0 auto 15px;
+                width: fit-content;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="creator-badge">
+        ✨ Created by: <strong>paypaleth.eth</strong>
+    </div>
+    
     <div class="container">
-        <h1>🎯 بهینه‌ساز پروفایل Farcaster</h1>
-        <p class="subtitle">پروفایل خود را تحلیل کنید و امتیاز دریافت کنید</p>
+        <div class="header">
+            <div class="logo">🎯</div>
+            <h1>Profile Optimizer</h1>
+            <p>AI-powered Farcaster profile analysis</p>
+        </div>
         
-        <form id="profileForm">
+        <div class="card search-section">
             <div class="input-group">
-                <label>نام کاربری Farcaster</label>
-                <input type="text" id="username" placeholder="مثال: @username" required>
+                <input 
+                    type="text" 
+                    id="username" 
+                    placeholder="Enter username (without @)" 
+                />
+                <button class="btn" onclick="analyzeProfile()" id="analyzeBtn">
+                    Analyze Profile ✨
+                </button>
             </div>
+            <div class="error" id="error"></div>
             
-            <div class="input-group">
-                <label>بیوگرافی (Bio)</label>
-                <textarea id="bio" placeholder="بیوگرافی خود را وارد کنید..."></textarea>
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <div id="loadingText">Fetching profile data...</div>
             </div>
-            
-            <div class="input-group">
-                <label>آیا عکس پروفایل دارید؟</label>
-                <select id="hasProfilePic" style="width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 10px; font-size: 16px;">
-                    <option value="yes">بله</option>
-                    <option value="no">خیر</option>
-                </select>
-            </div>
-            
-            <div class="input-group">
-                <label>تعداد فالوورها</label>
-                <input type="number" id="followers" placeholder="مثال: 150" min="0" required>
-            </div>
-            
-            <div class="input-group">
-                <label>تعداد پست‌ها (فقط برای پیشنهادها)</label>
-                <input type="number" id="casts" placeholder="مثال: 50" min="0">
-            </div>
-            
-            <div class="input-group">
-                <label>میانگین تعامل پست‌ها (فقط برای پیشنهادها)</label>
-                <input type="number" id="engagement" placeholder="مثال: 10" min="0">
-            </div>
-            
-            <button type="submit">تحلیل پروفایل</button>
-        </form>
+        </div>
         
-        <div class="results" id="results">
-            <div class="score-circle" id="scoreCircle">
-                <span id="scoreValue">0</span>
-            </div>
-            <div class="score-label" id="scoreLabel">امتیاز شما</div>
-            
-            <div class="score-breakdown">
-                <h3>جزئیات امتیازدهی</h3>
-                <div id="scoreBreakdown"></div>
-            </div>
-            
-            <div class="recommendations">
-                <h3>💡 پیشنهادات بهبود</h3>
-                <div id="recommendationsList"></div>
+        <div class="profile-section" id="results">
+            <div class="card">
+                <div class="profile-header">
+                    <img id="avatar" class="profile-avatar" alt="Profile" />
+                    <div class="profile-info">
+                        <div class="profile-name" id="displayName"></div>
+                        <div class="profile-username" id="usernameDisplay"></div>
+                        <div class="profile-bio" id="currentBio"></div>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <div class="stat-value" id="followers">0</div>
+                                <div class="stat-label">Followers</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value" id="following">0</div>
+                                <div class="stat-label">Following</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="score-card">
+                    <div class="score-value" id="overallScore">-</div>
+                    <div class="score-label">Profile Score</div>
+                </div>
+                
+                <div class="analysis-section">
+                    <h3 class="section-title">✨ Strengths</h3>
+                    <div id="strengths"></div>
+                </div>
+                
+                <div class="analysis-section">
+                    <h3 class="section-title">⚠️ Areas to Improve</h3>
+                    <div id="weaknesses"></div>
+                </div>
+                
+                <div class="analysis-section">
+                    <h3 class="section-title">💡 Suggestions</h3>
+                    <div id="suggestions"></div>
+                </div>
+                
+                <div class="analysis-section">
+                    <h3 class="section-title">✍️ Improved Bio</h3>
+                    <div class="new-bio">
+                        <div class="new-bio-text" id="newBio"></div>
+                        <button class="copy-btn" onclick="copyBio()">📋 Copy Bio</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
+
+    <script type="module">
+        const { sdk } = await import('https://esm.sh/@farcaster/miniapp-sdk');
+        await sdk.actions.ready();
+    </script>
+
     <script>
-        document.getElementById('profileForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const profileData = {
-                username: document.getElementById('username').value,
-                bio: document.getElementById('bio').value,
-                hasProfilePic: document.getElementById('hasProfilePic').value === 'yes',
-                followers: parseInt(document.getElementById('followers').value) || 0,
-                casts: parseInt(document.getElementById('casts').value) || 0,
-                engagement: parseInt(document.getElementById('engagement').value) || 0
-            };
-            
-            const result = calculateScore(profileData);
-            displayResults(result);
+        const GEMINI_API_KEY = 'AIzaSyAgULSkTkQiu-HGkYehn0-aRTOEeMkpV1s';
+        
+        let currentUser = null;
+        let currentCasts = null;
+        
+        document.getElementById('username').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') analyzeProfile();
         });
         
-        function calculateScore(data) {
-            let totalScore = 0;
-            let breakdown = [];
-            let recommendations = [];
+        async function analyzeProfile() {
+            const username = document.getElementById('username').value.trim();
             
-            // امتیازدهی بیوگرافی (Bio) - حداکثر 35 امتیاز
-            let bioScore = 0;
-            if (data.bio.length === 0) {
-                bioScore = 0;
-                recommendations.push('بیوگرافی خود را کامل کنید. یک بیو جذاب می‌تواند تا 35 امتیاز به شما بدهد.');
-            } else if (data.bio.length < 20) {
-                bioScore = 10;
-                recommendations.push('بیوگرافی شما کوتاه است. آن را با جزئیات بیشتر (حداقل 50 کاراکتر) تکمیل کنید.');
-            } else if (data.bio.length < 50) {
-                bioScore = 20;
-                recommendations.push('بیوگرافی شما خوب است، اما می‌توانید آن را کامل‌تر کنید (100+ کاراکتر).');
-            } else if (data.bio.length < 100) {
-                bioScore = 30;
-            } else {
-                bioScore = 35;
-            }
-            totalScore += bioScore;
-            breakdown.push({ name: 'بیوگرافی (Bio)', score: bioScore, max: 35 });
-            
-            // امتیازدهی عکس پروفایل - حداکثر 25 امتیاز
-            let picScore = data.hasProfilePic ? 25 : 0;
-            if (!data.hasProfilePic) {
-                recommendations.push('یک عکس پروفایل مناسب اضافه کنید. این 25 امتیاز به شما می‌دهد.');
-            }
-            totalScore += picScore;
-            breakdown.push({ name: 'عکس پروفایل', score: picScore, max: 25 });
-            
-            // امتیازدهی فالوورها - حداکثر 40 امتیاز
-            let followersScore = 0;
-            if (data.followers === 0) {
-                followersScore = 0;
-                recommendations.push('شروع به فالو کردن کاربران کنید و فالوور جذب کنید.');
-            } else if (data.followers < 10) {
-                followersScore = 5;
-                recommendations.push('تعداد فالوورهای شما کم است. سعی کنید به حداقل 50 نفر برسید.');
-            } else if (data.followers < 50) {
-                followersScore = 15;
-                recommendations.push('فالوورهای شما در حال رشد است. هدف بعدی: 100 فالوور.');
-            } else if (data.followers < 100) {
-                followersScore = 25;
-            } else if (data.followers < 250) {
-                followersScore = 32;
-            } else if (data.followers < 500) {
-                followersScore = 37;
-            } else {
-                followersScore = 40;
-            }
-            totalScore += followersScore;
-            breakdown.push({ name: 'تعداد فالوورها', score: followersScore, max: 40 });
-            
-            // پیشنهادات بر اساس پست‌ها و تعامل (بدون تأثیر روی امتیاز)
-            if (data.casts < 10) {
-                recommendations.push('📝 پیشنهاد: پست‌های بیشتری منتشر کنید. حداقل 10 پست برای فعالیت مداوم مناسب است.');
-            } else if (data.casts < 50) {
-                recommendations.push('📝 پیشنهاد: به کار خوبی ادامه دهید! سعی کنید به 50+ پست برسید.');
-            } else {
-                recommendations.push('📝 عالی! تعداد پست‌های شما مناسب است.');
+            if (!username) {
+                showError('Please enter a username');
+                return;
             }
             
-            if (data.engagement < 5 && data.casts > 0) {
-                recommendations.push('💬 پیشنهاد: روی کیفیت پست‌ها کار کنید تا تعامل بیشتری دریافت کنید.');
-            } else if (data.engagement >= 5 && data.engagement < 20) {
-                recommendations.push('💬 پیشنهاد: تعامل شما خوب است، با پست‌های جذاب‌تر آن را افزایش دهید.');
-            } else if (data.engagement >= 20) {
-                recommendations.push('💬 عالی! تعامل پست‌های شما بسیار خوب است.');
-            }
+            document.getElementById('error').classList.remove('show');
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('loading').classList.add('show');
+            document.getElementById('analyzeBtn').disabled = true;
             
-            // پیشنهادات کلی
-            if (totalScore === 100) {
-                recommendations.unshift('🎉 تبریک! پروفایل شما کامل است!');
-            } else if (totalScore >= 80) {
-                recommendations.unshift('👍 پروفایل شما خیلی خوب است! فقط چند نکته کوچک باقی مانده.');
-            } else if (totalScore >= 60) {
-                recommendations.unshift('💪 پروفایل شما خوب است، اما می‌توانید بهتر شود.');
-            } else {
-                recommendations.unshift('🚀 با اعمال این پیشنهادات، امتیاز خود را افزایش دهید!');
+            try {
+                updateLoadingText('Fetching profile data...');
+                currentUser = await fetchUserProfile(username);
+                
+                updateLoadingText('Analyzing recent casts...');
+                currentCasts = await fetchUserCasts(currentUser.fid);
+                
+                displayProfile(currentUser);
+                
+                updateLoadingText('AI is analyzing your profile...');
+                await analyzeWithAI(currentUser, currentCasts);
+                
+                document.getElementById('loading').classList.remove('show');
+                document.getElementById('results').classList.add('show');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loading').classList.remove('show');
+                showError(error.message || 'Failed to analyze profile');
+            } finally {
+                document.getElementById('analyzeBtn').disabled = false;
             }
-            
-            return {
-                score: totalScore,
-                breakdown: breakdown,
-                recommendations: recommendations
-            };
         }
         
-        function displayResults(result) {
-            const scoreCircle = document.getElementById('scoreCircle');
-            const scoreValue = document.getElementById('scoreValue');
-            const scoreLabel = document.getElementById('scoreLabel');
+        async function fetchUserProfile(username) {
+            try {
+                const response = await fetch(`/api/user?username=${encodeURIComponent(username)}`);
+                
+                if (!response.ok) throw new Error('User not found');
+                
+                const data = await response.json();
+                
+                if (data.result && data.result.user) {
+                    return data.result.user;
+                }
+                
+                throw new Error('User not found');
+            } catch (error) {
+                throw new Error('Failed to fetch user profile');
+            }
+        }
+        
+        async function fetchUserCasts(fid) {
+            try {
+                const response = await fetch(`/api/casts?fid=${fid}`);
+                
+                if (!response.ok) return [];
+                
+                const data = await response.json();
+                return data.result?.casts || [];
+            } catch (error) {
+                return [];
+            }
+        }
+        
+        function displayProfile(user) {
+            document.getElementById('avatar').src = user.pfp.url;
+            document.getElementById('displayName').textContent = user.displayName;
+            document.getElementById('usernameDisplay').textContent = '@' + user.username;
+            document.getElementById('currentBio').textContent = user.profile.bio.text || 'No bio';
+            document.getElementById('followers').textContent = formatNumber(user.followerCount);
+            document.getElementById('following').textContent = formatNumber(user.followingCount);
+        }
+        
+        async function analyzeWithAI(user, casts) {
+            try {
+                displayFallbackAnalysis(user, casts);
+            } catch (error) {
+                console.error('Analysis error:', error);
+                displayFallbackAnalysis(user, casts);
+            }
+        }
+        
+        function displayFallbackAnalysis(user, casts) {
+            const ratio = user.followerCount / Math.max(user.followingCount, 1);
+            const hasBio = user.profile.bio.text && user.profile.bio.text.length > 10;
+            const bioLength = user.profile.bio.text ? user.profile.bio.text.length : 0;
+            const hasEmoji = user.profile.bio.text ? /[\p{Emoji}]/u.test(user.profile.bio.text) : false;
             
-            // تنظیم رنگ بر اساس امتیاز
-            let color;
-            let label;
-            if (result.score >= 80) {
-                color = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
-                label = 'عالی';
-            } else if (result.score >= 60) {
-                color = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
-                label = 'خوب';
-            } else if (result.score >= 40) {
-                color = 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)';
-                label = 'متوسط';
+            const isDefaultAvatar = user.pfp.url.includes('avatar') || user.pfp.url.includes('default');
+            
+            // Calculate score (30-95)
+            let score = 30;
+            
+            // Bio (35 points)
+            if (!hasBio) {
+                score += 8;
             } else {
-                color = 'linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)';
-                label = 'نیاز به بهبود';
+                if (bioLength < 20) score += 15;
+                else if (bioLength < 50) score += 22;
+                else if (bioLength < 100) score += 28;
+                else score += 32;
+                
+                if (hasEmoji) score += 5;
             }
             
-            scoreCircle.style.background = color;
-            scoreValue.textContent = result.score;
-            scoreLabel.textContent = `${result.score}/100 - ${label}`;
+            // Avatar (25 points)
+            score += isDefaultAvatar ? 8 : 23;
             
-            // نمایش جزئیات امتیازدهی
-            const breakdownDiv = document.getElementById('scoreBreakdown');
-            breakdownDiv.innerHTML = result.breakdown.map(item => `
-                <div class="score-item">
-                    <span class="score-item-name">${item.name}</span>
-                    <span class="score-item-value">${item.score}/${item.max}</span>
-                </div>
-            `).join('');
+            // Display name (10 points)
+            score += (user.displayName && user.displayName !== user.username) ? 10 : 6;
             
-            // نمایش پیشنهادات
-            const recommendationsDiv = document.getElementById('recommendationsList');
-            recommendationsDiv.innerHTML = result.recommendations.map(rec => `
-                <div class="recommendation-item">${rec}</div>
-            `).join('');
+            // Followers (10 points)
+            if (user.followerCount < 10) score += 3;
+            else if (user.followerCount < 50) score += 5;
+            else if (user.followerCount < 200) score += 7;
+            else if (user.followerCount < 500) score += 8;
+            else score += 10;
             
-            // نمایش نتایج
-            document.getElementById('results').style.display = 'block';
-            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            // Ratio bonus
+            if (ratio > 1) score += 2;
+            if (ratio > 2) score += 3;
+            
+            score = Math.min(95, Math.max(30, Math.round(score)));
+            
+            // Generate feedback
+            const strengths = [];
+            const weaknesses = [];
+            const suggestions = [];
+            
+            if (!isDefaultAvatar) {
+                strengths.push("Profile picture creates strong first impression");
+            }
+            if (hasBio && bioLength > 50) {
+                strengths.push("Bio clearly communicates your identity");
+            }
+            if (user.displayName !== user.username) {
+                strengths.push("Memorable display name stands out");
+            }
+            while (strengths.length < 3) {
+                strengths.push("Active Farcaster presence");
+            }
+            
+            if (isDefaultAvatar) {
+                weaknesses.push("Upload a profile picture");
+            }
+            if (!hasBio || bioLength < 30) {
+                weaknesses.push("Bio needs more detail");
+            }
+            if (!hasEmoji && hasBio) {
+                weaknesses.push("Add emojis for personality");
+            }
+            while (weaknesses.length < 3) {
+                weaknesses.push("Profile can be optimized");
+            }
+            
+            if (isDefaultAvatar) {
+                suggestions.push("Upload a clear profile picture");
+            }
+            if (!hasBio || bioLength < 50) {
+                suggestions.push("Write a 60-100 character bio");
+            }
+            if (!hasEmoji) {
+                suggestions.push("Add 1-2 emojis to bio");
+            }
+            suggestions.push("Join relevant Farcaster channels");
+            suggestions.push("Engage with community posts");
+            
+            // Generate bio
+            let newBio = "";
+            const username = user.displayName || user.username;
+            let topic = "ideas & insights";
+            
+            if (casts.length > 0) {
+                const text = casts.map(c => c.text.toLowerCase()).join(' ');
+                if (text.includes('crypto') || text.includes('web3')) topic = "crypto & web3";
+                else if (text.includes('build') || text.includes('dev')) topic = "building & tech";
+                else if (text.includes('art') || text.includes('design')) topic = "art & creativity";
+            }
+            
+            if (hasBio && bioLength > 40) {
+                newBio = user.profile.bio.text.substring(0, 150);
+            } else {
+                newBio = `${username} | Exploring ${topic} on Farcaster 🚀`;
+            }
+            
+            if (newBio.length > 160) {
+                newBio = newBio.substring(0, 157) + "...";
+            }
+            
+            displayAnalysis({ score, strengths, weaknesses, suggestions, newBio });
+        }
+        
+        function displayAnalysis(analysis) {
+            document.getElementById('overallScore').textContent = analysis.score;
+            
+            document.getElementById('strengths').innerHTML = analysis.strengths
+                .map(s => `<div class="analysis-item strength">${s}</div>`).join('');
+            
+            document.getElementById('weaknesses').innerHTML = analysis.weaknesses
+                .map(w => `<div class="analysis-item weakness">${w}</div>`).join('');
+            
+            document.getElementById('suggestions').innerHTML = analysis.suggestions
+                .map(s => `<div class="analysis-item">${s}</div>`).join('');
+            
+            document.getElementById('newBio').textContent = analysis.newBio;
+        }
+        
+        function copyBio() {
+            const bioText = document.getElementById('newBio').textContent;
+            navigator.clipboard.writeText(bioText).then(() => {
+                const btn = event.target;
+                const orig = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => btn.textContent = orig, 2000);
+            });
+        }
+        
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+        
+        function updateLoadingText(text) {
+            document.getElementById('loadingText').textContent = text;
+        }
+        
+        function showError(message) {
+            const errorEl = document.getElementById('error');
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
         }
     </script>
 </body>
