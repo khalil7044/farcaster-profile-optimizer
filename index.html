@@ -584,108 +584,290 @@
             const bioLength = user.profile.bio.text ? user.profile.bio.text.length : 0;
             const hasEmoji = user.profile.bio.text ? /[\p{Emoji}]/u.test(user.profile.bio.text) : false;
             
-            const isDefaultAvatar = user.pfp.url.includes('avatar') || user.pfp.url.includes('default');
+            // Better default avatar detection
+            const avatarUrl = user.pfp.url.toLowerCase();
+            const isDefaultAvatar = avatarUrl.includes('avatar') || 
+                                   avatarUrl.includes('default') ||
+                                   avatarUrl.includes('placeholder') ||
+                                   avatarUrl.includes('identicon');
             
-            // Calculate score (30-95)
-            let score = 30;
+            // Bio quality assessment
+            const lowerBio = hasBio ? user.profile.bio.text.toLowerCase() : '';
+            const hasKeywords = lowerBio.includes('build') || lowerBio.includes('create') || 
+                               lowerBio.includes('founder') || lowerBio.includes('developer') ||
+                               lowerBio.includes('designer') || lowerBio.includes('artist') ||
+                               lowerBio.includes('writer') || lowerBio.includes('creator');
             
-            // Bio (35 points)
+            const isGenericBio = lowerBio === 'crypto enthusiast' || 
+                                lowerBio === 'builder' || 
+                                lowerBio === 'web3' ||
+                                (lowerBio.length > 0 && lowerBio.length < 15);
+            
+            const hasCallToAction = lowerBio.includes('follow') || lowerBio.includes('dm') || 
+                                   lowerBio.includes('check out') || lowerBio.includes('visit');
+            
+            // Calculate score (30-95 realistic range)
+            let score = 30; // Base for having account
+            
+            // Bio Analysis (max 30 points)
             if (!hasBio) {
-                score += 8;
+                score += 5; // No bio at all
+            } else if (isGenericBio) {
+                score += 8; // Generic/too short
             } else {
-                if (bioLength < 20) score += 15;
-                else if (bioLength < 50) score += 22;
-                else if (bioLength < 100) score += 28;
-                else score += 32;
+                // Length-based scoring
+                if (bioLength >= 15 && bioLength < 30) {
+                    score += 12; // Very short but something
+                } else if (bioLength >= 30 && bioLength < 60) {
+                    score += 18; // Short but decent
+                } else if (bioLength >= 60 && bioLength < 100) {
+                    score += 24; // Good length
+                } else if (bioLength >= 100) {
+                    score += 27; // Excellent length
+                }
                 
-                if (hasEmoji) score += 5;
+                // Quality bonuses
+                if (hasKeywords) score += 3; // Shows expertise
+                if (hasEmoji) score += 2; // Visual appeal
+                if (hasCallToAction) score += 2; // Engagement focus
+                
+                // Penalty for very long rambling bio
+                if (bioLength > 150) score -= 2;
             }
             
-            // Avatar (25 points)
-            score += isDefaultAvatar ? 8 : 23;
+            // Profile Picture (max 25 points)
+            if (isDefaultAvatar) {
+                score += 5; // Using default
+            } else {
+                score += 20; // Custom avatar (not full 25, reserve that for quality we can't check)
+            }
             
-            // Display name (10 points)
-            score += (user.displayName && user.displayName !== user.username) ? 10 : 6;
+            // Display Name (max 15 points)
+            const hasDisplayName = user.displayName && user.displayName !== user.username;
+            if (!hasDisplayName) {
+                score += 5; // Just username
+            } else if (user.displayName.length <= 3) {
+                score += 8; // Very short name
+            } else if (user.displayName.length > 20) {
+                score += 10; // Too long
+            } else {
+                score += 13; // Good display name
+            }
             
-            // Followers (10 points)
-            if (user.followerCount < 10) score += 3;
-            else if (user.followerCount < 50) score += 5;
-            else if (user.followerCount < 200) score += 7;
-            else if (user.followerCount < 500) score += 8;
-            else score += 10;
+            // Network Quality (max 20 points)
+            // Follower count matters but ratio matters more
+            let networkScore = 0;
             
-            // Ratio bonus
-            if (ratio > 1) score += 2;
-            if (ratio > 2) score += 3;
+            // Base follower score (0-10 points)
+            if (user.followerCount < 10) {
+                networkScore += 2;
+            } else if (user.followerCount < 50) {
+                networkScore += 4;
+            } else if (user.followerCount < 150) {
+                networkScore += 6;
+            } else if (user.followerCount < 500) {
+                networkScore += 8;
+            } else if (user.followerCount < 1500) {
+                networkScore += 9;
+            } else {
+                networkScore += 10;
+            }
             
+            // Ratio quality (0-10 points)
+            if (ratio < 0.3) {
+                networkScore += 1; // Following way too many
+            } else if (ratio < 0.7) {
+                networkScore += 3; // Following more than followers
+            } else if (ratio < 1.2) {
+                networkScore += 6; // Balanced
+            } else if (ratio < 3) {
+                networkScore += 8; // Good ratio
+            } else if (ratio < 10) {
+                networkScore += 9; // Very good ratio
+            } else {
+                networkScore += 7; // Too high might be inactive or bought
+            }
+            
+            score += networkScore;
+            
+            // Final adjustments
+            // Penalty for completely empty profile
+            if (!hasBio && isDefaultAvatar && user.followerCount < 5) {
+                score = Math.max(30, score - 10);
+            }
+            
+            // Bonus for well-rounded profile
+            if (hasBio && !isDefaultAvatar && hasDisplayName && bioLength > 50) {
+                score += 5; // Complete profile bonus
+            }
+            
+            // Ensure realistic range
             score = Math.min(95, Math.max(30, Math.round(score)));
             
-            // Generate feedback
+            // Generate contextual feedback
             const strengths = [];
             const weaknesses = [];
             const suggestions = [];
             
+            // Strengths - be specific and honest
             if (!isDefaultAvatar) {
-                strengths.push("Profile picture creates strong first impression");
+                strengths.push("Custom profile picture helps with recognition and trust");
             }
-            if (hasBio && bioLength > 50) {
-                strengths.push("Bio clearly communicates your identity");
+            
+            if (hasBio && bioLength > 60 && !isGenericBio) {
+                strengths.push("Detailed bio effectively communicates your identity");
+            } else if (hasBio && bioLength > 30) {
+                strengths.push("Bio provides context about who you are");
             }
-            if (user.displayName !== user.username) {
-                strengths.push("Memorable display name stands out");
+            
+            if (hasDisplayName && user.displayName.length > 3) {
+                strengths.push("Clear display name makes profile memorable");
             }
+            
+            if (ratio > 1.5 && user.followerCount > 50) {
+                strengths.push(`Strong follower ratio (${ratio.toFixed(1)}:1) shows quality audience`);
+            } else if (ratio > 0.8) {
+                strengths.push("Balanced follower/following ratio");
+            }
+            
+            if (user.followerCount > 500) {
+                strengths.push(`Established community with ${formatNumber(user.followerCount)} followers`);
+            } else if (user.followerCount > 100) {
+                strengths.push("Growing follower base shows increasing reach");
+            }
+            
+            if (hasEmoji) {
+                strengths.push("Emojis add personality to your profile");
+            }
+            
+            if (hasKeywords) {
+                strengths.push("Bio clearly communicates your expertise");
+            }
+            
+            // Ensure we have 3 strengths
             while (strengths.length < 3) {
-                strengths.push("Active Farcaster presence");
+                strengths.push("You're actively participating on Farcaster");
             }
             
+            // Weaknesses - constructive and specific
             if (isDefaultAvatar) {
-                weaknesses.push("Upload a profile picture");
+                weaknesses.push("Default avatar - upload a photo or logo to increase credibility");
             }
-            if (!hasBio || bioLength < 30) {
-                weaknesses.push("Bio needs more detail");
+            
+            if (!hasBio) {
+                weaknesses.push("No bio - visitors don't know who you are or why to follow");
+            } else if (bioLength < 30) {
+                weaknesses.push("Bio is too brief - expand to 50-100 characters for better context");
+            } else if (isGenericBio) {
+                weaknesses.push("Bio is too generic - be more specific about what you do");
             }
-            if (!hasEmoji && hasBio) {
-                weaknesses.push("Add emojis for personality");
+            
+            if (!hasDisplayName) {
+                weaknesses.push("Display name same as username - use a more distinctive name");
             }
+            
+            if (ratio < 0.5 && user.followerCount < 100) {
+                weaknesses.push(`Low follower ratio (${ratio.toFixed(1)}:1) - profile may need optimization`);
+            }
+            
+            if (!hasEmoji && hasBio && bioLength > 20) {
+                weaknesses.push("No emojis in bio - add 1-2 for visual appeal");
+            }
+            
+            if (bioLength > 0 && bioLength < 50 && !hasKeywords) {
+                weaknesses.push("Bio lacks clarity about your expertise or interests");
+            }
+            
+            if (user.followerCount < 20) {
+                weaknesses.push("Limited followers - profile needs more visibility");
+            }
+            
+            // Ensure 3 weaknesses
             while (weaknesses.length < 3) {
-                weaknesses.push("Profile can be optimized");
+                weaknesses.push("Profile has room for improvement");
             }
             
+            // Suggestions - prioritize by importance
             if (isDefaultAvatar) {
-                suggestions.push("Upload a clear profile picture");
+                suggestions.push("🎨 Upload a clear profile picture - professional headshot or memorable logo");
             }
-            if (!hasBio || bioLength < 50) {
-                suggestions.push("Write a 60-100 character bio");
-            }
-            if (!hasEmoji) {
-                suggestions.push("Add 1-2 emojis to bio");
-            }
-            suggestions.push("Join relevant Farcaster channels");
-            suggestions.push("Engage with community posts");
             
-            // Generate bio
+            if (!hasBio || bioLength < 40) {
+                suggestions.push("✍️ Write a 60-100 character bio: who you are + what you do + why follow");
+            } else if (bioLength < 80) {
+                suggestions.push("📝 Expand your bio to better showcase your expertise and personality");
+            }
+            
+            if (!hasEmoji && hasBio) {
+                suggestions.push("✨ Add 1-2 strategic emojis to make bio more scannable");
+            }
+            
+            if (!hasDisplayName) {
+                suggestions.push("👤 Set a display name that's more memorable than your username");
+            }
+            
+            if (!hasKeywords && hasBio) {
+                suggestions.push("🎯 Include keywords in bio that show your niche or expertise");
+            }
+            
+            // Bonus community tips
+            suggestions.push("💬 Bonus: Engage in Farcaster channels relevant to your interests");
+            suggestions.push("🤝 Bonus: Build relationships through thoughtful replies and comments");
+            
+            // Trim to 5
+            while (suggestions.length > 5) {
+                suggestions.pop();
+            }
+            
+            // Generate smart bio
             let newBio = "";
-            const username = user.displayName || user.username;
-            let topic = "ideas & insights";
+            const displayName = user.displayName || user.username;
             
+            // Detect interests from casts
+            let interests = [];
             if (casts.length > 0) {
-                const text = casts.map(c => c.text.toLowerCase()).join(' ');
-                if (text.includes('crypto') || text.includes('web3')) topic = "crypto & web3";
-                else if (text.includes('build') || text.includes('dev')) topic = "building & tech";
-                else if (text.includes('art') || text.includes('design')) topic = "art & creativity";
+                const allText = casts.map(c => c.text.toLowerCase()).join(' ');
+                if (allText.includes('crypto') || allText.includes('web3') || allText.includes('eth')) {
+                    interests.push('crypto');
+                }
+                if (allText.includes('build') || allText.includes('dev') || allText.includes('code')) {
+                    interests.push('building');
+                }
+                if (allText.includes('art') || allText.includes('design')) {
+                    interests.push('design');
+                }
+                if (allText.includes('nft')) {
+                    interests.push('NFTs');
+                }
             }
             
-            if (hasBio && bioLength > 40) {
-                newBio = user.profile.bio.text.substring(0, 150);
+            if (hasBio && bioLength > 50 && !isGenericBio) {
+                // Keep their good bio, just polish it
+                newBio = user.profile.bio.text;
+                if (!hasEmoji) {
+                    newBio = newBio.trim() + " 🚀";
+                }
+            } else if (interests.length > 0) {
+                // Create based on interests
+                const interestStr = interests.slice(0, 2).join(' & ');
+                newBio = `${displayName} | Passionate about ${interestStr} | Building on Farcaster 🟣`;
             } else {
-                newBio = `${username} | Exploring ${topic} on Farcaster 🚀`;
+                // Generic but personal
+                newBio = `${displayName} | Exploring web3 & digital culture | Let's connect 🤝`;
             }
             
+            // Ensure under 160 chars
             if (newBio.length > 160) {
                 newBio = newBio.substring(0, 157) + "...";
             }
             
-            displayAnalysis({ score, strengths, weaknesses, suggestions, newBio });
+            displayAnalysis({ 
+                score, 
+                strengths: strengths.slice(0, 3), 
+                weaknesses: weaknesses.slice(0, 3), 
+                suggestions: suggestions.slice(0, 5), 
+                newBio 
+            });
         }
         
         function displayAnalysis(analysis) {
