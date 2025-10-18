@@ -3,524 +3,684 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farcaster Profile Optimizer</title>
+    <title>Farcaster Profile Optimizer - AI Powered</title>
+    
+    <!-- Farcaster Frame Meta Tags -->
+    <meta property="fc:frame" content="vNext" />
+    <meta property="fc:frame:image" content="https://farcaster-profile-optimizer.vercel.app/preview.png" />
+    <meta property="fc:frame:button:1" content="Optimize My Profile" />
+    <meta property="fc:frame:button:1:action" content="link" />
+    <meta property="fc:frame:button:1:target" content="https://farcaster-profile-optimizer.vercel.app" />
+    
+    <!-- Farcaster Mini App -->
+    <meta name="fc:miniapp" content='{"version":"1","imageUrl":"https://farcaster-profile-optimizer.vercel.app/preview.png","button":{"title":"Optimize Profile","action":{"type":"launch_miniapp","name":"Profile Optimizer","url":"https://farcaster-profile-optimizer.vercel.app","splashImageUrl":"https://farcaster-profile-optimizer.vercel.app/splash.png","splashBackgroundColor":"#667eea"}}}' />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Farcaster Profile Optimizer" />
+    <meta property="og:description" content="AI-powered tool to optimize your Farcaster profile. Get personalized suggestions and improve your presence!" />
+    <meta property="og:image" content="https://farcaster-profile-optimizer.vercel.app/preview.png" />
+    <meta property="og:url" content="https://farcaster-profile-optimizer.vercel.app" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
             min-height: 100vh;
-            padding: 20px;
-            color: #333;
+            padding: 15px;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
         }
-
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
         .container {
             max-width: 900px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
-
+        
+        .creator-badge {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 1000;
+        }
+        
         .header {
             text-align: center;
-            color: white;
             margin-bottom: 30px;
-            padding: 20px;
+            padding-top: 20px;
         }
-
-        .header h1 {
-            font-size: 2.5em;
+        
+        .logo {
+            font-size: 3em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
         }
-
-        .subtitle {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .credit {
-            margin-top: 15px;
-            font-size: 0.9em;
-            opacity: 0.8;
-        }
-
-        .card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            margin-bottom: 20px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
+        
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5em;
+            font-weight: 900;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -2px;
+            text-transform: uppercase;
         }
-
+        
+        .header p {
+            font-size: 1em;
+            opacity: 0.9;
+            color: #a8b2d1;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .search-section {
+            text-align: center;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 12px;
+            max-width: 600px;
+            margin: 0 auto;
+            flex-direction: column;
+        }
+        
         input[type="text"] {
             width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
+            padding: 16px 20px;
             font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        input[type="text"]:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transition: all 0.3s;
+            font-family: 'Outfit', sans-serif;
+            color: white;
+            font-weight: 500;
         }
-
-        button {
+        
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        input[type="text"]:focus {
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        .btn {
             width: 100%;
-            padding: 15px;
+            padding: 16px 32px;
+            font-size: 16px;
+            font-weight: 700;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: 600;
+            border-radius: 12px;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s;
+            font-family: 'Outfit', sans-serif;
         }
-
-        button:hover {
+        
+        .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
-
-        button:active {
-            transform: translateY(0);
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
-
+        
         .loading {
             text-align: center;
-            padding: 40px;
+            padding: 30px;
             display: none;
         }
-
+        
+        .loading.show {
+            display: block;
+        }
+        
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
-            border-radius: 50%;
             width: 50px;
             height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
+            margin: 0 auto 15px;
         }
-
+        
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
-
+        
+        .profile-section {
+            display: none;
+        }
+        
+        .profile-section.show {
+            display: block;
+        }
+        
         .profile-header {
             display: flex;
-            align-items: center;
             gap: 20px;
-            margin-bottom: 30px;
+            align-items: start;
+            margin-bottom: 25px;
             padding-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        .profile-image {
-            width: 100px;
-            height: 100px;
+        
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
+            border: 3px solid #667eea;
             object-fit: cover;
-            border: 4px solid #667eea;
         }
-
-        .profile-info h2 {
-            color: #333;
-            margin-bottom: 5px;
+        
+        .profile-info {
+            flex: 1;
         }
-
-        .profile-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 30px;
+        
+        .profile-name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6em;
+            font-weight: 800;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
         }
-
-        .stat-box {
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
+        
+        .profile-username {
             color: #667eea;
+            font-size: 1em;
+            margin-bottom: 12px;
+            font-weight: 600;
         }
-
-        .stat-label {
+        
+        .profile-bio {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
             font-size: 14px;
-            color: #666;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            flex: 1;
+        }
+        
+        .stat-value {
+            font-size: 1.3em;
+            font-weight: 800;
+            color: #667eea;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .stat-label {
+            font-size: 0.75em;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2px;
+        }
+        
+        .score-card {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+        }
+        
+        .score-value {
+            font-size: 4em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: -3px;
+        }
+        
+        .score-label {
+            font-size: 1em;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
             margin-top: 5px;
         }
-
-        .score-circle {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: conic-gradient(#667eea var(--score), #e0e0e0 0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            position: relative;
-        }
-
-        .score-circle::before {
-            content: '';
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            background: white;
-            position: absolute;
-        }
-
-        .score-value {
-            position: relative;
-            z-index: 1;
-            font-size: 32px;
-            font-weight: 700;
-            color: #667eea;
-        }
-
+        
         .analysis-section {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
-
-        .analysis-section h3 {
-            color: #333;
-            margin-bottom: 15px;
+        
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3em;
+            font-weight: 800;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            letter-spacing: -0.5px;
         }
-
-        .analysis-content {
-            background: #f8f9fa;
-            padding: 20px;
+        
+        .analysis-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 15px;
             border-radius: 10px;
-            line-height: 1.6;
-        }
-
-        .analysis-content ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .analysis-content li {
-            padding: 8px 0;
-            padding-left: 25px;
-            position: relative;
-        }
-
-        .analysis-content li::before {
-            content: '•';
-            position: absolute;
-            left: 0;
-            color: #667eea;
-            font-weight: bold;
-            font-size: 20px;
-        }
-
-        .improved-bio {
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 15px;
-            border-left: 4px solid #667eea;
-        }
-
-        .copy-btn {
-            margin-top: 15px;
-            width: auto;
-            padding: 10px 20px;
+            margin-bottom: 10px;
+            border-left: 3px solid #667eea;
             font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .strength {
+            border-left-color: #4cd964;
+        }
+        
+        .weakness {
+            border-left-color: #ff4757;
+        }
+        
+        .new-bio {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+        }
+        
+        .new-bio-text {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .copy-btn {
             background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Outfit', sans-serif;
         }
-
+        
         .error {
-            background: #fee;
-            color: #c33;
-            padding: 15px;
+            background: rgba(255, 71, 87, 0.15);
+            color: #ff4757;
+            padding: 12px 15px;
             border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 4px solid #c33;
+            margin-top: 15px;
             display: none;
+            font-size: 14px;
         }
-
-        .results {
-            display: none;
+        
+        .error.show {
+            display: block;
         }
-
+        
         @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2em;
+            .creator-badge {
+                position: static;
+                margin: 0 auto 15px;
+                width: fit-content;
             }
-
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
             .profile-header {
                 flex-direction: column;
+                align-items: center;
                 text-align: center;
             }
-
+            
             .profile-stats {
-                grid-template-columns: 1fr;
+                justify-content: center;
             }
-        }
-
-        .username-prefix {
-            color: #999;
-            font-weight: normal;
         }
     </style>
 </head>
 <body>
+    <div class="creator-badge">
+        ✨ Created by: <strong>paypaleth.eth</strong>
+    </div>
+    
     <div class="container">
         <div class="header">
-            <h1>🎯 Profile Optimizer</h1>
-            <p class="subtitle">AI-powered Farcaster profile analysis</p>
-            <p class="credit">✨ Created by: <strong>paypaleth.eth</strong></p>
+            <div class="logo">🎯</div>
+            <h1>Optimizer</h1>
+            <p>AI-powered Farcaster profile analysis</p>
         </div>
-
-        <div class="card">
+        
+        <div class="card search-section">
             <div class="input-group">
-                <label for="username">Farcaster Username</label>
                 <input 
                     type="text" 
                     id="username" 
-                    placeholder="Enter username (without @)"
-                    autocomplete="off"
-                >
+                    placeholder="Enter username (without @)" 
+                />
+                <button class="btn" id="analyzeBtn">
+                    Analyze Profile ✨
+                </button>
             </div>
-            <button onclick="analyzeProfile()">Analyze Profile ✨</button>
             <div class="error" id="error"></div>
-        </div>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Fetching profile data...</p>
-        </div>
-
-        <div class="card results" id="results">
-            <div class="profile-header">
-                <img src="" alt="Profile" class="profile-image" id="profileImage">
-                <div class="profile-info">
-                    <h2 id="displayName"></h2>
-                    <p id="usernameDiplay"></p>
-                </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <div id="loadingText">Fetching profile data...</div>
             </div>
-
-            <div class="profile-stats">
-                <div class="stat-box">
-                    <div class="stat-value" id="followers">0</div>
-                    <div class="stat-label">Followers</div>
-                </div>
-                <div class="stat-box">
-                    <div class="stat-value" id="following">0</div>
-                    <div class="stat-label">Following</div>
-                </div>
-                <div class="stat-box">
-                    <div class="score-circle" id="scoreCircle" style="--score: 0%">
-                        <div class="score-value" id="score">-</div>
+        </div>
+        
+        <div class="profile-section" id="results">
+            <div class="card">
+                <div class="profile-header">
+                    <img id="avatar" class="profile-avatar" alt="Profile" />
+                    <div class="profile-info">
+                        <div class="profile-name" id="displayName"></div>
+                        <div class="profile-username" id="usernameDisplay"></div>
+                        <div class="profile-bio" id="currentBio"></div>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <div class="stat-value" id="followers">0</div>
+                                <div class="stat-label">Followers</div>
+                            </div>
+                            <div class="stat">
+                                <div class="stat-value" id="following">0</div>
+                                <div class="stat-label">Following</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="stat-label">Profile Score</div>
                 </div>
-            </div>
-
-            <div class="analysis-section">
-                <h3>✨ Strengths</h3>
-                <div class="analysis-content" id="strengths"></div>
-            </div>
-
-            <div class="analysis-section">
-                <h3>⚠️ Areas to Improve</h3>
-                <div class="analysis-content" id="improvements"></div>
-            </div>
-
-            <div class="analysis-section">
-                <h3>💡 Suggestions</h3>
-                <div class="analysis-content" id="suggestions"></div>
-            </div>
-
-            <div class="analysis-section">
-                <h3>✍️ Improved Bio</h3>
-                <div class="improved-bio" id="improvedBio"></div>
-                <button class="copy-btn" onclick="copyBio()">📋 Copy Bio</button>
+                
+                <div class="score-card">
+                    <div class="score-value" id="overallScore">-</div>
+                    <div class="score-label">Profile Score</div>
+                </div>
+                
+                <div class="analysis-section">
+                    <h3 class="section-title">✨ Strengths</h3>
+                    <div id="strengths"></div>
+                </div>
+                
+                <div class="analysis-section">
+                    <h3 class="section-title">⚠️ Areas to Improve</h3>
+                    <div id="weaknesses"></div>
+                </div>
+                
+                <div class="analysis-section">
+                    <h3 class="section-title">💡 Suggestions</h3>
+                    <div id="suggestions"></div>
+                </div>
+                
+                <div class="analysis-section">
+                    <h3 class="section-title">✍️ Improved Bio</h3>
+                    <div class="new-bio">
+                        <div class="new-bio-text" id="newBio"></div>
+                        <button class="copy-btn" id="copyBtn">📋 Copy Bio</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <script type="module">
+        const { sdk } = await import('https://esm.sh/@farcaster/miniapp-sdk');
+        await sdk.actions.ready();
+    </script>
+
     <script>
-    const NEYNAR_API_KEY = 'NEYNAR_API_DOCS';
-    const OPENROUTER_API_KEY = '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';
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const input = document.getElementById('username');
-        input.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                analyzeProfile();
-            }
+        // Event listeners
+        document.getElementById('analyzeBtn').addEventListener('click', analyzeProfile);
+        document.getElementById('username').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') analyzeProfile();
         });
-    });
-
-    async function analyzeProfile() {
-        const username = document.getElementById('username').value.trim().replace('@', '');
-        const loading = document.getElementById('loading');
-        const results = document.getElementById('results');
-        const error = document.getElementById('error');
-
-        if (!username) {
-            showError('Please enter a username');
-            return;
-        }
-
-        error.style.display = 'none';
-        results.style.display = 'none';
-        loading.style.display = 'block';
-
-        try {
-            const profileData = await fetchProfileData(username);
-            const analysis = await analyzeWithAI(profileData);
-            displayResults(profileData, analysis);
-        } catch (error) {
-            console.error('Error in analyzeProfile:', error);
-            showError('Failed to analyze profile. Please try again.');
-        } finally {
-            loading.style.display = 'none';
-        }
-    }
-
-    // ⬇️ فقط این خط رو اضافه کردم
-    window.analyzeProfile = analyzeProfile;
-
-    async function fetchProfileData(username) {
-        const response = await fetch(`https://api.neynar.com/v2/farcaster/user/by_username?username=${username}`, {
-            headers: {
-                'accept': 'application/json',
-                'api_key': NEYNAR_API_KEY
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch profile');
-        }
-
-        const data = await response.json();
-        return data.user;
-    }
-
-    async function analyzeWithAI(profileData) {
-        const prompt = `Analyze this Farcaster profile and provide detailed feedback:
-
-Username: ${profileData.username}
-Display Name: ${profileData.display_name || 'Not set'}
-Bio: ${profileData.profile.bio.text || 'No bio'}
-Followers: ${profileData.follower_count}
-Following: ${profileData.following_count}
-Verified Addresses: ${profileData.verified_addresses?.eth_addresses?.length || 0}
-
-Please provide:
-1. A profile score (0-100)
-2. Key strengths (as bullet points)
-3. Areas to improve (as bullet points)
-4. Specific actionable suggestions (as bullet points)
-5. An improved version of their bio (keep it concise and engaging)
-
-Format your response as JSON with these exact keys:
-{
-    "score": number,
-    "strengths": ["strength1", "strength2", ...],
-    "improvements": ["improvement1", "improvement2", ...],
-    "suggestions": ["suggestion1", "suggestion2", ...],
-    "improvedBio": "string"
-}`;
-
-        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
-                'Content-Type': 'application/json',
-                'HTTP-Referer': window.location.href,
-                'X-Title': 'Farcaster Profile Optimizer'
-            },
-            body: JSON.stringify({
-                model: 'meta-llama/llama-3.2-3b-instruct:free',
-                messages: [
-                    {
-                        role: 'user',
-                        content: prompt
-                    }
-                ],
-                response_format: { type: 'json_object' }
-            })
-        });
-
-        if (!response.ok) {
-            throw new Error('AI analysis failed');
-        }
-
-        const data = await response.json();
-        return JSON.parse(data.choices[0].message.content);
-    }
-
-    function displayResults(profileData, analysis) {
-        document.getElementById('profileImage').src = profileData.pfp_url;
-        document.getElementById('displayName').textContent = profileData.display_name || profileData.username;
-        document.getElementById('usernameDiplay').innerHTML = `<span class="username-prefix">@</span>${profileData.username}`;
-        document.getElementById('followers').textContent = profileData.follower_count.toLocaleString();
-        document.getElementById('following').textContent = profileData.following_count.toLocaleString();
+        document.getElementById('copyBtn').addEventListener('click', copyBio);
         
-        const score = analysis.score;
-        document.getElementById('score').textContent = score;
-        document.getElementById('scoreCircle').style.setProperty('--score', `${(score/100) * 360}deg`);
-
-        document.getElementById('strengths').innerHTML = createList(analysis.strengths);
-        document.getElementById('improvements').innerHTML = createList(analysis.improvements);
-        document.getElementById('suggestions').innerHTML = createList(analysis.suggestions);
-        document.getElementById('improvedBio').textContent = analysis.improvedBio;
-
-        document.getElementById('results').style.display = 'block';
-    }
-
-    function createList(items) {
-        return '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
-    }
-
-    function showError(message) {
-        const error = document.getElementById('error');
-        error.textContent = message;
-        error.style.display = 'block';
-    }
-
-    function copyBio() {
-        const bio = document.getElementById('improvedBio').textContent;
-        navigator.clipboard.writeText(bio).then(() => {
-            const btn = event.target;
-            const originalText = btn.textContent;
-            btn.textContent = '✅ Copied!';
-            setTimeout(() => {
-                btn.textContent = originalText;
-            }, 2000);
-        });
-    }
+        async function analyzeProfile() {
+            const username = document.getElementById('username').value.trim();
+            
+            if (!username) {
+                showError('Please enter a username');
+                return;
+            }
+            
+            document.getElementById('error').classList.remove('show');
+            document.getElementById('results').classList.remove('show');
+            document.getElementById('loading').classList.add('show');
+            document.getElementById('analyzeBtn').disabled = true;
+            
+            try {
+                updateLoadingText('Fetching profile data...');
+                const user = await fetchUserProfile(username);
+                
+                updateLoadingText('Analyzing recent casts...');
+                const casts = await fetchUserCasts(user.fid);
+                
+                displayProfile(user);
+                displayAnalysisResults(user, casts);
+                
+                document.getElementById('loading').classList.remove('show');
+                document.getElementById('results').classList.add('show');
+                
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('loading').classList.remove('show');
+                showError(error.message || 'Failed to analyze profile');
+            } finally {
+                document.getElementById('analyzeBtn').disabled = false;
+            }
+        }
+        
+        async function fetchUserProfile(username) {
+            const response = await fetch(`/api/user?username=${encodeURIComponent(username)}`);
+            if (!response.ok) throw new Error('User not found');
+            const data = await response.json();
+            if (data.result && data.result.user) return data.result.user;
+            throw new Error('User not found');
+        }
+        
+        async function fetchUserCasts(fid) {
+            try {
+                const response = await fetch(`/api/casts?fid=${fid}`);
+                if (!response.ok) return [];
+                const data = await response.json();
+                return data.result?.casts || [];
+            } catch (error) {
+                return [];
+            }
+        }
+        
+        function displayProfile(user) {
+            document.getElementById('avatar').src = user.pfp.url;
+            document.getElementById('displayName').textContent = user.displayName;
+            document.getElementById('usernameDisplay').textContent = '@' + user.username;
+            document.getElementById('currentBio').textContent = user.profile.bio.text || 'No bio';
+            document.getElementById('followers').textContent = formatNumber(user.followerCount);
+            document.getElementById('following').textContent = formatNumber(user.followingCount);
+        }
+        
+        function displayAnalysisResults(user, casts) {
+            const ratio = user.followerCount / Math.max(user.followingCount, 1);
+            const hasBio = user.profile.bio.text && user.profile.bio.text.length > 5;
+            const bioText = hasBio ? user.profile.bio.text : '';
+            const bioLength = bioText.length;
+            
+            const avatarUrl = user.pfp.url.toLowerCase();
+            const isDefaultAvatar = avatarUrl.includes('avatar') || avatarUrl.includes('default') || 
+                                   avatarUrl.includes('placeholder') || avatarUrl.includes('identicon');
+            
+            // Score calculation
+            let score = 20;
+            
+            // Avatar (22 points max)
+            score += isDefaultAvatar ? 3 : 20;
+            
+            // Bio (30 points max)
+            if (!hasBio) {
+                score += 2;
+            } else {
+                const lowerBio = bioText.toLowerCase();
+                const hasEmoji = /[\p{Emoji}]/u.test(bioText);
+                const wordCount = bioText.split(/\s+/).length;
+                
+                const meaningfulWords = ['build', 'create', 'founder', 'developer', 'designer', 
+                                        'artist', 'crypto', 'web3', 'nft'];
+                const hasMeaningful = meaningfulWords.some(w => lowerBio.includes(w));
+                
+                let bioScore = 0;
+                if (bioLength < 20) bioScore = 5;
+                else if (bioLength < 50) bioScore = 12;
+                else if (bioLength < 100) bioScore = 18;
+                else bioScore = 22;
+                
+                if (hasMeaningful) bioScore += 5;
+                if (hasEmoji) bioScore += 3;
+                
+                score += Math.min(30, bioScore);
+            }
+            
+            // Name (15 points max)
+            const hasDisplayName = user.displayName && user.displayName !== user.username;
+            const usernameLength = user.username.length;
+            let nameScore = usernameLength <= 8 ? 8 : 5;
+            nameScore += hasDisplayName ? 7 : 2;
+            score += nameScore;
+            
+            // Network (20 points max)
+            let networkScore = 0;
+            if (user.followerCount < 50) networkScore += 3;
+            else if (user.followerCount < 150) networkScore += 6;
+            else if (user.followerCount < 500) networkScore += 9;
+            else networkScore += 12;
+            
+            if (ratio > 1.5) networkScore += 8;
+            else if (ratio > 0.8) networkScore += 5;
+            else networkScore += 2;
+            
+            score += Math.min(20, networkScore);
+            
+            // Bonus
+            if (!isDefaultAvatar && hasBio && bioLength > 50) score += 8;
+            
+            score = Math.min(92, Math.max(25, score));
+            
+            // Generate feedback
+            const strengths = [];
+            const weaknesses = [];
+            const suggestions = [];
+            
+            if (!isDefaultAvatar) strengths.push("Professional profile picture");
+            if (bioLength > 60) strengths.push("Well-written bio");
+            if (ratio > 1.2) strengths.push(`Strong ${ratio.toFixed(1)}:1 ratio`);
+            while (strengths.length < 3) strengths.push("Active on Farcaster");
+            
+            if (isDefaultAvatar) weaknesses.push("Missing profile picture");
+            if (bioLength < 30) weaknesses.push("Bio needs more detail");
+            if (!hasDisplayName) weaknesses.push("No display name set");
+            while (weaknesses.length < 3) weaknesses.push("Room for improvement");
+            
+            if (isDefaultAvatar) suggestions.push("Upload a profile picture");
+            if (bioLength < 60) suggestions.push("Write a detailed bio");
+            suggestions.push("Join relevant channels");
+            suggestions.push("Engage with the community");
+            suggestions.push("Post consistently");
+            
+            let newBio = user.displayName || user.username;
+            newBio += " | Building on Farcaster 🟣";
+            
+            document.getElementById('overallScore').textContent = score;
+            document.getElementById('strengths').innerHTML = strengths.map(s => 
+                `<div class="analysis-item strength">${s}</div>`).join('');
+            document.getElementById('weaknesses').innerHTML = weaknesses.map(w => 
+                `<div class="analysis-item weakness">${w}</div>`).join('');
+            document.getElementById('suggestions').innerHTML = suggestions.map(s => 
+                `<div class="analysis-item">${s}</div>`).join('');
+            document.getElementById('newBio').textContent = newBio;
+        }
+        
+        function copyBio() {
+            const bioText = document.getElementById('newBio').textContent;
+            navigator.clipboard.writeText(bioText).then(() => {
+                const btn = document.getElementById('copyBtn');
+                const orig = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => btn.textContent = orig, 2000);
+            });
+        }
+        
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+        
+        function updateLoadingText(text) {
+            document.getElementById('loadingText').textContent = text;
+        }
+        
+        function showError(message) {
+            const errorEl = document.getElementById('error');
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+        }
     </script>
 </body>
 </html>
