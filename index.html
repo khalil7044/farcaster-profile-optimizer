@@ -3,980 +3,524 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farcaster Profile Optimizer - AI Powered</title>
-    
-    <!-- Farcaster Frame Meta Tags -->
-    <meta property="fc:frame" content="vNext" />
-    <meta property="fc:frame:image" content="https://farcaster-profile-optimizer.vercel.app/preview.png" />
-    <meta property="fc:frame:button:1" content="Optimize My Profile" />
-    <meta property="fc:frame:button:1:action" content="link" />
-    <meta property="fc:frame:button:1:target" content="https://farcaster-profile-optimizer.vercel.app" />
-    
-    <!-- Farcaster Mini App -->
-    <meta name="fc:miniapp" content='{"version":"1","imageUrl":"https://farcaster-profile-optimizer.vercel.app/preview.png","button":{"title":"Optimize Profile","action":{"type":"launch_miniapp","name":"Profile Optimizer","url":"https://farcaster-profile-optimizer.vercel.app","splashImageUrl":"https://farcaster-profile-optimizer.vercel.app/splash.png","splashBackgroundColor":"#667eea"}}}' />
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="Farcaster Profile Optimizer" />
-    <meta property="og:description" content="AI-powered tool to optimize your Farcaster profile. Get personalized suggestions and improve your presence!" />
-    <meta property="og:image" content="https://farcaster-profile-optimizer.vercel.app/preview.png" />
-    <meta property="og:url" content="https://farcaster-profile-optimizer.vercel.app" />
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
+    <title>Farcaster Profile Optimizer</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 15px;
-            color: #fff;
-            position: relative;
-            overflow-x: hidden;
+            padding: 20px;
+            color: #333;
         }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
-        
+
         .container {
             max-width: 900px;
             margin: 0 auto;
-            position: relative;
-            z-index: 1;
         }
-        
-        .creator-badge {
-            position: fixed;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 8px 16px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 13px;
-            font-weight: 600;
-            z-index: 1000;
-        }
-        
+
         .header {
             text-align: center;
+            color: white;
             margin-bottom: 30px;
-            padding-top: 20px;
+            padding: 20px;
         }
-        
-        .logo {
-            font-size: 3em;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5));
-        }
-        
+
         .header h1 {
-            font-family: 'Montserrat', sans-serif;
             font-size: 2.5em;
-            font-weight: 900;
-            margin-bottom: 8px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -2px;
-            text-transform: uppercase;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
-        
-        .header p {
-            font-size: 1em;
+
+        .subtitle {
+            font-size: 1.1em;
             opacity: 0.9;
-            color: #a8b2d1;
         }
-        
+
+        .credit {
+            margin-top: 15px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
         .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
+            background: white;
             border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             margin-bottom: 20px;
         }
-        
-        .search-section {
-            text-align: center;
-        }
-        
+
         .input-group {
-            display: flex;
-            gap: 12px;
-            max-width: 600px;
-            margin: 0 auto;
-            flex-direction: column;
+            margin-bottom: 20px;
         }
-        
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
         input[type="text"] {
             width: 100%;
-            padding: 16px 20px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
             font-size: 16px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            outline: none;
             transition: all 0.3s;
-            font-family: 'Poppins', sans-serif;
-            color: white;
-            font-weight: 500;
         }
-        
-        input[type="text"]::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
+
         input[type="text"]:focus {
+            outline: none;
             border-color: #667eea;
-            background: rgba(255, 255, 255, 0.12);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
-        
-        .btn {
+
+        button {
             width: 100%;
-            padding: 16px 32px;
-            font-size: 16px;
-            font-weight: 700;
+            padding: 15px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            font-family: 'Poppins', sans-serif;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        
-        .btn:hover {
+
+        button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
-        
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+
+        button:active {
+            transform: translateY(0);
         }
-        
+
         .loading {
             text-align: center;
-            padding: 30px;
+            padding: 40px;
             display: none;
         }
-        
-        .loading.show {
-            display: block;
-        }
-        
+
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
+            border: 4px solid #f3f3f3;
             border-top: 4px solid #667eea;
             border-radius: 50%;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
         }
-        
+
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
-        
-        .profile-section {
-            display: none;
-        }
-        
-        .profile-section.show {
-            display: block;
-        }
-        
+
         .profile-header {
             display: flex;
+            align-items: center;
             gap: 20px;
-            align-items: start;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 2px solid #f0f0f0;
         }
-        
-        .profile-avatar {
-            width: 80px;
-            height: 80px;
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
-            border: 3px solid #667eea;
             object-fit: cover;
+            border: 4px solid #667eea;
         }
-        
-        .profile-info {
-            flex: 1;
+
+        .profile-info h2 {
+            color: #333;
+            margin-bottom: 5px;
         }
-        
-        .profile-name {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.6em;
-            font-weight: 800;
-            margin-bottom: 4px;
-            letter-spacing: -0.5px;
-        }
-        
-        .profile-username {
-            color: #667eea;
-            font-size: 1em;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-        
-        .profile-bio {
-            color: rgba(255, 255, 255, 0.8);
-            line-height: 1.5;
-            font-size: 14px;
-        }
-        
+
         .profile-stats {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin-top: 15px;
+            margin-bottom: 30px;
         }
-        
-        .stat {
-            text-align: center;
-            padding: 10px 15px;
-            background: rgba(255, 255, 255, 0.05);
+
+        .stat-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 15px;
             border-radius: 10px;
-            flex: 1;
-        }
-        
-        .stat-value {
-            font-size: 1.3em;
-            font-weight: 800;
-            color: #667eea;
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        
-        .stat-label {
-            font-size: 0.75em;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 2px;
-        }
-        
-        .score-card {
             text-align: center;
-            padding: 25px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
-            border-radius: 16px;
-            margin-bottom: 20px;
-            border: 2px solid rgba(102, 126, 234, 0.3);
         }
-        
-        .score-value {
-            font-size: 4em;
-            font-weight: 900;
-            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-family: 'Montserrat', sans-serif;
-            letter-spacing: -3px;
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
         }
-        
-        .score-label {
-            font-size: 1em;
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 600;
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
             margin-top: 5px;
         }
-        
-        .analysis-section {
-            margin-bottom: 20px;
-        }
-        
-        .section-title {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 1.3em;
-            font-weight: 800;
-            margin-bottom: 12px;
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: conic-gradient(#667eea var(--score), #e0e0e0 0);
             display: flex;
             align-items: center;
-            gap: 8px;
-            letter-spacing: -0.5px;
+            justify-content: center;
+            margin: 0 auto 20px;
+            position: relative;
         }
-        
-        .analysis-item {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 12px 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            border-left: 3px solid #667eea;
-            font-size: 14px;
-            line-height: 1.5;
+
+        .score-circle::before {
+            content: '';
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: white;
+            position: absolute;
         }
-        
-        .strength {
-            border-left-color: #4cd964;
+
+        .score-value {
+            position: relative;
+            z-index: 1;
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
         }
-        
-        .weakness {
-            border-left-color: #ff4757;
+
+        .analysis-section {
+            margin-bottom: 25px;
         }
-        
-        .new-bio {
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 12px;
-            border: 1px solid rgba(102, 126, 234, 0.3);
-        }
-        
-        .new-bio-text {
-            font-size: 1em;
-            line-height: 1.6;
+
+        .analysis-section h3 {
+            color: #333;
             margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
-        .copy-btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            font-family: 'Poppins', sans-serif;
+
+        .analysis-content {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            line-height: 1.6;
         }
-        
-        .error {
-            background: rgba(255, 71, 87, 0.15);
-            color: #ff4757;
-            padding: 12px 15px;
+
+        .analysis-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .analysis-content li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .analysis-content li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .improved-bio {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 20px;
             border-radius: 10px;
             margin-top: 15px;
-            display: none;
+            border-left: 4px solid #667eea;
+        }
+
+        .copy-btn {
+            margin-top: 15px;
+            width: auto;
+            padding: 10px 20px;
             font-size: 14px;
+            background: #667eea;
         }
-        
-        .error.show {
-            display: block;
+
+        .error {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #c33;
+            display: none;
         }
-        
+
+        .results {
+            display: none;
+        }
+
         @media (max-width: 768px) {
-            .creator-badge {
-                position: static;
-                margin: 0 auto 15px;
-                width: fit-content;
-            }
-            
             .header h1 {
-                font-size: 1.8em;
+                font-size: 2em;
             }
-            
+
             .profile-header {
                 flex-direction: column;
-                align-items: center;
                 text-align: center;
             }
-            
+
             .profile-stats {
-                justify-content: center;
+                grid-template-columns: 1fr;
             }
+        }
+
+        .username-prefix {
+            color: #999;
+            font-weight: normal;
         }
     </style>
 </head>
 <body>
-    <div class="creator-badge">
-        ✨ Created by: <strong>paypaleth.eth</strong>
-    </div>
-    
     <div class="container">
         <div class="header">
-            <div class="logo">🎯</div>
-            <h1>Profile Optimizer</h1>
-            <p>AI-powered Farcaster profile analysis</p>
+            <h1>🎯 Profile Optimizer</h1>
+            <p class="subtitle">AI-powered Farcaster profile analysis</p>
+            <p class="credit">✨ Created by: <strong>paypaleth.eth</strong></p>
         </div>
-        
-        <div class="card search-section">
+
+        <div class="card">
             <div class="input-group">
+                <label for="username">Farcaster Username</label>
                 <input 
                     type="text" 
                     id="username" 
-                    placeholder="Enter username (without @)" 
-                />
-                <button class="btn" onclick="analyzeProfile()" id="analyzeBtn">
-                    Analyze Profile ✨
-                </button>
+                    placeholder="Enter username (without @)"
+                    autocomplete="off"
+                >
             </div>
+            <button onclick="analyzeProfile()">Analyze Profile ✨</button>
             <div class="error" id="error"></div>
-            
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <div id="loadingText">Fetching profile data...</div>
-            </div>
         </div>
-        
-        <div class="profile-section" id="results">
-            <div class="card">
-                <div class="profile-header">
-                    <img id="avatar" class="profile-avatar" alt="Profile" />
-                    <div class="profile-info">
-                        <div class="profile-name" id="displayName"></div>
-                        <div class="profile-username" id="usernameDisplay"></div>
-                        <div class="profile-bio" id="currentBio"></div>
-                        <div class="profile-stats">
-                            <div class="stat">
-                                <div class="stat-value" id="followers">0</div>
-                                <div class="stat-label">Followers</div>
-                            </div>
-                            <div class="stat">
-                                <div class="stat-value" id="following">0</div>
-                                <div class="stat-label">Following</div>
-                            </div>
-                        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Fetching profile data...</p>
+        </div>
+
+        <div class="card results" id="results">
+            <div class="profile-header">
+                <img src="" alt="Profile" class="profile-image" id="profileImage">
+                <div class="profile-info">
+                    <h2 id="displayName"></h2>
+                    <p id="usernameDiplay"></p>
+                </div>
+            </div>
+
+            <div class="profile-stats">
+                <div class="stat-box">
+                    <div class="stat-value" id="followers">0</div>
+                    <div class="stat-label">Followers</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="following">0</div>
+                    <div class="stat-label">Following</div>
+                </div>
+                <div class="stat-box">
+                    <div class="score-circle" id="scoreCircle" style="--score: 0%">
+                        <div class="score-value" id="score">-</div>
                     </div>
+                    <div class="stat-label">Profile Score</div>
                 </div>
-                
-                <div class="score-card">
-                    <div class="score-value" id="overallScore">-</div>
-                    <div class="score-label">Profile Score</div>
-                </div>
-                
-                <div class="analysis-section">
-                    <h3 class="section-title">✨ Strengths</h3>
-                    <div id="strengths"></div>
-                </div>
-                
-                <div class="analysis-section">
-                    <h3 class="section-title">⚠️ Areas to Improve</h3>
-                    <div id="weaknesses"></div>
-                </div>
-                
-                <div class="analysis-section">
-                    <h3 class="section-title">💡 Suggestions</h3>
-                    <div id="suggestions"></div>
-                </div>
-                
-                <div class="analysis-section">
-                    <h3 class="section-title">✍️ Improved Bio</h3>
-                    <div class="new-bio">
-                        <div class="new-bio-text" id="newBio"></div>
-                        <button class="copy-btn" onclick="copyBio()">📋 Copy Bio</button>
-                    </div>
-                </div>
+            </div>
+
+            <div class="analysis-section">
+                <h3>✨ Strengths</h3>
+                <div class="analysis-content" id="strengths"></div>
+            </div>
+
+            <div class="analysis-section">
+                <h3>⚠️ Areas to Improve</h3>
+                <div class="analysis-content" id="improvements"></div>
+            </div>
+
+            <div class="analysis-section">
+                <h3>💡 Suggestions</h3>
+                <div class="analysis-content" id="suggestions"></div>
+            </div>
+
+            <div class="analysis-section">
+                <h3>✍️ Improved Bio</h3>
+                <div class="improved-bio" id="improvedBio"></div>
+                <button class="copy-btn" onclick="copyBio()">📋 Copy Bio</button>
             </div>
         </div>
     </div>
 
-    <script type="module">
-        const { sdk } = await import('https://esm.sh/@farcaster/miniapp-sdk');
-        await sdk.actions.ready();
-    </script>
-
     <script>
-        let currentUser = null;
-        let currentCasts = null;
-        
-        document.getElementById('username').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') analyzeProfile();
+    const NEYNAR_API_KEY = 'NEYNAR_API_DOCS';
+    const OPENROUTER_API_KEY = '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';
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('username');
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                analyzeProfile();
+            }
         });
+    });
+
+    async function analyzeProfile() {
+        const username = document.getElementById('username').value.trim().replace('@', '');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+        const error = document.getElementById('error');
+
+        if (!username) {
+            showError('Please enter a username');
+            return;
+        }
+
+        error.style.display = 'none';
+        results.style.display = 'none';
+        loading.style.display = 'block';
+
+        try {
+            const profileData = await fetchProfileData(username);
+            const analysis = await analyzeWithAI(profileData);
+            displayResults(profileData, analysis);
+        } catch (error) {
+            console.error('Error in analyzeProfile:', error);
+            showError('Failed to analyze profile. Please try again.');
+        } finally {
+            loading.style.display = 'none';
+        }
+    }
+
+    // ⬇️ فقط این خط رو اضافه کردم
+    window.analyzeProfile = analyzeProfile;
+
+    async function fetchProfileData(username) {
+        const response = await fetch(`https://api.neynar.com/v2/farcaster/user/by_username?username=${username}`, {
+            headers: {
+                'accept': 'application/json',
+                'api_key': NEYNAR_API_KEY
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch profile');
+        }
+
+        const data = await response.json();
+        return data.user;
+    }
+
+    async function analyzeWithAI(profileData) {
+        const prompt = `Analyze this Farcaster profile and provide detailed feedback:
+
+Username: ${profileData.username}
+Display Name: ${profileData.display_name || 'Not set'}
+Bio: ${profileData.profile.bio.text || 'No bio'}
+Followers: ${profileData.follower_count}
+Following: ${profileData.following_count}
+Verified Addresses: ${profileData.verified_addresses?.eth_addresses?.length || 0}
+
+Please provide:
+1. A profile score (0-100)
+2. Key strengths (as bullet points)
+3. Areas to improve (as bullet points)
+4. Specific actionable suggestions (as bullet points)
+5. An improved version of their bio (keep it concise and engaging)
+
+Format your response as JSON with these exact keys:
+{
+    "score": number,
+    "strengths": ["strength1", "strength2", ...],
+    "improvements": ["improvement1", "improvement2", ...],
+    "suggestions": ["suggestion1", "suggestion2", ...],
+    "improvedBio": "string"
+}`;
+
+        const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+                'Content-Type': 'application/json',
+                'HTTP-Referer': window.location.href,
+                'X-Title': 'Farcaster Profile Optimizer'
+            },
+            body: JSON.stringify({
+                model: 'meta-llama/llama-3.2-3b-instruct:free',
+                messages: [
+                    {
+                        role: 'user',
+                        content: prompt
+                    }
+                ],
+                response_format: { type: 'json_object' }
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('AI analysis failed');
+        }
+
+        const data = await response.json();
+        return JSON.parse(data.choices[0].message.content);
+    }
+
+    function displayResults(profileData, analysis) {
+        document.getElementById('profileImage').src = profileData.pfp_url;
+        document.getElementById('displayName').textContent = profileData.display_name || profileData.username;
+        document.getElementById('usernameDiplay').innerHTML = `<span class="username-prefix">@</span>${profileData.username}`;
+        document.getElementById('followers').textContent = profileData.follower_count.toLocaleString();
+        document.getElementById('following').textContent = profileData.following_count.toLocaleString();
         
-        window.analyzeProfile = async function() {
-            const username = document.getElementById('username').value.trim();
-            
-            if (!username) {
-                showError('Please enter a username');
-                return;
-            }
-            
-            document.getElementById('error').classList.remove('show');
-            document.getElementById('results').classList.remove('show');
-            document.getElementById('loading').classList.add('show');
-            document.getElementById('analyzeBtn').disabled = true;
-            
-            try {
-                updateLoadingText('Fetching profile data...');
-                currentUser = await fetchUserProfile(username);
-                
-                updateLoadingText('Analyzing recent casts...');
-                currentCasts = await fetchUserCasts(currentUser.fid);
-                
-                displayProfile(currentUser);
-                
-                updateLoadingText('AI is analyzing your profile...');
-                await analyzeWithAI(currentUser, currentCasts);
-                
-                document.getElementById('loading').classList.remove('show');
-                document.getElementById('results').classList.add('show');
-                
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('loading').classList.remove('show');
-                showError(error.message || 'Failed to analyze profile');
-            } finally {
-                document.getElementById('analyzeBtn').disabled = false;
-            }
-        }
-        
-        async function fetchUserProfile(username) {
-            try {
-                const response = await fetch(`/api/user?username=${encodeURIComponent(username)}`);
-                
-                if (!response.ok) throw new Error('User not found');
-                
-                const data = await response.json();
-                
-                if (data.result && data.result.user) {
-                    return data.result.user;
-                }
-                
-                throw new Error('User not found');
-            } catch (error) {
-                throw new Error('Failed to fetch user profile');
-            }
-        }
-        
-        async function fetchUserCasts(fid) {
-            try {
-                const response = await fetch(`/api/casts?fid=${fid}`);
-                
-                if (!response.ok) return [];
-                
-                const data = await response.json();
-                return data.result?.casts || [];
-            } catch (error) {
-                return [];
-            }
-        }
-        
-        function displayProfile(user) {
-            document.getElementById('avatar').src = user.pfp.url;
-            document.getElementById('displayName').textContent = user.displayName;
-            document.getElementById('usernameDisplay').textContent = '@' + user.username;
-            document.getElementById('currentBio').textContent = user.profile.bio.text || 'No bio';
-            document.getElementById('followers').textContent = formatNumber(user.followerCount);
-            document.getElementById('following').textContent = formatNumber(user.followingCount);
-        }
-        
-        async function analyzeWithAI(user, casts) {
-            try {
-                displayFallbackAnalysis(user, casts);
-            } catch (error) {
-                console.error('Analysis error:', error);
-                displayFallbackAnalysis(user, casts);
-            }
-        }
-        
-        function displayFallbackAnalysis(user, casts) {
-            console.log('🔍 Starting analysis for:', user.username);
-            
-            // Basic data
-            const ratio = user.followerCount / Math.max(user.followingCount, 1);
-            const hasBio = user.profile.bio.text && user.profile.bio.text.length > 5;
-            const bioText = hasBio ? user.profile.bio.text : '';
-            const bioLength = bioText.length;
-            
-            console.log('📊 Bio length:', bioLength);
-            console.log('👥 Followers:', user.followerCount, 'Following:', user.followingCount);
-            
-            // ==================== AVATAR ANALYSIS (25 points) ====================
-            let avatarScore = 0;
-            const avatarUrl = user.pfp.url.toLowerCase();
-            const isDefaultAvatar = avatarUrl.includes('avatar') || 
-                                   avatarUrl.includes('default') ||
-                                   avatarUrl.includes('placeholder') ||
-                                   avatarUrl.includes('identicon') ||
-                                   avatarUrl.includes('gravatar');
-            
-            if (isDefaultAvatar) {
-                avatarScore = 3; // Default avatar
-                console.log('🖼️ Avatar: Default (3 points)');
-            } else {
-                avatarScore = 22; // Custom avatar
-                console.log('🖼️ Avatar: Custom (22 points)');
-            }
-            
-            // ==================== BIO ANALYSIS (35 points) ====================
-            let bioScore = 0;
-            
-            if (!hasBio) {
-                bioScore = 2; // No bio at all
-                console.log('📝 Bio: None (2 points)');
-            } else {
-                const lowerBio = bioText.toLowerCase();
-                
-                // Length scoring (base 0-18)
-                if (bioLength < 15) {
-                    bioScore += 4; // Too short
-                } else if (bioLength < 40) {
-                    bioScore += 10; // Short
-                } else if (bioLength < 80) {
-                    bioScore += 15; // Good
-                } else if (bioLength < 140) {
-                    bioScore += 18; // Great
-                } else {
-                    bioScore += 16; // Too long
-                }
-                
-                // Quality factors (0-17 additional)
-                const hasEmoji = /[\p{Emoji}]/u.test(bioText);
-                const wordCount = bioText.split(/\s+/).length;
-                
-                // Check for meaningful content (not just generic words)
-                const meaningfulWords = ['build', 'create', 'founder', 'developer', 'designer', 
-                                        'artist', 'writer', 'engineer', 'product', 'crypto',
-                                        'web3', 'nft', 'defi', 'dao', 'token', 'community',
-                                        'protocol', 'blockchain', 'music', 'art', 'code',
-                                        'invest', 'trade', 'research', 'learn', 'teach'];
-                
-                const hasMeaningfulContent = meaningfulWords.some(word => lowerBio.includes(word));
-                
-                // Check if it's generic garbage
-                const genericPhrases = ['crypto enthusiast', 'web3 builder', 'degen', 'gm', 'wagmi'];
-                const isGeneric = genericPhrases.some(phrase => lowerBio === phrase) || 
-                                 (wordCount <= 2 && bioLength < 20);
-                
-                // Quality bonuses
-                if (hasMeaningfulContent && !isGeneric) bioScore += 7; // Real content
-                if (hasEmoji && bioLength > 20) bioScore += 4; // Emojis used well
-                if (wordCount >= 5 && bioLength >= 40) bioScore += 3; // Substantial
-                if (lowerBio.includes('|') && bioLength > 30) bioScore += 2; // Structured
-                
-                // Penalties
-                if (isGeneric) bioScore -= 5;
-                if (bioLength > 150) bioScore -= 2; // Too wordy
-                
-                console.log('📝 Bio:', bioLength, 'chars,', wordCount, 'words ->', bioScore, 'points');
-            }
-            
-            bioScore = Math.max(2, Math.min(35, bioScore));
-            
-            // ==================== USERNAME/DISPLAY NAME (20 points) ====================
-            let nameScore = 0;
-            const hasDisplayName = user.displayName && user.displayName !== user.username;
-            const displayNameLength = user.displayName ? user.displayName.length : 0;
-            
-            // Username quality
-            const username = user.username.toLowerCase();
-            const usernameLength = username.length;
-            
-            // Shorter is better for username
-            let usernameQuality = 0;
-            if (usernameLength <= 6) usernameQuality = 10; // Perfect short
-            else if (usernameLength <= 10) usernameQuality = 8; // Good
-            else if (usernameLength <= 15) usernameQuality = 5; // Ok
-            else usernameQuality = 3; // Too long
-            
-            // Check if username looks random
-            const hasNumbers = /\d{3,}/.test(username); // 3+ numbers in a row
-            const hasRandomChars = /[_\-]{2,}/.test(username); // Multiple special chars
-            const isRandom = hasNumbers || hasRandomChars;
-            
-            if (isRandom) usernameQuality -= 3;
-            
-            // Display name
-            let displayNameQuality = 0;
-            if (hasDisplayName) {
-                if (displayNameLength >= 3 && displayNameLength <= 20) {
-                    displayNameQuality = 10; // Good display name
-                } else if (displayNameLength > 20) {
-                    displayNameQuality = 6; // Too long
-                } else {
-                    displayNameQuality = 4; // Too short
-                }
-            } else {
-                displayNameQuality = 3; // No display name
-            }
-            
-            nameScore = usernameQuality + displayNameQuality;
-            nameScore = Math.max(5, Math.min(20, nameScore));
-            
-            console.log('👤 Username:', username, '-> Quality:', usernameQuality);
-            console.log('📛 Display name:', hasDisplayName ? user.displayName : 'None', '-> Quality:', displayNameQuality);
-            console.log('✅ Name total:', nameScore, 'points');
-            
-            // ==================== NETWORK SCORE (20 points) ====================
-            let networkScore = 0;
-            
-            // Follower count (0-12 points) - More realistic
-            if (user.followerCount < 10) {
-                networkScore += 1;
-            } else if (user.followerCount < 50) {
-                networkScore += 3;
-            } else if (user.followerCount < 100) {
-                networkScore += 5;
-            } else if (user.followerCount < 200) {
-                networkScore += 6;
-            } else if (user.followerCount < 500) {
-                networkScore += 8;
-            } else if (user.followerCount < 1000) {
-                networkScore += 10;
-            } else if (user.followerCount < 3000) {
-                networkScore += 11;
-            } else {
-                networkScore += 12;
-            }
-            
-            // Ratio quality (0-8 points)
-            if (ratio < 0.2) {
-                networkScore += 1; // Way too many following
-            } else if (ratio < 0.5) {
-                networkScore += 2;
-            } else if (ratio < 0.8) {
-                networkScore += 4;
-            } else if (ratio < 1.5) {
-                networkScore += 6; // Balanced
-            } else if (ratio < 5) {
-                networkScore += 8; // Good ratio
-            } else if (ratio < 20) {
-                networkScore += 7; // Very high
-            } else {
-                networkScore += 4; // Suspiciously high
-            }
-            
-            console.log('🌐 Network: Followers', user.followerCount, 'Ratio', ratio.toFixed(2), '->', networkScore, 'points');
-            
-            // ==================== CALCULATE TOTAL ====================
-            let totalScore = avatarScore + bioScore + nameScore + networkScore;
-            
-            // Bonus for complete profile
-            if (!isDefaultAvatar && hasBio && bioLength > 50 && hasDisplayName) {
-                totalScore += 8;
-                console.log('🎁 Complete profile bonus: +8');
-            }
-            
-            // Final realistic range: 20-92
-            totalScore = Math.max(20, Math.min(92, Math.round(totalScore)));
-            
-            console.log('🎯 FINAL SCORE:', totalScore);
-            console.log('Breakdown: Avatar', avatarScore, '+ Bio', bioScore, '+ Name', nameScore, '+ Network', networkScore);
-            
-            // ==================== GENERATE FEEDBACK ====================
-            const strengths = [];
-            const weaknesses = [];
-            const suggestions = [];
-            
-            // Strengths
-            if (avatarScore >= 20) {
-                strengths.push("Professional profile picture builds trust and recognition");
-            }
-            if (bioScore >= 25) {
-                strengths.push("Well-crafted bio effectively communicates your identity");
-            } else if (bioScore >= 15) {
-                strengths.push("Bio provides helpful context about who you are");
-            }
-            if (nameScore >= 16) {
-                strengths.push("Strong username and display name combination");
-            } else if (nameScore >= 12) {
-                strengths.push("Memorable username that's easy to find");
-            }
-            if (ratio > 1.5 && user.followerCount > 100) {
-                strengths.push(`Excellent network quality with ${ratio.toFixed(1)}:1 ratio`);
-            } else if (ratio > 0.8) {
-                strengths.push("Healthy follower/following balance");
-            }
-            if (user.followerCount > 500) {
-                strengths.push(`Strong community of ${formatNumber(user.followerCount)} followers`);
-            } else if (user.followerCount > 100) {
-                strengths.push("Growing audience shows increasing influence");
-            }
-            
-            while (strengths.length < 3) {
-                strengths.push("You're actively building on Farcaster");
-            }
-            
-            // Weaknesses
-            if (avatarScore < 15) {
-                weaknesses.push("Default avatar - add a photo or logo to stand out");
-            }
-            if (bioScore < 10) {
-                weaknesses.push("Missing or very brief bio - visitors need context");
-            } else if (bioScore < 20) {
-                weaknesses.push("Bio could be more descriptive and engaging");
-            }
-            if (nameScore < 12) {
-                weaknesses.push("Username/display name could be more memorable");
-            }
-            if (ratio < 0.5 && user.followerCount < 50) {
-                weaknesses.push("Following many more people than follow you back");
-            }
-            if (user.followerCount < 20) {
-                weaknesses.push("Limited followers - profile needs more visibility");
-            }
-            
-            while (weaknesses.length < 3) {
-                weaknesses.push("Profile has room for optimization");
-            }
-            
-            // Suggestions
-            if (isDefaultAvatar) {
-                suggestions.push("🎨 Upload a profile picture - clear photo or logo");
-            }
-            if (!hasBio || bioLength < 50) {
-                suggestions.push("✍️ Write 60-120 char bio: expertise + interests + personality");
-            } else if (bioScore < 20) {
-                suggestions.push("📝 Make bio more specific about your expertise");
-            }
-            if (!hasDisplayName || displayNameLength < 3) {
-                suggestions.push("👤 Set a memorable display name");
-            }
-            if (ratio < 0.7 && user.followingCount > 100) {
-                suggestions.push("🎯 Unfollow inactive accounts, focus on quality");
-            }
-            
-            suggestions.push("💬 Engage in channels matching your interests");
-            
-            while (suggestions.length < 5) {
-                suggestions.push("🤝 Build connections through thoughtful interactions");
-            }
-            
-            // Generate bio
-            let newBio = generateSmartBio(user, casts, bioText);
-            
-            displayAnalysis({ 
-                score: totalScore, 
-                strengths: strengths.slice(0, 3), 
-                weaknesses: weaknesses.slice(0, 3), 
-                suggestions: suggestions.slice(0, 5), 
-                newBio 
-            });
-        }
-        
-        function generateSmartBio(user, casts, currentBio) {
-            const displayName = user.displayName || user.username;
-            
-            // If they have a good bio already, keep it
-            if (currentBio.length > 60 && currentBio.length < 150) {
-                const hasEmoji = /[\p{Emoji}]/u.test(currentBio);
-                if (!hasEmoji) {
-                    return currentBio.trim() + " 🚀";
-                }
-                return currentBio;
-            }
-            
-            // Detect interests from casts
-            let interests = [];
-            if (casts.length > 0) {
-                const allText = casts.map(c => c.text.toLowerCase()).join(' ');
-                if (allText.includes('build') || allText.includes('dev')) interests.push('building');
-                if (allText.includes('crypto') || allText.includes('web3')) interests.push('crypto');
-                if (allText.includes('nft')) interests.push('NFTs');
-                if (allText.includes('art') || allText.includes('design')) interests.push('design');
-                if (allText.includes('music')) interests.push('music');
-            }
-            
-            let bio = displayName;
-            if (interests.length > 0) {
-                bio += ` | ${interests.slice(0, 2).join(' & ')} enthusiast`;
-            } else {
-                bio += " | Creator";
-            }
-            bio += " | Building on Farcaster 🟣";
-            
-            return bio.substring(0, 160);
-        }
-            const displayName = user.displayName || user.username;
-            
-            // Detect interests from casts
-            let interests = [];
-            if (casts.length > 0) {
-                const allText = casts.map(c => c.text.toLowerCase()).join(' ');
-                if (allText.includes('crypto') || allText.includes('web3') || allText.includes('eth')) {
-                    interests.push('crypto');
-                }
-                if (allText.includes('build') || allText.includes('dev') || allText.includes('code')) {
-                    interests.push('building');
-                }
-                if (allText.includes('art') || allText.includes('design')) {
-                    interests.push('design');
-                }
-                if (allText.includes('nft')) {
-                    interests.push('NFTs');
-                }
-            }
-            
-            if (hasBio && bioLength > 50 && !isGenericBio) {
-                // Keep their good bio, just polish it
-                newBio = user.profile.bio.text;
-                if (!hasEmoji) {
-                    newBio = newBio.trim() + " 🚀";
-                }
-            } else if (interests.length > 0) {
-                // Create based on interests
-                const interestStr = interests.slice(0, 2).join(' & ');
-                newBio = `${displayName} | Passionate about ${interestStr} | Building on Farcaster 🟣`;
-            } else {
-                // Generic but personal
-                newBio = `${displayName} | Exploring web3 & digital culture | Let's connect 🤝`;
-            }
-            
-            // Ensure under 160 chars
-            if (newBio.length > 160) {
-                newBio = newBio.substring(0, 157) + "...";
-            }
-            
-            displayAnalysis({ 
-                score, 
-                strengths: strengths.slice(0, 3), 
-                weaknesses: weaknesses.slice(0, 3), 
-                suggestions: suggestions.slice(0, 5), 
-                newBio 
-            });
-        }
-        
-        function displayAnalysis(analysis) {
-            document.getElementById('overallScore').textContent = analysis.score;
-            
-            document.getElementById('strengths').innerHTML = analysis.strengths
-                .map(s => `<div class="analysis-item strength">${s}</div>`).join('');
-            
-            document.getElementById('weaknesses').innerHTML = analysis.weaknesses
-                .map(w => `<div class="analysis-item weakness">${w}</div>`).join('');
-            
-            document.getElementById('suggestions').innerHTML = analysis.suggestions
-                .map(s => `<div class="analysis-item">${s}</div>`).join('');
-            
-            document.getElementById('newBio').textContent = analysis.newBio;
-        }
-        
-        function copyBio() {
-            const bioText = document.getElementById('newBio').textContent;
-            navigator.clipboard.writeText(bioText).then(() => {
-                const btn = event.target;
-                const orig = btn.textContent;
-                btn.textContent = '✅ Copied!';
-                setTimeout(() => btn.textContent = orig, 2000);
-            });
-        }
-        
-        function formatNumber(num) {
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num.toString();
-        }
-        
-        function updateLoadingText(text) {
-            document.getElementById('loadingText').textContent = text;
-        }
-        
-        function showError(message) {
-            const errorEl = document.getElementById('error');
-            errorEl.textContent = message;
-            errorEl.classList.add('show');
-        }
+        const score = analysis.score;
+        document.getElementById('score').textContent = score;
+        document.getElementById('scoreCircle').style.setProperty('--score', `${(score/100) * 360}deg`);
+
+        document.getElementById('strengths').innerHTML = createList(analysis.strengths);
+        document.getElementById('improvements').innerHTML = createList(analysis.improvements);
+        document.getElementById('suggestions').innerHTML = createList(analysis.suggestions);
+        document.getElementById('improvedBio').textContent = analysis.improvedBio;
+
+        document.getElementById('results').style.display = 'block';
+    }
+
+    function createList(items) {
+        return '<ul>' + items.map(item => `<li>${item}</li>`).join('') + '</ul>';
+    }
+
+    function showError(message) {
+        const error = document.getElementById('error');
+        error.textContent = message;
+        error.style.display = 'block';
+    }
+
+    function copyBio() {
+        const bio = document.getElementById('improvedBio').textContent;
+        navigator.clipboard.writeText(bio).then(() => {
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '✅ Copied!';
+            setTimeout(() => {
+                btn.textContent = originalText;
+            }, 2000);
+        });
+    }
     </script>
 </body>
 </html>
