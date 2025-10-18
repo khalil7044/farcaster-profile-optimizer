@@ -558,6 +558,8 @@
         }
         
         function displayAnalysisResults(user, casts) {
+            console.log('🔍 Analyzing profile:', user.username);
+            
             const ratio = user.followerCount / Math.max(user.followingCount, 1);
             const hasBio = user.profile.bio.text && user.profile.bio.text.length > 5;
             const bioText = hasBio ? user.profile.bio.text : '';
@@ -567,93 +569,397 @@
             const isDefaultAvatar = avatarUrl.includes('avatar') || avatarUrl.includes('default') || 
                                    avatarUrl.includes('placeholder') || avatarUrl.includes('identicon');
             
-            // Score calculation
-            let score = 20;
+            let totalScore = 0;
+            const scoreBreakdown = {};
             
-            // Avatar (22 points max)
-            score += isDefaultAvatar ? 3 : 20;
+            // ========== 1. AVATAR (20 points) ==========
+            let avatarScore = 0;
+            if (isDefaultAvatar) {
+                avatarScore = 3;
+            } else {
+                avatarScore = 18;
+            }
+            scoreBreakdown.avatar = avatarScore;
+            totalScore += avatarScore;
+            console.log('🖼️ Avatar:', avatarScore);
             
-            // Bio (30 points max)
+            // ========== 2. BIO ANALYSIS (25 points) ==========
+            let bioScore = 0;
+            let bioQuality = 'none';
+            
             if (!hasBio) {
-                score += 2;
+                bioScore = 2;
+                bioQuality = 'empty';
             } else {
                 const lowerBio = bioText.toLowerCase();
                 const hasEmoji = /[\p{Emoji}]/u.test(bioText);
                 const wordCount = bioText.split(/\s+/).length;
                 
+                // Meaningful content check
                 const meaningfulWords = ['build', 'create', 'founder', 'developer', 'designer', 
-                                        'artist', 'crypto', 'web3', 'nft'];
+                                        'artist', 'crypto', 'web3', 'nft', 'defi', 'dao',
+                                        'engineer', 'product', 'community', 'protocol'];
                 const hasMeaningful = meaningfulWords.some(w => lowerBio.includes(w));
                 
-                let bioScore = 0;
-                if (bioLength < 20) bioScore = 5;
-                else if (bioLength < 50) bioScore = 12;
-                else if (bioLength < 100) bioScore = 18;
-                else bioScore = 22;
+                // Generic check
+                const isGeneric = (bioLength < 15) || (wordCount <= 2);
                 
-                if (hasMeaningful) bioScore += 5;
-                if (hasEmoji) bioScore += 3;
+                // Length scoring
+                if (bioLength < 20) {
+                    bioScore = 5;
+                    bioQuality = 'too short';
+                } else if (bioLength < 50) {
+                    bioScore = 10;
+                    bioQuality = 'short';
+                } else if (bioLength < 100) {
+                    bioScore = 16;
+                    bioQuality = 'good';
+                } else if (bioLength <= 160) {
+                    bioScore = 20;
+                    bioQuality = 'excellent';
+                } else {
+                    bioScore = 15;
+                    bioQuality = 'too long';
+                }
                 
-                score += Math.min(30, bioScore);
+                // Quality bonuses
+                if (hasMeaningful && !isGeneric) bioScore += 4;
+                if (hasEmoji && bioLength > 20) bioScore += 2;
+                if (wordCount >= 8) bioScore += 2;
+                
+                // Penalty
+                if (isGeneric) bioScore -= 3;
             }
             
-            // Name (15 points max)
+            bioScore = Math.max(2, Math.min(25, bioScore));
+            scoreBreakdown.bio = bioScore;
+            totalScore += bioScore;
+            console.log('📝 Bio:', bioScore, '(', bioQuality, ')');
+            
+            // ========== 3. DISPLAY NAME (15 points) ==========
+            let nameScore = 0;
             const hasDisplayName = user.displayName && user.displayName !== user.username;
+            const displayName = user.displayName || user.username;
+            const displayNameLength = displayName.length;
             const usernameLength = user.username.length;
-            let nameScore = usernameLength <= 8 ? 8 : 5;
-            nameScore += hasDisplayName ? 7 : 2;
-            score += nameScore;
             
-            // Network (20 points max)
+            // Username quality (short is better)
+            let usernameQuality = 0;
+            if (usernameLength <= 6) usernameQuality = 7;
+            else if (usernameLength <= 10) usernameQuality = 5;
+            else usernameQuality = 3;
+            
+            // Check for random patterns
+            const hasRandomNumbers = /\d{3,}/.test(user.username);
+            if (hasRandomNumbers) usernameQuality -= 2;
+            
+            // Display name quality
+            let displayQuality = 0;
+            if (hasDisplayName) {
+                if (displayNameLength >= 3 && displayNameLength <= 20) {
+                    displayQuality = 8;
+                } else {
+                    displayQuality = 4;
+                }
+            } else {
+                displayQuality = 2;
+            }
+            
+            nameScore = usernameQuality + displayQuality;
+            nameScore = Math.max(3, Math.min(15, nameScore));
+            scoreBreakdown.name = nameScore;
+            totalScore += nameScore;
+            console.log('👤 Name:', nameScore);
+            
+            // ========== 4. CONTENT QUALITY from Casts (20 points) ==========
+            let contentScore = 0;
+            let avgLength = 0;
+            let avgEngagement = 0;
+            let hasQualityContent = false;
+            
+            if (casts.length > 0) {
+                avgLength = casts.reduce((sum, c) => sum + c.text.length, 0) / casts.length;
+                avgEngagement = casts.reduce((sum, c) => 
+                    sum + c.reactions.count + c.replies.count + c.recasts.count, 0
+                ) / casts.length;
+                
+                // Length quality
+                if (avgLength > 150) {
+                    contentScore += 8; // Thoughtful posts
+                    hasQualityContent = true;
+                } else if (avgLength > 80) {
+                    contentScore += 6;
+                } else if (avgLength > 40) {
+                    contentScore += 4;
+                } else {
+                    contentScore += 2; // Too short
+                }
+                
+                // Engagement per cast
+                if (avgEngagement > 20) {
+                    contentScore += 8; // Very engaging
+                } else if (avgEngagement > 10) {
+                    contentScore += 6;
+                } else if (avgEngagement > 5) {
+                    contentScore += 4;
+                } else {
+                    contentScore += 2;
+                }
+                
+                // Consistency bonus
+                if (casts.length >= 5) contentScore += 2;
+                if (casts.length >= 8) contentScore += 2;
+            } else {
+                contentScore = 2; // No recent activity
+            }
+            
+            contentScore = Math.min(20, contentScore);
+            scoreBreakdown.content = contentScore;
+            totalScore += contentScore;
+            console.log('📊 Content:', contentScore, '(avg length:', avgLength.toFixed(0), ', eng:', avgEngagement.toFixed(1), ')');
+            
+            // ========== 5. NETWORK QUALITY (20 points) ==========
             let networkScore = 0;
-            if (user.followerCount < 50) networkScore += 3;
-            else if (user.followerCount < 150) networkScore += 6;
-            else if (user.followerCount < 500) networkScore += 9;
-            else networkScore += 12;
             
-            if (ratio > 1.5) networkScore += 8;
-            else if (ratio > 0.8) networkScore += 5;
-            else networkScore += 2;
+            // Follower count (0-12 points)
+            if (user.followerCount < 20) {
+                networkScore += 2;
+            } else if (user.followerCount < 100) {
+                networkScore += 4;
+            } else if (user.followerCount < 300) {
+                networkScore += 6;
+            } else if (user.followerCount < 1000) {
+                networkScore += 8;
+            } else if (user.followerCount < 3000) {
+                networkScore += 10;
+            } else {
+                networkScore += 12;
+            }
             
-            score += Math.min(20, networkScore);
+            // Ratio quality (0-8 points)
+            if (ratio < 0.3) {
+                networkScore += 1;
+            } else if (ratio < 0.7) {
+                networkScore += 3;
+            } else if (ratio < 1.2) {
+                networkScore += 5;
+            } else if (ratio < 5) {
+                networkScore += 8;
+            } else {
+                networkScore += 6; // Too high might be suspicious
+            }
             
-            // Bonus
-            if (!isDefaultAvatar && hasBio && bioLength > 50) score += 8;
+            scoreBreakdown.network = networkScore;
+            totalScore += networkScore;
+            console.log('🌐 Network:', networkScore, '(followers:', user.followerCount, ', ratio:', ratio.toFixed(2), ')');
             
-            score = Math.min(92, Math.max(25, score));
+            // ========== 6. INFLUENCER BONUS (10-15 points) ==========
+            let influencerBonus = 0;
+            if (user.followerCount >= 3000) {
+                if (user.followerCount >= 10000) {
+                    influencerBonus = 15; // Major influencer
+                } else if (user.followerCount >= 5000) {
+                    influencerBonus = 12;
+                } else {
+                    influencerBonus = 10;
+                }
+                console.log('⭐ Influencer Bonus:', influencerBonus);
+            }
             
-            // Generate feedback
+            totalScore += influencerBonus;
+            
+            // Final score (25-100)
+            totalScore = Math.min(100, Math.max(25, Math.round(totalScore)));
+            
+            console.log('🎯 FINAL SCORE:', totalScore);
+            console.log('Breakdown:', scoreBreakdown);
+            
+            // ========== GENERATE FEEDBACK ==========
             const strengths = [];
             const weaknesses = [];
             const suggestions = [];
             
-            if (!isDefaultAvatar) strengths.push("Professional profile picture");
-            if (bioLength > 60) strengths.push("Well-written bio");
-            if (ratio > 1.2) strengths.push(`Strong ${ratio.toFixed(1)}:1 ratio`);
-            while (strengths.length < 3) strengths.push("Active on Farcaster");
+            // STRENGTHS
+            if (avatarScore >= 15) {
+                strengths.push("✓ Professional profile picture builds trust and recognition");
+            }
             
-            if (isDefaultAvatar) weaknesses.push("Missing profile picture");
-            if (bioLength < 30) weaknesses.push("Bio needs more detail");
-            if (!hasDisplayName) weaknesses.push("No display name set");
-            while (weaknesses.length < 3) weaknesses.push("Room for improvement");
+            if (bioScore >= 20) {
+                strengths.push("✓ Excellent bio that clearly communicates your identity and value");
+            } else if (bioScore >= 15) {
+                strengths.push("✓ Good bio with clear information about who you are");
+            }
             
-            if (isDefaultAvatar) suggestions.push("Upload a profile picture");
-            if (bioLength < 60) suggestions.push("Write a detailed bio");
-            suggestions.push("Join relevant channels");
-            suggestions.push("Engage with the community");
-            suggestions.push("Post consistently");
+            if (nameScore >= 12) {
+                strengths.push("✓ Strong username and display name combination makes you memorable");
+            }
             
-            let newBio = user.displayName || user.username;
-            newBio += " | Building on Farcaster 🟣";
+            if (contentScore >= 15) {
+                strengths.push("✓ High-quality content with strong engagement from your audience");
+            } else if (contentScore >= 10) {
+                strengths.push("✓ Consistent content creation shows active participation");
+            }
             
-            document.getElementById('overallScore').textContent = score;
-            document.getElementById('strengths').innerHTML = strengths.map(s => 
+            if (networkScore >= 15) {
+                strengths.push(`✓ Strong network with ${user.followerCount} followers and ${ratio.toFixed(1)}:1 ratio`);
+            } else if (networkScore >= 10) {
+                strengths.push("✓ Growing network shows increasing influence");
+            }
+            
+            if (influencerBonus > 0) {
+                strengths.push(`✓ Influencer status with ${formatNumber(user.followerCount)} followers - you're a community leader!`);
+            }
+            
+            // Fill if needed
+            while (strengths.length < 3) {
+                strengths.push("✓ You're actively building your presence on Farcaster");
+            }
+            
+            // WEAKNESSES
+            if (avatarScore < 10) {
+                weaknesses.push("⚠ Default profile picture - upload a custom photo or logo to stand out");
+            }
+            
+            if (bioScore < 8) {
+                weaknesses.push("⚠ Bio is missing or too brief - visitors need context about who you are");
+            } else if (bioScore < 15) {
+                weaknesses.push("⚠ Bio could be more descriptive and show your personality better");
+            }
+            
+            if (nameScore < 8) {
+                weaknesses.push("⚠ Username could be shorter/cleaner, or set a memorable display name");
+            }
+            
+            if (contentScore < 8) {
+                weaknesses.push("⚠ Limited recent activity or low engagement - content needs improvement");
+            } else if (contentScore < 15) {
+                weaknesses.push("⚠ Content could be more engaging or thoughtful to increase interactions");
+            }
+            
+            if (networkScore < 8) {
+                weaknesses.push("⚠ Limited followers and/or following too many - focus on profile quality first");
+            } else if (ratio < 0.7 && user.followerCount < 200) {
+                weaknesses.push("⚠ Following more people than follow you - work on attracting audience");
+            }
+            
+            // Fill if needed
+            while (weaknesses.length < 3) {
+                weaknesses.push("⚠ Some aspects of your profile have room for optimization");
+            }
+            
+            // SUGGESTIONS - Detailed and actionable
+            if (avatarScore < 15) {
+                suggestions.push("🎨 Upload a clear, high-quality profile picture. Use a professional headshot, memorable logo, or distinctive avatar that represents your brand");
+            }
+            
+            if (bioScore < 15) {
+                suggestions.push("✍️ Write a compelling 80-120 character bio with this formula: [Who you are] | [What you do/build] | [Your interests/expertise] | [Emoji]");
+            }
+            
+            if (contentScore < 12) {
+                suggestions.push("📝 Post more thoughtful, longer-form content (150+ characters). Share insights, ask questions, and tell stories rather than just quick updates");
+            } else if (avgEngagement < 5 && casts.length > 0) {
+                suggestions.push("💬 Increase engagement by asking questions, responding to replies quickly, and posting when your audience is most active (mornings & evenings)");
+            }
+            
+            if (nameScore < 10 && !hasDisplayName) {
+                suggestions.push("👤 Set a display name that's more memorable than your username. Use your real name, brand name, or a distinctive alias");
+            }
+            
+            if (user.followerCount < 100) {
+                suggestions.push("🌱 Grow your audience by: participating actively in relevant channels, replying thoughtfully to others' casts, and providing unique value through your content");
+            } else if (ratio < 0.8) {
+                suggestions.push("🎯 Improve your follower ratio by unfollowing inactive accounts and focusing on creating valuable content that attracts organic followers");
+            }
+            
+            // Always add engagement tip if not covered
+            if (suggestions.length < 5 && contentScore > 12) {
+                suggestions.push("🚀 Join and actively participate in 3-5 Farcaster channels that match your interests to increase visibility");
+            }
+            
+            // Add community tip
+            if (suggestions.length < 5) {
+                suggestions.push("🤝 Build genuine relationships: comment thoughtfully on others' posts, support emerging creators, and collaborate on projects");
+            }
+            
+            // Trim to 5
+            suggestions.splice(5);
+            
+            // ========== GENERATE SMART BIO ==========
+            let newBio = generateSmartBio(user, casts, bioText, hasQualityContent);
+            
+            // Display results
+            document.getElementById('overallScore').textContent = totalScore;
+            document.getElementById('strengths').innerHTML = strengths.slice(0, 3).map(s => 
                 `<div class="analysis-item strength">${s}</div>`).join('');
-            document.getElementById('weaknesses').innerHTML = weaknesses.map(w => 
+            document.getElementById('weaknesses').innerHTML = weaknesses.slice(0, 3).map(w => 
                 `<div class="analysis-item weakness">${w}</div>`).join('');
             document.getElementById('suggestions').innerHTML = suggestions.map(s => 
                 `<div class="analysis-item">${s}</div>`).join('');
             document.getElementById('newBio').textContent = newBio;
+        }
+        
+        function generateSmartBio(user, casts, currentBio, hasQualityContent) {
+            const displayName = user.displayName || user.username;
+            
+            // If bio is already good, keep it with minor tweaks
+            if (currentBio.length > 70 && currentBio.length <= 140) {
+                const hasEmoji = /[\p{Emoji}]/u.test(currentBio);
+                if (!hasEmoji) {
+                    return currentBio.trim() + " 🚀";
+                }
+                return currentBio;
+            }
+            
+            // Extract interests from casts
+            let interests = [];
+            let mainTopic = "ideas";
+            
+            if (casts.length > 0) {
+                const allText = casts.map(c => c.text.toLowerCase()).join(' ');
+                
+                if (allText.includes('build') || allText.includes('ship') || allText.includes('launch')) {
+                    interests.push('building');
+                    mainTopic = "builder";
+                }
+                if (allText.includes('crypto') || allText.includes('web3') || allText.includes('blockchain')) {
+                    interests.push('web3');
+                    mainTopic = "web3 enthusiast";
+                }
+                if (allText.includes('nft') || allText.includes('collect')) {
+                    interests.push('NFTs');
+                }
+                if (allText.includes('dev') || allText.includes('code') || allText.includes('engineer')) {
+                    mainTopic = "developer";
+                }
+                if (allText.includes('design') || allText.includes('ui') || allText.includes('ux')) {
+                    mainTopic = "designer";
+                }
+                if (allText.includes('art') || allText.includes('creative')) {
+                    mainTopic = "artist";
+                }
+            }
+            
+            // Create bio based on available info
+            let bio = displayName;
+            
+            if (interests.length > 0) {
+                bio += ` | ${mainTopic.charAt(0).toUpperCase() + mainTopic.slice(1)}`;
+                if (interests.length > 1) {
+                    bio += ` exploring ${interests.slice(0, 2).join(' & ')}`;
+                }
+            } else {
+                bio += ` | Creator & builder`;
+            }
+            
+            bio += " | Active on Farcaster 🟣";
+            
+            // Ensure under 160
+            if (bio.length > 160) {
+                bio = bio.substring(0, 157) + "...";
+            }
+            
+            return bio;
         }
         
         function copyBio() {
