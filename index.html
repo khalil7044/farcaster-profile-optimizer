@@ -23,7 +23,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Montserrat:wght@700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         * {
@@ -33,8 +33,8 @@
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
             min-height: 100vh;
             padding: 15px;
             color: #fff;
@@ -89,14 +89,15 @@
         }
         
         .header h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.2em;
-            font-weight: 800;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5em;
+            font-weight: 900;
             margin-bottom: 8px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
+            letter-spacing: -2px;
+            text-transform: uppercase;
         }
         
         .header p {
@@ -228,10 +229,11 @@
         }
         
         .profile-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5em;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6em;
             font-weight: 800;
             margin-bottom: 4px;
+            letter-spacing: -0.5px;
         }
         
         .profile-username {
@@ -284,12 +286,13 @@
         }
         
         .score-value {
-            font-size: 3.5em;
+            font-size: 4em;
             font-weight: 900;
             background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: -3px;
         }
         
         .score-label {
@@ -304,13 +307,14 @@
         }
         
         .section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.2em;
-            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3em;
+            font-weight: 800;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
+            letter-spacing: -0.5px;
         }
         
         .analysis-item {
@@ -579,248 +583,313 @@
         }
         
         function displayFallbackAnalysis(user, casts) {
-            const ratio = user.followerCount / Math.max(user.followingCount, 1);
-            const hasBio = user.profile.bio.text && user.profile.bio.text.length > 10;
-            const bioLength = user.profile.bio.text ? user.profile.bio.text.length : 0;
-            const hasEmoji = user.profile.bio.text ? /[\p{Emoji}]/u.test(user.profile.bio.text) : false;
+            console.log('🔍 Starting analysis for:', user.username);
             
-            // Better default avatar detection
+            // Basic data
+            const ratio = user.followerCount / Math.max(user.followingCount, 1);
+            const hasBio = user.profile.bio.text && user.profile.bio.text.length > 5;
+            const bioText = hasBio ? user.profile.bio.text : '';
+            const bioLength = bioText.length;
+            
+            console.log('📊 Bio length:', bioLength);
+            console.log('👥 Followers:', user.followerCount, 'Following:', user.followingCount);
+            
+            // ==================== AVATAR ANALYSIS (25 points) ====================
+            let avatarScore = 0;
             const avatarUrl = user.pfp.url.toLowerCase();
             const isDefaultAvatar = avatarUrl.includes('avatar') || 
                                    avatarUrl.includes('default') ||
                                    avatarUrl.includes('placeholder') ||
-                                   avatarUrl.includes('identicon');
+                                   avatarUrl.includes('identicon') ||
+                                   avatarUrl.includes('gravatar');
             
-            // Bio quality assessment
-            const lowerBio = hasBio ? user.profile.bio.text.toLowerCase() : '';
-            const hasKeywords = lowerBio.includes('build') || lowerBio.includes('create') || 
-                               lowerBio.includes('founder') || lowerBio.includes('developer') ||
-                               lowerBio.includes('designer') || lowerBio.includes('artist') ||
-                               lowerBio.includes('writer') || lowerBio.includes('creator');
-            
-            const isGenericBio = lowerBio === 'crypto enthusiast' || 
-                                lowerBio === 'builder' || 
-                                lowerBio === 'web3' ||
-                                (lowerBio.length > 0 && lowerBio.length < 15);
-            
-            const hasCallToAction = lowerBio.includes('follow') || lowerBio.includes('dm') || 
-                                   lowerBio.includes('check out') || lowerBio.includes('visit');
-            
-            // Calculate score (30-95 realistic range)
-            let score = 30; // Base for having account
-            
-            // Bio Analysis (max 30 points)
-            if (!hasBio) {
-                score += 5; // No bio at all
-            } else if (isGenericBio) {
-                score += 8; // Generic/too short
+            if (isDefaultAvatar) {
+                avatarScore = 3; // Default avatar
+                console.log('🖼️ Avatar: Default (3 points)');
             } else {
-                // Length-based scoring
-                if (bioLength >= 15 && bioLength < 30) {
-                    score += 12; // Very short but something
-                } else if (bioLength >= 30 && bioLength < 60) {
-                    score += 18; // Short but decent
-                } else if (bioLength >= 60 && bioLength < 100) {
-                    score += 24; // Good length
-                } else if (bioLength >= 100) {
-                    score += 27; // Excellent length
+                avatarScore = 22; // Custom avatar
+                console.log('🖼️ Avatar: Custom (22 points)');
+            }
+            
+            // ==================== BIO ANALYSIS (35 points) ====================
+            let bioScore = 0;
+            
+            if (!hasBio) {
+                bioScore = 2; // No bio at all
+                console.log('📝 Bio: None (2 points)');
+            } else {
+                const lowerBio = bioText.toLowerCase();
+                
+                // Length scoring (base 0-18)
+                if (bioLength < 15) {
+                    bioScore += 4; // Too short
+                } else if (bioLength < 40) {
+                    bioScore += 10; // Short
+                } else if (bioLength < 80) {
+                    bioScore += 15; // Good
+                } else if (bioLength < 140) {
+                    bioScore += 18; // Great
+                } else {
+                    bioScore += 16; // Too long
                 }
                 
-                // Quality bonuses
-                if (hasKeywords) score += 3; // Shows expertise
-                if (hasEmoji) score += 2; // Visual appeal
-                if (hasCallToAction) score += 2; // Engagement focus
+                // Quality factors (0-17 additional)
+                const hasEmoji = /[\p{Emoji}]/u.test(bioText);
+                const wordCount = bioText.split(/\s+/).length;
                 
-                // Penalty for very long rambling bio
-                if (bioLength > 150) score -= 2;
+                // Check for meaningful content (not just generic words)
+                const meaningfulWords = ['build', 'create', 'founder', 'developer', 'designer', 
+                                        'artist', 'writer', 'engineer', 'product', 'crypto',
+                                        'web3', 'nft', 'defi', 'dao', 'token', 'community',
+                                        'protocol', 'blockchain', 'music', 'art', 'code',
+                                        'invest', 'trade', 'research', 'learn', 'teach'];
+                
+                const hasMeaningfulContent = meaningfulWords.some(word => lowerBio.includes(word));
+                
+                // Check if it's generic garbage
+                const genericPhrases = ['crypto enthusiast', 'web3 builder', 'degen', 'gm', 'wagmi'];
+                const isGeneric = genericPhrases.some(phrase => lowerBio === phrase) || 
+                                 (wordCount <= 2 && bioLength < 20);
+                
+                // Quality bonuses
+                if (hasMeaningfulContent && !isGeneric) bioScore += 7; // Real content
+                if (hasEmoji && bioLength > 20) bioScore += 4; // Emojis used well
+                if (wordCount >= 5 && bioLength >= 40) bioScore += 3; // Substantial
+                if (lowerBio.includes('|') && bioLength > 30) bioScore += 2; // Structured
+                
+                // Penalties
+                if (isGeneric) bioScore -= 5;
+                if (bioLength > 150) bioScore -= 2; // Too wordy
+                
+                console.log('📝 Bio:', bioLength, 'chars,', wordCount, 'words ->', bioScore, 'points');
             }
             
-            // Profile Picture (max 25 points)
-            if (isDefaultAvatar) {
-                score += 5; // Using default
-            } else {
-                score += 20; // Custom avatar (not full 25, reserve that for quality we can't check)
-            }
+            bioScore = Math.max(2, Math.min(35, bioScore));
             
-            // Display Name (max 15 points)
+            // ==================== USERNAME/DISPLAY NAME (20 points) ====================
+            let nameScore = 0;
             const hasDisplayName = user.displayName && user.displayName !== user.username;
-            if (!hasDisplayName) {
-                score += 5; // Just username
-            } else if (user.displayName.length <= 3) {
-                score += 8; // Very short name
-            } else if (user.displayName.length > 20) {
-                score += 10; // Too long
+            const displayNameLength = user.displayName ? user.displayName.length : 0;
+            
+            // Username quality
+            const username = user.username.toLowerCase();
+            const usernameLength = username.length;
+            
+            // Shorter is better for username
+            let usernameQuality = 0;
+            if (usernameLength <= 6) usernameQuality = 10; // Perfect short
+            else if (usernameLength <= 10) usernameQuality = 8; // Good
+            else if (usernameLength <= 15) usernameQuality = 5; // Ok
+            else usernameQuality = 3; // Too long
+            
+            // Check if username looks random
+            const hasNumbers = /\d{3,}/.test(username); // 3+ numbers in a row
+            const hasRandomChars = /[_\-]{2,}/.test(username); // Multiple special chars
+            const isRandom = hasNumbers || hasRandomChars;
+            
+            if (isRandom) usernameQuality -= 3;
+            
+            // Display name
+            let displayNameQuality = 0;
+            if (hasDisplayName) {
+                if (displayNameLength >= 3 && displayNameLength <= 20) {
+                    displayNameQuality = 10; // Good display name
+                } else if (displayNameLength > 20) {
+                    displayNameQuality = 6; // Too long
+                } else {
+                    displayNameQuality = 4; // Too short
+                }
             } else {
-                score += 13; // Good display name
+                displayNameQuality = 3; // No display name
             }
             
-            // Network Quality (max 20 points)
-            // Follower count matters but ratio matters more
+            nameScore = usernameQuality + displayNameQuality;
+            nameScore = Math.max(5, Math.min(20, nameScore));
+            
+            console.log('👤 Username:', username, '-> Quality:', usernameQuality);
+            console.log('📛 Display name:', hasDisplayName ? user.displayName : 'None', '-> Quality:', displayNameQuality);
+            console.log('✅ Name total:', nameScore, 'points');
+            
+            // ==================== NETWORK SCORE (20 points) ====================
             let networkScore = 0;
             
-            // Base follower score (0-10 points)
+            // Follower count (0-12 points) - More realistic
             if (user.followerCount < 10) {
-                networkScore += 2;
+                networkScore += 1;
             } else if (user.followerCount < 50) {
-                networkScore += 4;
-            } else if (user.followerCount < 150) {
+                networkScore += 3;
+            } else if (user.followerCount < 100) {
+                networkScore += 5;
+            } else if (user.followerCount < 200) {
                 networkScore += 6;
             } else if (user.followerCount < 500) {
                 networkScore += 8;
-            } else if (user.followerCount < 1500) {
-                networkScore += 9;
-            } else {
+            } else if (user.followerCount < 1000) {
                 networkScore += 10;
-            }
-            
-            // Ratio quality (0-10 points)
-            if (ratio < 0.3) {
-                networkScore += 1; // Following way too many
-            } else if (ratio < 0.7) {
-                networkScore += 3; // Following more than followers
-            } else if (ratio < 1.2) {
-                networkScore += 6; // Balanced
-            } else if (ratio < 3) {
-                networkScore += 8; // Good ratio
-            } else if (ratio < 10) {
-                networkScore += 9; // Very good ratio
+            } else if (user.followerCount < 3000) {
+                networkScore += 11;
             } else {
-                networkScore += 7; // Too high might be inactive or bought
+                networkScore += 12;
             }
             
-            score += networkScore;
-            
-            // Final adjustments
-            // Penalty for completely empty profile
-            if (!hasBio && isDefaultAvatar && user.followerCount < 5) {
-                score = Math.max(30, score - 10);
+            // Ratio quality (0-8 points)
+            if (ratio < 0.2) {
+                networkScore += 1; // Way too many following
+            } else if (ratio < 0.5) {
+                networkScore += 2;
+            } else if (ratio < 0.8) {
+                networkScore += 4;
+            } else if (ratio < 1.5) {
+                networkScore += 6; // Balanced
+            } else if (ratio < 5) {
+                networkScore += 8; // Good ratio
+            } else if (ratio < 20) {
+                networkScore += 7; // Very high
+            } else {
+                networkScore += 4; // Suspiciously high
             }
             
-            // Bonus for well-rounded profile
-            if (hasBio && !isDefaultAvatar && hasDisplayName && bioLength > 50) {
-                score += 5; // Complete profile bonus
+            console.log('🌐 Network: Followers', user.followerCount, 'Ratio', ratio.toFixed(2), '->', networkScore, 'points');
+            
+            // ==================== CALCULATE TOTAL ====================
+            let totalScore = avatarScore + bioScore + nameScore + networkScore;
+            
+            // Bonus for complete profile
+            if (!isDefaultAvatar && hasBio && bioLength > 50 && hasDisplayName) {
+                totalScore += 8;
+                console.log('🎁 Complete profile bonus: +8');
             }
             
-            // Ensure realistic range
-            score = Math.min(95, Math.max(30, Math.round(score)));
+            // Final realistic range: 20-92
+            totalScore = Math.max(20, Math.min(92, Math.round(totalScore)));
             
-            // Generate contextual feedback
+            console.log('🎯 FINAL SCORE:', totalScore);
+            console.log('Breakdown: Avatar', avatarScore, '+ Bio', bioScore, '+ Name', nameScore, '+ Network', networkScore);
+            
+            // ==================== GENERATE FEEDBACK ====================
             const strengths = [];
             const weaknesses = [];
             const suggestions = [];
             
-            // Strengths - be specific and honest
-            if (!isDefaultAvatar) {
-                strengths.push("Custom profile picture helps with recognition and trust");
+            // Strengths
+            if (avatarScore >= 20) {
+                strengths.push("Professional profile picture builds trust and recognition");
             }
-            
-            if (hasBio && bioLength > 60 && !isGenericBio) {
-                strengths.push("Detailed bio effectively communicates your identity");
-            } else if (hasBio && bioLength > 30) {
-                strengths.push("Bio provides context about who you are");
+            if (bioScore >= 25) {
+                strengths.push("Well-crafted bio effectively communicates your identity");
+            } else if (bioScore >= 15) {
+                strengths.push("Bio provides helpful context about who you are");
             }
-            
-            if (hasDisplayName && user.displayName.length > 3) {
-                strengths.push("Clear display name makes profile memorable");
+            if (nameScore >= 16) {
+                strengths.push("Strong username and display name combination");
+            } else if (nameScore >= 12) {
+                strengths.push("Memorable username that's easy to find");
             }
-            
-            if (ratio > 1.5 && user.followerCount > 50) {
-                strengths.push(`Strong follower ratio (${ratio.toFixed(1)}:1) shows quality audience`);
+            if (ratio > 1.5 && user.followerCount > 100) {
+                strengths.push(`Excellent network quality with ${ratio.toFixed(1)}:1 ratio`);
             } else if (ratio > 0.8) {
-                strengths.push("Balanced follower/following ratio");
+                strengths.push("Healthy follower/following balance");
             }
-            
             if (user.followerCount > 500) {
-                strengths.push(`Established community with ${formatNumber(user.followerCount)} followers`);
+                strengths.push(`Strong community of ${formatNumber(user.followerCount)} followers`);
             } else if (user.followerCount > 100) {
-                strengths.push("Growing follower base shows increasing reach");
+                strengths.push("Growing audience shows increasing influence");
             }
             
-            if (hasEmoji) {
-                strengths.push("Emojis add personality to your profile");
-            }
-            
-            if (hasKeywords) {
-                strengths.push("Bio clearly communicates your expertise");
-            }
-            
-            // Ensure we have 3 strengths
             while (strengths.length < 3) {
-                strengths.push("You're actively participating on Farcaster");
+                strengths.push("You're actively building on Farcaster");
             }
             
-            // Weaknesses - constructive and specific
-            if (isDefaultAvatar) {
-                weaknesses.push("Default avatar - upload a photo or logo to increase credibility");
+            // Weaknesses
+            if (avatarScore < 15) {
+                weaknesses.push("Default avatar - add a photo or logo to stand out");
             }
-            
-            if (!hasBio) {
-                weaknesses.push("No bio - visitors don't know who you are or why to follow");
-            } else if (bioLength < 30) {
-                weaknesses.push("Bio is too brief - expand to 50-100 characters for better context");
-            } else if (isGenericBio) {
-                weaknesses.push("Bio is too generic - be more specific about what you do");
+            if (bioScore < 10) {
+                weaknesses.push("Missing or very brief bio - visitors need context");
+            } else if (bioScore < 20) {
+                weaknesses.push("Bio could be more descriptive and engaging");
             }
-            
-            if (!hasDisplayName) {
-                weaknesses.push("Display name same as username - use a more distinctive name");
+            if (nameScore < 12) {
+                weaknesses.push("Username/display name could be more memorable");
             }
-            
-            if (ratio < 0.5 && user.followerCount < 100) {
-                weaknesses.push(`Low follower ratio (${ratio.toFixed(1)}:1) - profile may need optimization`);
+            if (ratio < 0.5 && user.followerCount < 50) {
+                weaknesses.push("Following many more people than follow you back");
             }
-            
-            if (!hasEmoji && hasBio && bioLength > 20) {
-                weaknesses.push("No emojis in bio - add 1-2 for visual appeal");
-            }
-            
-            if (bioLength > 0 && bioLength < 50 && !hasKeywords) {
-                weaknesses.push("Bio lacks clarity about your expertise or interests");
-            }
-            
             if (user.followerCount < 20) {
                 weaknesses.push("Limited followers - profile needs more visibility");
             }
             
-            // Ensure 3 weaknesses
             while (weaknesses.length < 3) {
-                weaknesses.push("Profile has room for improvement");
+                weaknesses.push("Profile has room for optimization");
             }
             
-            // Suggestions - prioritize by importance
+            // Suggestions
             if (isDefaultAvatar) {
-                suggestions.push("🎨 Upload a clear profile picture - professional headshot or memorable logo");
+                suggestions.push("🎨 Upload a profile picture - clear photo or logo");
+            }
+            if (!hasBio || bioLength < 50) {
+                suggestions.push("✍️ Write 60-120 char bio: expertise + interests + personality");
+            } else if (bioScore < 20) {
+                suggestions.push("📝 Make bio more specific about your expertise");
+            }
+            if (!hasDisplayName || displayNameLength < 3) {
+                suggestions.push("👤 Set a memorable display name");
+            }
+            if (ratio < 0.7 && user.followingCount > 100) {
+                suggestions.push("🎯 Unfollow inactive accounts, focus on quality");
             }
             
-            if (!hasBio || bioLength < 40) {
-                suggestions.push("✍️ Write a 60-100 character bio: who you are + what you do + why follow");
-            } else if (bioLength < 80) {
-                suggestions.push("📝 Expand your bio to better showcase your expertise and personality");
+            suggestions.push("💬 Engage in channels matching your interests");
+            
+            while (suggestions.length < 5) {
+                suggestions.push("🤝 Build connections through thoughtful interactions");
             }
             
-            if (!hasEmoji && hasBio) {
-                suggestions.push("✨ Add 1-2 strategic emojis to make bio more scannable");
+            // Generate bio
+            let newBio = generateSmartBio(user, casts, bioText);
+            
+            displayAnalysis({ 
+                score: totalScore, 
+                strengths: strengths.slice(0, 3), 
+                weaknesses: weaknesses.slice(0, 3), 
+                suggestions: suggestions.slice(0, 5), 
+                newBio 
+            });
+        }
+        
+        function generateSmartBio(user, casts, currentBio) {
+            const displayName = user.displayName || user.username;
+            
+            // If they have a good bio already, keep it
+            if (currentBio.length > 60 && currentBio.length < 150) {
+                const hasEmoji = /[\p{Emoji}]/u.test(currentBio);
+                if (!hasEmoji) {
+                    return currentBio.trim() + " 🚀";
+                }
+                return currentBio;
             }
             
-            if (!hasDisplayName) {
-                suggestions.push("👤 Set a display name that's more memorable than your username");
+            // Detect interests from casts
+            let interests = [];
+            if (casts.length > 0) {
+                const allText = casts.map(c => c.text.toLowerCase()).join(' ');
+                if (allText.includes('build') || allText.includes('dev')) interests.push('building');
+                if (allText.includes('crypto') || allText.includes('web3')) interests.push('crypto');
+                if (allText.includes('nft')) interests.push('NFTs');
+                if (allText.includes('art') || allText.includes('design')) interests.push('design');
+                if (allText.includes('music')) interests.push('music');
             }
             
-            if (!hasKeywords && hasBio) {
-                suggestions.push("🎯 Include keywords in bio that show your niche or expertise");
+            let bio = displayName;
+            if (interests.length > 0) {
+                bio += ` | ${interests.slice(0, 2).join(' & ')} enthusiast`;
+            } else {
+                bio += " | Creator";
             }
+            bio += " | Building on Farcaster 🟣";
             
-            // Bonus community tips
-            suggestions.push("💬 Bonus: Engage in Farcaster channels relevant to your interests");
-            suggestions.push("🤝 Bonus: Build relationships through thoughtful replies and comments");
-            
-            // Trim to 5
-            while (suggestions.length > 5) {
-                suggestions.pop();
-            }
-            
-            // Generate smart bio
-            let newBio = "";
+            return bio.substring(0, 160);
+        }
             const displayName = user.displayName || user.username;
             
             // Detect interests from casts
